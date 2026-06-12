@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses | WealthWise</title>
+    <!--StyleSheet-->
+    <link rel="stylesheet" href="expenses_style.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--Charts-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar_header">
+            <div class="logo">
+                <div class="icon">
+                    <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
+                </div>
+                <div class="text">
+                    <div class="main_text">
+                        <p>WealthWise</p>
+                    </div>
+                    <div class="subtext">
+                        <p>AI-Powered Finance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar_main">
+            <div class="navigation">
+                <div class="title">
+                    <h2>NAVIGATION</h2>
+                </div>
+                <div class="navigation_buttons">
+                    <a class="nav_btn" href="home.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                       <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Dashboard</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Overview & insights</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="saving_goals.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Goals</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Savings targets</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="expenses.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Expenses</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Track spending</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="collaborativesavings.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Groups</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Collaborative savings</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="ai_insights.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>AI Insights</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Smart recommendations</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="security.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Security</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Privacy & encryption</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="comparative_statistics">
+                <div class="title">
+                    <h2>PERFORMANCE</h2>
+                </div>
+                <div class="dyanmic_statistics_box">
+                    <div class="dyanmic_statistics_box_display">
+                        <div class="dynamic_statistics_box_logo">
+                            <i class="fa-solid fa-arrow-up-right-dots"></i>
+                        </div>
+                        <div class="dynamic_statistics_box_title">
+                            <h4>Savings Rate</h4>
+                        </div>
+                        <div class="dynamic_statistics_box_figure">
+                            <p>23%</p>
+                        </div>
+                    </div>
+                    <label for="completion_in_percetange"></label>
+                    <progress class="dynamic_statistics_box_progressbar"></progress>
+                    <div class="dynamic_statistics_box_caption">
+                        <div class="dynamic_statistics_box_caption_figure">
+                            <p>+12%</p>
+                        </div>
+                        <div class="dynamic_statistics_box_caption_text">
+                            <p>vs community avg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="sidebar_footer" href="profile.html">
+            <div class="user-profile">
+                <div class="user-profile_pic">
+                    <div class="user-default_pic">
+                        <h5>JD</h5>
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="user-profile-name">
+                        <h4>John Doe</h4>
+                    </div>
+                    <div class="user-profile-description">
+                        <h5>Premium Member</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="user-activity-status">
+                <div class="actvity-dot"></div>
+            </div>
+        </a>
+    </div>
+    <div class="dashboard">
+        <div class="dashboard_header">
+            <div class="menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="dashboard_title">
+                <h1>WealthWise</h1>
+            </div>
+        </div>
+        <div class="dashboard-main">
+            <div class="dashboard-main-big-head">
+                <div class="main-text">
+                    <div class="dashboard-main-title">
+                        <h1>Expense Tracker</h1>
+                    </div>
+                    <div class="dahsboard-main-subtitle">
+                        <h2>Monitor your spending patterns and optimize your budget</h2>
+                    </div>
+                </div>
+                <div class="major-buttons">
+                    <button class="expense-adder">
+                        <i class="fa-solid fa-plus"></i>
+                        <p>Add Expense</p>
+                    </button>
+                </div>
+            </div>
+            <div class="dashboard-main-info">
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>This Month</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>0</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-sub-display-dynamic-logo">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        </div>
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>-8.2%</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>vs last month</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>This Week</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>0</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-sub-display-dynamic-logo">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        </div>
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>-15.1%</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>vs last month</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Today</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>0</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Total transactions</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>8</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-money-check-dollar"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-bar_and_search-filter">
+                <div class="search_bar">
+                    <div class="search-bar-wrapper">
+                        <div class="search-bar-container">
+                            <div class="dropdown-wrapper">
+                                <button class="category-toggle js-dropdown-toggle">
+                                    <span class="category-text">All Categories</span>
+                                    <svg class="chevron-icon closed js-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
+                                </button>
+                                <ul class="dropdown-menu js-dropdown-menu">
+                                    <li class="dropdown-item">All Categories</li>
+                                    <li class="dropdown-item">Emergency Fund</li>
+                                    <li class="dropdown-item">Vacation</li>
+                                    <li class="dropdown-item">Home</li>
+                                    <li class="dropdown-item">Car</li>
+                                    <li class="dropdown-item">Education</li>
+                                    <li class="dropdown-item">Retirement</li>
+                                    <li class="dropdown-item">Other</li>
+                                </ul>
+                            </div>
+                            <input name="search" type="text" class="search-input" placeholder="Search anything...">
+                            <button class="search-button">
+                                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                            <div class="dropdown-wrapper">
+                                <button class="category-toggle js-dropdown-toggle" style="border-radius: 0 0.75rem 0.75rem 0;">
+                                    <span class="category-text">All Time</span>
+                                    <svg class="chevron-icon closed js-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
+                                </button>
+                                <ul class="dropdown-menu align-right js-dropdown-menu">
+                                    <li class="dropdown-item">All Time</li>
+                                    <li class="dropdown-item">Today</li>
+                                    <li class="dropdown-item">This Week</li>
+                                    <li class="dropdown-item">This Month</li>
+                                    <li class="dropdown-item">This Year</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search_filter"></div>
+            </div>
+        <div class="dashboard_content">
+            <div class="left">
+                <div id="expenseModalOverlay" class="expense-modal-backdrop-overlay">
+    <div class="expense-modal-surface-card">
+        
+        <div class="expense-modal-header-section">
+            <div class="expense-modal-title-group">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <h2 class="expense-modal-title-text">Add New Expense</h2>
+            </div>
+            <button id="closeModalIconBtn" class="expense-modal-close-icon-btn" aria-label="Close modal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <form id="newExpenseForm" class="expense-form-grid-layout">
+            
+            <div class="expense-form-row-2-cols">
+                <div class="expense-form-input-group">
+                    <label for="expDesc" class="expense-form-label-text">Description *</label>
+                    <input type="text" id="expDesc" class="expense-form-base-input" placeholder="e.g., Lunch at restaurant" required>
+                </div>
+                <div class="expense-form-input-group">
+                    <label for="expAmount" class="expense-form-label-text">Amount *</label>
+                    <input type="number" id="expAmount" class="expense-form-base-input" placeholder="25.50" step="0.01" required>
+                </div>
+            </div>
+
+            <div class="expense-form-row-3-cols">
+                <div class="expense-form-input-group">
+                    <label for="expCategory" class="expense-form-label-text">Category *</label>
+                    <select id="expCategory" class="expense-form-base-select" required>
+                        <option value="other">Other</option>
+                        <option value="food">Food & Dining</option>
+                        <option value="transport">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                    </select>
+                </div>
+                <div class="expense-form-input-group">
+                    <label for="expDate" class="expense-form-label-text">Date *</label>
+                    <input type="date" id="expDate" class="expense-form-base-input" required>
+                </div>
+                <div class="expense-form-input-group">
+                    <label for="expPayment" class="expense-form-label-text">Payment Method</label>
+                    <select id="expPayment" class="expense-form-base-select">
+                        <option value="card">Card</option>
+                        <option value="cash">Cash</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="expense-form-input-group">
+                <label for="expNotes" class="expense-form-label-text">Notes</label>
+                <textarea id="expNotes" class="expense-form-base-textarea" placeholder="Additional details about this expense..."></textarea>
+            </div>
+
+            <label class="expense-form-checkbox-wrapper">
+                <input type="checkbox" id="expRecurring" class="expense-form-custom-checkbox">
+                <span class="expense-form-checkbox-label">This is a recurring expense</span>
+            </label>
+
+            <div class="expense-modal-footer-actions">
+                <p id="expenseFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; display: none;"></p>
+                <button type="button" id="cancelModalBtn" class="expense-modal-btn-cancel">Cancel</button>
+                <button type="submit" class="expense-modal-btn-submit">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    Add Expense
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+                <div class="expenses">
+                    <div class="expenses_container_main_heading">
+                        <div class="expenses_logo">
+                            <i class="fa-solid fa-money-check-dollar"></i>
+                        </div>
+                        <div class="expenses_title">
+                            <h4>Recent Expenses</h4>
+                        </div>
+                        <div class="expenses_number">
+                            <h6>8</h6>
+                            <p>expenses</p>
+                        </div>
+                    </div>
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="expenses_head">
+                                <div class="expense_title">
+                                    <h5>Grocery shopping at Whole Foods</h5>
+                                </div>
+                                <div class="expense_cat">
+                                    <div class="expense_category">
+                                        <h6>food</h6>
+                                    </div>
+                                <div class="expense_text">
+                                    <p>Weekly groceries and holiday ingredients</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount">
+                                    <h6>₹ 156.78</h6>
+                                </div>
+                                <div class="expense_date">
+                                    <div class="date_icon">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+                                    <div class="expense_date_and_month">
+                                        <h6>Dec 20,</h6>
+                                    </div>
+                                    <div class="expense_year">
+                                        <h6>2025</h6>
+                                    </div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon">
+                                        <i class="fa-regular fa-credit-card"></i>
+                                    </div>
+                                    <div class="mode_text">
+                                        <h6>Card</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="expenses_head">
+                                <div class="expense_title">
+                                    <h5>Grocery shopping at Whole Foods</h5>
+                                </div>
+                                <div class="expense_cat">
+                                    <div class="expense_category">
+                                        <h6>food</h6>
+                                    </div>
+                                <div class="expense_text">
+                                    <p>Weekly groceries and holiday ingredients</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount">
+                                    <h6>₹ 156.78</h6>
+                                </div>
+                                <div class="expense_date">
+                                    <div class="date_icon">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+                                    <div class="expense_date_and_month">
+                                        <h6>Dec 20,</h6>
+                                    </div>
+                                    <div class="expense_year">
+                                        <h6>2025</h6>
+                                    </div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon">
+                                        <i class="fa-regular fa-credit-card"></i>
+                                    </div>
+                                    <div class="mode_text">
+                                        <h6>Card</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="expenses_head">
+                                <div class="expense_title">
+                                    <h5>Grocery shopping at Whole Foods</h5>
+                                </div>
+                                <div class="expense_cat">
+                                    <div class="expense_category">
+                                        <h6>food</h6>
+                                    </div>
+                                <div class="expense_text">
+                                    <p>Weekly groceries and holiday ingredients</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount">
+                                    <h6>₹ 156.78</h6>
+                                </div>
+                                <div class="expense_date">
+                                    <div class="date_icon">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+                                    <div class="expense_date_and_month">
+                                        <h6>Dec 20,</h6>
+                                    </div>
+                                    <div class="expense_year">
+                                        <h6>2025</h6>
+                                    </div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon">
+                                        <i class="fa-regular fa-credit-card"></i>
+                                    </div>
+                                    <div class="mode_text">
+                                        <h6>Card</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="expenses_head">
+                                <div class="expense_title">
+                                    <h5>Grocery shopping at Whole Foods</h5>
+                                </div>
+                                <div class="expense_cat">
+                                    <div class="expense_category">
+                                        <h6>food</h6>
+                                    </div>
+                                <div class="expense_text">
+                                    <p>Weekly groceries and holiday ingredients</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount">
+                                    <h6>₹ 156.78</h6>
+                                </div>
+                                <div class="expense_date">
+                                    <div class="date_icon">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+                                    <div class="expense_date_and_month">
+                                        <h6>Dec 20,</h6>
+                                    </div>
+                                    <div class="expense_year">
+                                        <h6>2025</h6>
+                                    </div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon">
+                                        <i class="fa-regular fa-credit-card"></i>
+                                    </div>
+                                    <div class="mode_text">
+                                        <h6>Card</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="expenses_head">
+                                <div class="expense_title">
+                                    <h5>Grocery shopping at Whole Foods</h5>
+                                </div>
+                                <div class="expense_cat">
+                                    <div class="expense_category">
+                                        <h6>food</h6>
+                                    </div>
+                                <div class="expense_text">
+                                    <p>Weekly groceries and holiday ingredients</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount">
+                                    <h6>₹ 156.78</h6>
+                                </div>
+                                <div class="expense_date">
+                                    <div class="date_icon">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+                                    <div class="expense_date_and_month">
+                                        <h6>Dec 20,</h6>
+                                    </div>
+                                    <div class="expense_year">
+                                        <h6>2025</h6>
+                                    </div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon">
+                                        <i class="fa-regular fa-credit-card"></i>
+                                    </div>
+                                    <div class="mode_text">
+                                        <h6>Card</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="expenses_head">
+                                <div class="expense_title">
+                                    <h5>Grocery shopping at Whole Foods</h5>
+                                </div>
+                                <div class="expense_cat">
+                                    <div class="expense_category">
+                                        <h6>food</h6>
+                                    </div>
+                                <div class="expense_text">
+                                    <p>Weekly groceries and holiday ingredients</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount">
+                                    <h6>₹ 156.78</h6>
+                                </div>
+                                <div class="expense_date">
+                                    <div class="date_icon">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+                                    <div class="expense_date_and_month">
+                                        <h6>Dec 20,</h6>
+                                    </div>
+                                    <div class="expense_year">
+                                        <h6>2025</h6>
+                                    </div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon">
+                                        <i class="fa-regular fa-credit-card"></i>
+                                    </div>
+                                    <div class="mode_text">
+                                        <h6>Card</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="expenses_breakdown">
+                    <div class="pie_chart">
+                        <div class="card">
+                            <div class="header">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                                </svg>
+                                <h2>Spending by Category</h2>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="spendingChart"></canvas>
+                            </div>
+                           <div class="legend" id="legend"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mtw-wrapper">
+                    <div class="mtw-card">
+                        <div class="mtw-header">
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="3 7 9 13 14 8 21 15"></polyline>
+                                <polyline points="15 15 21 15 21 9"></polyline>
+                            </svg>
+                            <h2>Monthly Spending<br>Trend</h2>
+                        </div>
+                        <div class="mtw-chart-container">
+                            <canvas id="mtw-trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--JavaScript for Expense Adder-->
+    <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+    // --- 1. INITIALIZE SUPABASE ---
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- 2. DOM ELEMENTS ---
+    const existingOpenBtn = document.querySelector('.expense-adder');
+    const overlay = document.getElementById('expenseModalOverlay');
+    const closeIconBtn = document.getElementById('closeModalIconBtn');
+    const cancelBtn = document.getElementById('cancelModalBtn');
+    const form = document.getElementById('newExpenseForm');
+    const dateInput = document.getElementById('expDate');
+    
+    // Dropdowns for dynamic custom tag rendering
+    const categorySelect = document.getElementById('expCategory');
+    const paymentSelect = document.getElementById('expPayment');
+
+    // Default baseline date initialization
+    const today = new Date().toISOString().split('T')[0];
+    if (dateInput) dateInput.value = today;
+
+    // --- 3. MODAL DISPLAY CONTROLS ---
+    const openModal = () => {
+        overlay.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        overlay.classList.remove('is-active');
+        document.body.style.overflow = '';
+    };
+
+    if (existingOpenBtn) {
+        existingOpenBtn.addEventListener('click', openModal);
+    }
+
+    closeIconBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
+
+    overlay?.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && overlay.classList.contains('is-active')) {
+            closeModal();
+        }
+    });
+
+    // --- 4. DYNAMIC TAG LOADER (MANAGE TAGS BACKEND LINK) ---
+    async function loadUserCustomTags(userId) {
+        // Fetch custom tags created by this specific user
+        const { data: customTags, error } = await supabase
+            .from('finance_app_customtag')
+            .select('*')
+            .eq('user_id', userId);
+
+        if (error) {
+            console.error("Error loading custom tags:", error.message);
+            return;
+        }
+
+        // Loop through tags and dynamically inject them as options into dropdowns
+        customTags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
+            option.innerText = tag.name;
+
+            if (tag.tag_type === 'category' && categorySelect) {
+                categorySelect.appendChild(option);
+            } else if (tag.tag_type === 'payment_method' && paymentSelect) {
+                paymentSelect.appendChild(option);
+            }
+        });
+    }
+
+    // --- 5. FORM SUBMIT ENGINE (SECURED) ---
+    // --- UPDATED FORM SUBMIT ENGINE WITH REFINED UX MESSAGES ---
+    form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const submitBtn = form.querySelector('.expense-modal-btn-submit');
+        const statusMsg = document.getElementById('expenseFormStatus');
+        const originalText = submitBtn.innerHTML;
+        
+        // Setup initial loading state
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Saving...";
+        if (statusMsg) statusMsg.style.display = 'none';
+
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = "Security Error: Session expired. Please log in.";
+                statusMsg.style.color = "#ef4444";
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+        }
+
+        const newExpense = {
+            id: crypto.randomUUID(),
+            user_id: session.user.id,
+            title: document.getElementById('expDesc').value,
+            amount: parseFloat(document.getElementById('expAmount').value),
+            category: categorySelect.value,
+            date: dateInput.value,
+            payment_method: paymentSelect.value,
+            notes: document.getElementById('expNotes').value,
+            is_recurring: document.getElementById('expRecurring').checked
+        };
+
+        const { error } = await supabase
+            .from('finance_app_expense')
+            .insert([newExpense]);
+
+        if (error) {
+            console.error('Database Error:', error);
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = `Error: ${error.message}`;
+                statusMsg.style.color = "#ef4444"; // Premium Red
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        } else {
+            // Success Feedback State
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = "Expense successfully added!";
+                statusMsg.style.color = "#22c55e"; // Emerald Green
+            }
+
+            // Hold the modal open for 1 second so the user can actually see their success!
+            setTimeout(() => {
+                closeModal();
+                form.reset();
+                if (dateInput) dateInput.value = today;
+                if (statusMsg) statusMsg.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                
+                if (typeof loadExpensesList === 'function') loadExpensesList(session.user.id);
+            }, 1000);
+        }
+    });
+
+    // --- 6. PAGE INITIALIZATION BOOTSTRAP ---
+    async function initPage() {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            // Load custom profile tags dynamically if user is verified
+            loadUserCustomTags(session.user.id);
+        }
+    }
+
+    initPage();
+</script>
+    
+    <!--JavaScript for Pie Chart-->
+    <script>
+        // Data extracted from the video
+        const spendingData = [
+            { label: 'Utilities', value: 235.19, color: '#26C6DA' },
+            { label: 'Shopping', value: 189.99, color: '#FFA726' },
+            { label: 'Food', value: 165.53, color: '#66BB6A' },
+            { label: 'Personal Care', value: 65.00, color: '#EC407A' },
+            { label: 'Transportation', value: 62.45, color: '#AB47BC' },
+            { label: 'Entertainment', value: 15.99, color: '#D81B60' }
+        ];
+
+        // 1. Initialize Chart.js Donut Chart
+        const ctx = document.getElementById('spendingChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: spendingData.map(d => d.label),
+                datasets: [{
+                    data: spendingData.map(d => d.value),
+                    backgroundColor: spendingData.map(d => d.color),
+                    borderWidth: 4, // Creates the white gaps between slices
+                    borderColor: '#ffffff',
+                    hoverOffset: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%', // Controls the thickness of the donut
+                plugins: {
+                    legend: {
+                        display: false // Hide default legend, we will build a custom one
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                        titleColor: '#4b5563',
+                        titleFont: { size: 14, weight: '500' },
+                        bodyColor: '#1a73e8', // Matches the blue amount text in the video
+                        bodyFont: { size: 18, weight: 'bold' },
+                        borderColor: 'rgba(0,0,0,0.08)',
+                        borderWidth: 1,
+                        padding: 12,
+                        cornerRadius: 8,
+                        displayColors: false, // Hides the color box inside the tooltip
+                        callbacks: {
+                            title: function(context) {
+                                return context[0].label;
+                            },
+                            label: function(context) {
+                                // Format logic to match video (e.g. $65 instead of $65.00)
+                                let val = context.raw;
+                                let formattedVal = val % 1 === 0 ? val : val.toFixed(2);
+                                return '$' + formattedVal;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Generate the Custom HTML Legend below the chart
+        const legendContainer = document.getElementById('legend');
+        
+        spendingData.forEach(item => {
+            // Format number: remove decimals if it's a whole number
+            const displayValue = item.value % 1 === 0 ? item.value : item.value.toFixed(2);
+            
+            const row = document.createElement('div');
+            row.className = 'legend-item';
+            
+            row.innerHTML = `
+                <div class="legend-left">
+                    <div class="dot" style="background-color: ${item.color}"></div>
+                    <span>${item.label}</span>
+                </div>
+                <div class="legend-right">$${displayValue}</div>
+            `;
+            
+            legendContainer.appendChild(row);
+        });
+    </script>
+
+    <!--JavaScript for Bar Chart-->
+    <script>
+        // Wrapping in an IIFE to prevent global namespace pollution
+        (function() {
+            // Custom Plugin: Draws the light gray background column on hover
+            const mtwHoverBackgroundPlugin = {
+                id: 'mtwHoverBackground',
+                beforeDatasetsDraw(chart) {
+                    const activeElements = chart.getActiveElements();
+                    if (activeElements.length > 0) {
+                        const { ctx, chartArea: { top, bottom } } = chart;
+                        const activeEl = activeElements[0];
+                        const meta = chart.getDatasetMeta(activeEl.datasetIndex);
+                        const bar = meta.data[activeEl.index];
+                        
+                        ctx.save();
+                        ctx.fillStyle = '#e5e7eb'; // Light gray background color
+                        
+                        // Add padding to the background rectangle so it wraps slightly wider than the bar
+                        const backgroundWidth = bar.width + 24; 
+                        
+                        ctx.fillRect(bar.x - (backgroundWidth / 2), top, backgroundWidth, bottom - top);
+                        ctx.restore();
+                    }
+                }
+            };
+
+            const ctx = document.getElementById('mtw-trendChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Dec 24'],
+                    datasets: [{
+                        data: [734.15],
+                        backgroundColor: '#8b5cf6', // The purple bar color
+                        borderRadius: 4, // Slightly rounded top corners
+                        borderSkipped: false,
+                        barThickness: 85 // Fixed chunky width
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 800,
+                            ticks: {
+                                stepSize: 200,
+                                callback: function(value) {
+                                    return '$' + value;
+                                },
+                                color: '#6b7280',
+                                font: { size: 15, weight: '500' },
+                                padding: 12
+                            },
+                            border: {
+                                display: false // Hides the main vertical y-axis line
+                            },
+                            grid: {
+                                color: '#f3f4f6', // Faint dashed lines
+                                drawTicks: false,
+                                borderDash: [4, 4]
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#6b7280',
+                                font: { size: 15, weight: '500' },
+                                padding: 12
+                            },
+                            border: { display: false },
+                            grid: { display: false } // Hides vertical grid lines
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#ffffff',
+                            titleColor: '#000000',
+                            bodyColor: '#1a73e8', // Blue text matching the video
+                            bodyFont: { size: 22, weight: 'bold' },
+                            borderColor: 'rgba(0,0,0,0.08)',
+                            borderWidth: 1,
+                            padding: { top: 12, right: 16, bottom: 12, left: 16 },
+                            cornerRadius: 12,
+                            displayColors: false, // Hides the color square
+                            caretSize: 0, // Removes the little pointing triangle on the tooltip
+                            callbacks: {
+                                title: () => null, // Hides the 'Dec 24' title inside the tooltip
+                                label: function(context) {
+                                    return '$' + context.raw.toFixed(2);
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false // Ensures hover triggers even if not directly over the purple pixels
+                    }
+                },
+                plugins: [mtwHoverBackgroundPlugin] // Register our custom scoped gray background plugin
+            });
+        })();
+    </script>
+
+    <!--JavaScript-->
+    <script src="script.js"></script>
+
+    <!--Notifications System-->
+<script src="notifications.js"></script>
+</body>
+</html>

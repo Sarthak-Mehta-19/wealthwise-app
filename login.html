@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | WealthWise</title>
+    <!--StyleSheet-->
+    <link rel="stylesheet" href="login_style.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="main">
+        <div class="login">
+            <div class="header">
+                <div class="logo">
+                    <div class="icon">
+                        <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
+                    </div>
+                    <div class="text">
+                        <div class="main_text">
+                            <p>WealthWise</p>
+                        </div>
+                        <div class="subtext">
+                            <p>AI-Powered Finance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="header_title">
+                    <div class="title">
+                        <h1>Welcome back</h1>
+                    </div>
+                    <div class="subtitle">
+                        <h6>Track goals, optimize savings, and grow with the community.</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="main_form">
+                <div id="error-display" class="error-message" style="display: none;"></div>
+                <form id="sign-in-form" action="">
+                    <label for="user-name">Username</label>
+                    <input type="text" id="user-name" name="username" required>
+            
+                    <label for="user-password">Password</label>
+                    <input type="password" id="user-password" name="password" required>
+            
+                    <button type="submit" id="submit-btn">
+                        <span class="btn-text">
+                            <h6>Sign in</h6>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                        <i class="fa-solid fa-circle-notch fa-spin loader" style="display: none;"></i>
+                    </button>
+                </form>
+                
+                <div class="sign-up">
+                    <div class="helping_text">
+                        <h6>No account?</h6>
+                    </div>
+                    <div class="sign-up_redirect">
+                        <a href="sign-up.html">Create one</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-preview">
+            <div class="info">
+                <div class="tagline">
+                    <h1>Save Smarter. <br> Achieve <br> faster.</h1>
+                </div>
+                <div class="main_info_text">
+                    <p>Personal AI coach in your pocket. Set goals, track expenses, and challenge friends — all while seeing exactly how you compare to the community.</p>
+                </div>
+            </div>
+            <div class="booster_info">
+                <div class="booster_info_box">
+                    <div class="booster_info_box_main_text">
+                        <h6>12K+</h6>
+                    </div>
+                    <div class="booster_info_box_description">
+                        <p>Goals tracked</p>
+                    </div>
+                </div>
+                <div class="booster_info_box">
+                    <div class="booster_info_box_main_text">
+                        <h6>₹ 4.2Cr+</h6>
+                    </div>
+                    <div class="booster_info_box_description">
+                        <p>Saved by users</p>
+                    </div>
+                </div>
+                <div class="booster_info_box">
+                    <div class="booster_info_box_main_text">
+                        <h6>+18%</h6>
+                    </div>
+                    <div class="booster_info_box_description">
+                        <p>Average rate boost</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Log In-->
+    <script>
+        document.getElementById('sign-in-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent standard page reload on submit
+        
+            // Grab the elements
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const loader = submitBtn.querySelector('.loader');
+            const errorDisplay = document.getElementById('error-display');
+        
+            // 1. Initialize Loading State
+            errorDisplay.style.display = 'none';      // Hide any previous errors
+            btnText.style.display = 'none';           // Hide "Sign In ->" text
+            loader.style.display = 'inline-block';    // Show the spinner
+            submitBtn.disabled = true;                // Prevent double clicks
+        
+            // 2. Simulate API/Backend Request
+            // Replace this setTimeout with your actual fetch() or axios call
+            setTimeout(() => {
+                
+                // Simulating a failed login attempt for demonstration
+                const loginSuccessful = false; 
+        
+                if (!loginSuccessful) {
+                    // Display the error
+                    errorDisplay.textContent = "Invalid email or password. Please try again.";
+                    errorDisplay.style.display = 'block';
+                }
+        
+                // 3. Reset Button State
+                btnText.style.display = 'flex';       // Bring back the text
+                loader.style.display = 'none';        // Hide the spinner
+                submitBtn.disabled = false;           // Re-enable the button
+        
+            }, 2000); // Simulated 2-second network delay
+        });
+    </script>
+
+    <!--Login Funationality-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Grab all the necessary DOM elements
+            const signInForm = document.getElementById('sign-in-form');
+            const errorDisplay = document.getElementById('error-display');
+            const btnText = document.querySelector('.btn-text');
+            const loader = document.querySelector('.loader');
+            const submitBtn = document.getElementById('submit-btn');
+    
+            // 2. Listen for the form submission
+            signInForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Stop the browser from instantly reloading the page
+    
+                // Get the input values
+                const username = document.getElementById('user-name').value;
+                const password = document.getElementById('user-password').value;
+    
+                // 3. Trigger UI Loading State (Hide text, show spinner)
+                errorDisplay.style.display = 'none';
+                btnText.style.display = 'none';
+                loader.style.display = 'inline-block';
+                submitBtn.disabled = true;
+    
+                try {
+                    // 4. Send the data to your Django API
+                    const response = await fetch('http://127.0.0.1:8000/api/token/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            username: username, 
+                            password: password 
+                        })
+                    });
+    
+                    const data = await response.json();
+    
+                    if (response.ok) {
+                        // 5. SUCCESS: Save the keys to the vault
+                        localStorage.setItem('access_token', data.access);
+                        localStorage.setItem('refresh_token', data.refresh);
+    
+                        // Instantly redirect the user to your main app page
+                        // (Change 'dashboard.html' to whatever your next file is named)
+                        window.location.href = 'Home.html'; 
+                    } else {
+                        // 6. FAILED: Show Django's rejection message (e.g., wrong password)
+                        errorDisplay.innerText = data.detail || "Invalid credentials. Please try again.";
+                        errorDisplay.style.color = "red";
+                        errorDisplay.style.display = 'block';
+                        
+                        // Reset the button UI
+                        btnText.style.display = 'flex'; // Assuming flex because of the icon
+                        loader.style.display = 'none';
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    // 7. NETWORK ERROR: Server is down or CORS failed
+                    errorDisplay.innerText = "Connection error. Ensure your Django server is running.";
+                    errorDisplay.style.color = "red";
+                    errorDisplay.style.display = 'block';
+                    
+                    // Reset the button UI
+                    btnText.style.display = 'flex';
+                    loader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups | WealthWise</title>
+    <link rel="stylesheet" href="collaborativesavings_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .card-add-savings-btn {
+            padding: 6px 12px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .card-add-savings-btn:hover {
+            background: #059669;
+        }
+        
+        /* Pagination Button Styles */
+        .page-btn {
+            padding: 6px 12px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .page-btn:hover {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .page-btn.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar_header">
+            <div class="logo">
+                <div class="icon">
+                    <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
+                </div>
+                <div class="text">
+                    <div class="main_text">
+                        <p>WealthWise</p>
+                    </div>
+                    <div class="subtext">
+                        <p>AI-Powered Finance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar_main">
+            <div class="navigation">
+                <div class="title">
+                    <h2>NAVIGATION</h2>
+                </div>
+                <div class="navigation_buttons">
+                    <a class="nav_btn" href="home.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                       <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Dashboard</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Overview & insights</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="saving_goals.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Goals</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Savings targets</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="expenses.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Expenses</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Track spending</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="collaborativesavings.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Groups</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Collaborative savings</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="ai_insights.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>AI Insights</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Smart recommendations</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="security.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Security</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Privacy & encryption</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="comparative_statistics">
+                <div class="title">
+                    <h2>PERFORMANCE</h2>
+                </div>
+                <div class="dyanmic_statistics_box">
+                    <div class="dyanmic_statistics_box_display">
+                        <div class="dynamic_statistics_box_logo">
+                            <i class="fa-solid fa-arrow-up-right-dots"></i>
+                        </div>
+                        <div class="dynamic_statistics_box_title">
+                            <h4>Savings Rate</h4>
+                        </div>
+                        <div class="dynamic_statistics_box_figure">
+                            <p>23%</p>
+                        </div>
+                    </div>
+                    <label for="completion_in_percetange"></label>
+                    <progress class="dynamic_statistics_box_progressbar"></progress>
+                    <div class="dynamic_statistics_box_caption">
+                        <div class="dynamic_statistics_box_caption_figure">
+                            <p>+12%</p>
+                        </div>
+                        <div class="dynamic_statistics_box_caption_text">
+                            <p>vs community avg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="sidebar_footer" href="profile.html">
+            <div class="user-profile">
+                <div class="user-profile_pic">
+                    <div class="user-default_pic">
+                        <h5>JD</h5>
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="user-profile-name">
+                        <h4>John Doe</h4>
+                    </div>
+                    <div class="user-profile-description">
+                        <h5>Premium Member</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="user-activity-status">
+                <div class="actvity-dot"></div>
+            </div>
+        </a>
+    </div>
+    <div class="dashboard">
+        <div class="dashboard_header">
+            <div class="menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="dashboard_title">
+                <h1>WealthWise</h1>
+            </div>
+        </div>
+        <div class="dashboard-main">
+            <div class="dashboard-main-big-head">
+                <div class="main-text">
+                    <div class="dashboard-main-title">
+                        <h1>Group Challenges</h1>
+                    </div>
+                    <div class="dahsboard-main-subtitle">
+                        <h2>Achieve your financial goals together with friends and community</h2>
+                    </div>
+                </div>
+                <div class="major-buttons" style="display: flex; gap: 12px;">
+                    <button class="add-savings-global-btn" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s;">
+                        <i class="fa-solid fa-piggy-bank" style="color: #10b981;"></i>
+                        <p style="margin: 0;">Add Savings</p>
+                    </button>
+                    <button class="challenge-creator">
+                        <i class="fa-solid fa-plus"></i>
+                        <p>Create Challenge</p>
+                    </button>
+                </div>
+            </div>
+            <div class="dashboard-main-info">
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Active Challenges</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>3</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>currently</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>running</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Total Participants</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>26</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Community</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>Members</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Completed Goals</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>3</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Successfully</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>finished</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Total Raised</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>₹ 8,550</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Collective</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>savings</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dasboard-main_main-content">
+                <div class="left">
+                    
+                    <div id="challengeModalOverlay" class="challenge-modal-backdrop-overlay">
+                        <div class="challenge-modal-surface-card">
+                            <div class="challenge-modal-header-section">
+                                <div class="challenge-modal-title-group">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--challenge-primary-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                    <h2 class="challenge-modal-title-text">Create New Challenge</h2>
+                                </div>
+                                <button id="closeChallengeModalBtn" class="challenge-modal-close-icon-btn" aria-label="Close modal">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            </div>
+                            <form id="newChallengeForm" class="challenge-form-grid-layout">
+                                <div class="challenge-form-row-2-cols">
+                                    <div class="challenge-form-input-group">
+                                        <label for="chalTitle" class="challenge-form-label-text">Challenge Title *</label>
+                                        <input type="text" id="chalTitle" class="challenge-form-base-input" placeholder="e.g., Summer Vacation Fund" required>
+                                    </div>
+                                    <div class="challenge-form-input-group">
+                                        <label for="chalType" class="challenge-form-label-text">Challenge Type</label>
+                                        <select id="chalType" class="challenge-form-base-select">
+                                            <option value="savings">Savings Challenge</option>
+                                            <option value="fitness">Fitness Challenge</option>
+                                            <option value="learning">Learning Challenge</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="challenge-form-input-group">
+                                    <label for="chalDesc" class="challenge-form-label-text">Description</label>
+                                    <textarea id="chalDesc" class="challenge-form-base-textarea" placeholder="Describe the challenge goals and motivation..."></textarea>
+                                </div>
+                                <div class="challenge-form-row-3-cols">
+                                    <div class="challenge-form-input-group">
+                                        <label for="chalTarget" class="challenge-form-label-text">Target Amount *</label>
+                                        <input type="number" id="chalTarget" class="challenge-form-base-input" placeholder="5000" required>
+                                    </div>
+                                    <div class="challenge-form-input-group">
+                                        <label for="chalParticipants" class="challenge-form-label-text">Max Participants</label>
+                                        <input type="number" id="chalParticipants" class="challenge-form-base-input" placeholder="10">
+                                    </div>
+                                    <div class="challenge-form-input-group">
+                                        <label for="chalEndDate" class="challenge-form-label-text">End Date *</label>
+                                        <input type="date" id="chalEndDate" class="challenge-form-base-input" required>
+                                    </div>
+                                </div>
+                                <div class="challenge-form-row-2-cols">
+                                    <div class="challenge-form-input-group">
+                                        <label for="chalReward" class="challenge-form-label-text">Reward Type</label>
+                                        <select id="chalReward" class="challenge-form-base-select">
+                                            <option value="badges">Badges</option>
+                                            <option value="points">Points</option>
+                                            <option value="cash">Cash Prize</option>
+                                        </select>
+                                    </div>
+                                    <div></div>
+                                </div>
+                                <div id="challengeShareContainer" style="display: none; background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 10px;">
+                                    <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #475569;">Share invite link with your friends:</p>
+                                    <div style="display: flex; gap: 8px;">
+                                        <input type="text" id="challengeShareInput" readonly style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff;" onclick="this.select();">
+                                        <button type="button" id="copyLinkBtn" style="padding: 8px 14px; background: #1e293b; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="challenge-modal-footer-actions">
+                                    <p id="challengeFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; align-self: center; display: none;"></p>
+                                    <button type="button" id="cancelChallengeModalBtn" class="challenge-modal-btn-cancel">Cancel</button>
+                                    <button type="submit" class="challenge-modal-btn-submit">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                        Create Challenge
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="joinModalOverlay" class="challenge-modal-backdrop-overlay">
+                        <div class="challenge-modal-surface-card" style="max-width: 480px; text-align: center;">
+                            <div class="challenge-modal-header-section" style="justify-content: center; margin-bottom: 16px;">
+                                <div class="challenge-modal-title-group" style="flex-direction: column; gap: 8px;">
+                                    <span style="font-size: 40px; margin-bottom: 8px;">✉️</span>
+                                    <h2 class="challenge-modal-title-text">Group Challenge Invitation</h2>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 24px;">
+                                <h3 id="joinChallengeName" style="margin: 0 0 8px 0; font-size: 20px; font-weight: 700; color: #0f172a;">Challenge Title</h3>
+                                <p id="joinChallengeDesc" style="margin: 0 0 20px 0; color: var(--challenge-text-muted); font-size: 14px; line-height: 1.5;">Challenge description loading...</p>
+                                <div style="display: flex; justify-content: center; gap: 32px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                    <div>
+                                        <span style="display: block; font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 4px;">TARGET AMOUNT</span>
+                                        <span id="joinChallengeTarget" style="font-size: 18px; font-weight: 800; color: #0f172a;">₹0</span>
+                                    </div>
+                                    <div style="border-left: 1px solid #cbd5e1;"></div>
+                                    <div>
+                                        <span style="display: block; font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 4px;">CURRENT MEMBERS</span>
+                                        <span id="joinChallengeMembers" style="font-size: 18px; font-weight: 800; color: #0f172a;">0 members</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p id="joinFormStatus" style="font-size: 14px; font-weight: 600; margin-bottom: 16px; display: none;"></p>
+                            <div class="challenge-modal-footer-actions" style="justify-content: center; gap: 12px; width: 100%;">
+                                <button type="button" id="declineJoinBtn" class="challenge-modal-btn-cancel" style="flex: 1; justify-content: center; padding: 12px;">Decline</button>
+                                <button type="button" id="confirmJoinBtn" class="challenge-modal-btn-submit" style="background: #22c55e; border-color: #22c55e; flex: 1; justify-content: center; padding: 12px;">Accept & Join</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="addSavingsModalOverlay" class="challenge-modal-backdrop-overlay">
+                        <div class="challenge-modal-surface-card" style="max-width: 450px;">
+                            <div class="challenge-modal-header-section">
+                                <div class="challenge-modal-title-group">
+                                    <i class="fa-solid fa-piggy-bank" style="font-size: 24px; color: #10b981;"></i>
+                                    <h2 class="challenge-modal-title-text">Add to Challenge</h2>
+                                </div>
+                                <button type="button" id="closeSavingsModalBtn" class="challenge-modal-close-icon-btn">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <form id="addSavingsForm" style="display: flex; flex-direction: column; gap: 20px;">
+                                <div class="challenge-form-input-group">
+                                    <label class="challenge-form-label-text">Select Challenge</label>
+                                    <select id="savingsChallengeSelect" class="challenge-form-base-select" required>
+                                    </select>
+                                </div>
+                                <div class="challenge-form-input-group">
+                                    <label class="challenge-form-label-text">Amount to Add (₹)</label>
+                                    <input type="number" id="savingsAmountInput" class="challenge-form-base-input" placeholder="e.g. 500" required step="0.01">
+                                </div>
+                                <p id="savingsFormStatus" style="font-size: 14px; font-weight: 600; display: none;"></p>
+                                <div class="challenge-modal-footer-actions">
+                                    <button type="button" id="cancelSavingsModalBtn" class="challenge-modal-btn-cancel">Cancel</button>
+                                    <button type="submit" class="challenge-modal-btn-submit" style="background: #10b981; border-color: #10b981;">Contribute</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="goals_viewer">
+                        <div class="goals_heading">
+                            <div class="goals_logo">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <div class="goals_title">
+                                <h4>My Active Challenges</h4>
+                            </div>
+                        </div>
+                        <div id="activeChallengesContainer"></div>
+                    </div>
+                    
+                </div>
+                
+                <div class="right">
+                    <div class="leaderboard-container" id="authContainer" style="margin-bottom: 20px;">
+                        <div class="header">
+                            <span class="header-icon">🔒</span>
+                            <h2>Admin Access</h2>
+                        </div>
+                        <form class="add-form" id="loginForm">
+                            <input type="email" id="loginEmail" placeholder="Admin Email" required>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                            <button type="button" id="loginBtn" style="background: #1a1a1a;">Login</button>
+                            <button type="button" id="signupBtn" style="background: #64748b;">Sign Up</button>
+                        </form>
+                        <p id="authMessage" style="font-size: 14px; color: #d97706; margin-top: 10px; display: none;"></p>
+                    </div>
+                    
+                    <div class="leaderboard-container">
+                        <div class="header">
+                            <span class="header-icon">🏆</span>
+                            <h2>Top Performers</h2>
+                        </div>
+                        <div class="controls">
+                            <div class="sort-group" id="sortGroup">
+                                <button class="sort-btn active" data-sort="percentage">Sort by %</button>
+                                <button class="sort-btn" data-sort="amount">Sort by Amount</button>
+                                <button class="sort-btn" data-sort="members">Sort by Members</button>
+                            </div>
+                        </div>
+                        <div class="leaderboard-list" id="leaderboardList"></div>
+                        <div id="leaderboardPagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f1f5f9;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    
+        // --- 1. INITIALIZE SUPABASE ---
+        const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+        // --- 2. DOM SELECTORS ---
+        const triggerButtons = document.querySelectorAll('.challenge-creator');
+        const overlay = document.getElementById('challengeModalOverlay');
+        const closeIconBtn = document.getElementById('closeChallengeModalBtn');
+        const cancelBtn = document.getElementById('cancelChallengeModalBtn');
+        const challengeForm = document.getElementById('newChallengeForm');
+        const statusMsg = document.getElementById('challengeFormStatus');
+        const shareContainer = document.getElementById('challengeShareContainer');
+        const shareInput = document.getElementById('challengeShareInput');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+    
+        const activeChallengesContainer = document.getElementById('activeChallengesContainer');
+        const addSavingsGlobalBtn = document.querySelector('.add-savings-global-btn');
+        const addSavingsModal = document.getElementById('addSavingsModalOverlay');
+        const closeSavingsBtn = document.getElementById('closeSavingsModalBtn');
+        const cancelSavingsBtn = document.getElementById('cancelSavingsModalBtn');
+        const savingsForm = document.getElementById('addSavingsForm');
+        const savingsSelect = document.getElementById('savingsChallengeSelect');
+        const savingsStatus = document.getElementById('savingsFormStatus');
+
+        const authContainer = document.getElementById('authContainer');
+        const authMessage = document.getElementById('authMessage');
+        const listContainer = document.getElementById('leaderboardList');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        const paginationContainer = document.getElementById('leaderboardPagination'); // NEW: Pagination selector
+    
+        const joinOverlay = document.getElementById('joinModalOverlay');
+        const confirmJoinBtn = document.getElementById('confirmJoinBtn');
+        const declineJoinBtn = document.getElementById('declineJoinBtn');
+        const joinStatus = document.getElementById('joinFormStatus');
+    
+        // --- 3. UNIFIED GLOBAL STATE ---
+        let currentData = [];
+        let currentSort = 'percentage';
+        let activeInviteChallenge = null;
+        let currentUser = null; 
+        
+        // NEW: Pagination State Variables
+        let currentPage = 1;
+        const itemsPerPage = 5;
+    
+        // ==========================================
+        // MODULE A: CHALLENGE CREATOR MODAL
+        // ==========================================
+        const openModal = () => {
+            if (overlay) {
+                overlay.classList.add('is-active');
+                document.body.style.overflow = 'hidden';
+                if (shareContainer) shareContainer.style.display = 'none';
+                if (statusMsg) statusMsg.style.display = 'none';
+            }
+        };
+    
+        const closeModal = () => {
+            if (overlay) {
+                overlay.classList.remove('is-active');
+                document.body.style.overflow = '';
+            }
+        };
+    
+        if (triggerButtons.length > 0) {
+            triggerButtons.forEach(btn => btn.addEventListener('click', openModal));
+        }
+    
+        closeIconBtn?.addEventListener('click', closeModal);
+        cancelBtn?.addEventListener('click', closeModal);
+    
+        overlay?.addEventListener('click', (event) => {
+            if (event.target === overlay) closeModal();
+        });
+    
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (overlay?.classList.contains('is-active')) closeModal();
+                if (addSavingsModal?.classList.contains('is-active')) closeSavingsModal();
+            }
+        });
+    
+        copyLinkBtn?.addEventListener('click', () => {
+            if (shareInput) {
+                shareInput.select();
+                navigator.clipboard.writeText(shareInput.value);
+                const originalText = copyLinkBtn.innerText;
+                copyLinkBtn.innerText = "Copied! ✓";
+                copyLinkBtn.style.background = "#22c55e";
+                setTimeout(() => {
+                    copyLinkBtn.innerText = originalText;
+                    copyLinkBtn.style.background = "#1e293b";
+                }, 2000);
+            }
+        });
+    
+        challengeForm?.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const submitBtn = challengeForm.querySelector('.challenge-modal-btn-submit');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Generating...";
+            if (statusMsg) statusMsg.style.display = 'none';
+    
+            if (!currentUser) {
+                if (statusMsg) {
+                    statusMsg.style.display = 'block';
+                    statusMsg.innerText = "Authentication required to create challenges.";
+                    statusMsg.style.color = "#ef4444";
+                }
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                return;
+            }
+    
+            const challengeId = crypto.randomUUID();
+    
+            const newChallenge = {
+                id: challengeId,
+                name: document.getElementById('chalTitle').value,
+                type: document.getElementById('chalType').value,
+                description: document.getElementById('chalDesc').value,
+                amount: parseFloat(document.getElementById('chalTarget').value),
+                max_participants: parseInt(document.getElementById('chalParticipants').value || 10),
+                end_date: document.getElementById('chalEndDate').value,
+                reward_type: document.getElementById('chalReward').value,
+                percentage: 0.0,
+                current_amount: 0.0,
+                members: 1,
+                participant_ids: [currentUser.id]
+            };
+    
+            const { error } = await supabase.from('finance_app_challenge').insert([newChallenge]);
+    
+            if (error) {
+                console.error(error);
+                if (statusMsg) {
+                    statusMsg.style.display = 'block';
+                    statusMsg.innerText = `Error: ${error.message}`;
+                    statusMsg.style.color = "#ef4444";
+                }
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            } else {
+                const inviteUrl = `${window.location.origin}${window.location.pathname}?join=${challengeId}`;
+                if (shareInput) shareInput.value = inviteUrl;
+                if (shareContainer) shareContainer.style.display = 'block';
+                if (statusMsg) {
+                    statusMsg.style.display = 'block';
+                    statusMsg.innerText = "✨ Group challenge generated!";
+                    statusMsg.style.color = "#8b5cf6"; 
+                }
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }, 500);
+            }
+        });
+    
+        // ==========================================
+        // MODULE B: INVITATION INGESTION ENGINE
+        // ==========================================
+        async function checkForInvitation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const challengeId = urlParams.get('join');
+            if (!challengeId) return;
+    
+            const { data, error } = await supabase
+                .from('finance_app_challenge')
+                .select('*')
+                .eq('id', challengeId)
+                .single();
+    
+            if (error || !data) {
+                console.error("Invalid invitation token:", error);
+                return;
+            }
+    
+            activeInviteChallenge = data;
+    
+            document.getElementById('joinChallengeName').innerText = data.name;
+            document.getElementById('joinChallengeDesc').innerText = data.description || "No description provided.";
+            document.getElementById('joinChallengeTarget').innerText = `₹ ${Number(data.amount).toLocaleString('en-IN')}`;
+            document.getElementById('joinChallengeMembers').innerText = `${data.members} / ${data.max_participants || 10} members`;
+    
+            joinOverlay?.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        }
+    
+        const closeJoinModal = () => {
+            joinOverlay?.classList.remove('is-active');
+            document.body.style.overflow = '';
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+        };
+    
+        declineJoinBtn?.addEventListener('click', closeJoinModal);
+    
+        confirmJoinBtn?.addEventListener('click', async () => {
+            if (!activeInviteChallenge) return;
+            
+            confirmJoinBtn.disabled = true;
+            confirmJoinBtn.innerText = "Joining...";
+            if (joinStatus) joinStatus.style.display = 'none';
+    
+            if (!currentUser) {
+                if (joinStatus) {
+                    joinStatus.style.display = 'block';
+                    joinStatus.innerText = "Please log in using the Admin block first.";
+                    joinStatus.style.color = "#ef4444";
+                }
+                confirmJoinBtn.disabled = false;
+                confirmJoinBtn.innerText = "Accept & Join";
+                return;
+            }
+
+            if (activeInviteChallenge.participant_ids && activeInviteChallenge.participant_ids.includes(currentUser.id)) {
+                alert("You are already a participant in this challenge!");
+                closeJoinModal();
+                return;
+            }
+    
+            if (activeInviteChallenge.members >= (activeInviteChallenge.max_participants || 10)) {
+                alert("This challenge is full!");
+                closeJoinModal();
+                return;
+            }
+            
+            const updatedParticipants = [...(activeInviteChallenge.participant_ids || []), currentUser.id];
+    
+            const { error } = await supabase
+                .from('finance_app_challenge')
+                .update({ 
+                    members: activeInviteChallenge.members + 1,
+                    participant_ids: updatedParticipants 
+                })
+                .eq('id', activeInviteChallenge.id);
+    
+            if (error) {
+                alert("Error updating challenge: " + error.message);
+                confirmJoinBtn.disabled = false;
+                confirmJoinBtn.innerText = "Accept & Join";
+            } else {
+                if (joinStatus) {
+                    joinStatus.style.display = 'block';
+                    joinStatus.innerText = "🎉 Joined successfully!";
+                    joinStatus.style.color = "#22c55e";
+                }
+                setTimeout(() => {
+                    closeJoinModal();
+                    confirmJoinBtn.disabled = false;
+                    confirmJoinBtn.innerText = "Accept & Join";
+                }, 1500);
+            }
+        });
+
+        // ==========================================
+        // MODULE C: ADD SAVINGS LOGIC (FILTERED)
+        // ==========================================
+        const openSavingsModal = (preselectedId = null) => {
+            if (!currentUser) {
+                alert("Please log in to add savings to a challenge.");
+                return;
+            }
+
+            addSavingsModal.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+            if (savingsStatus) savingsStatus.style.display = 'none';
+            
+            savingsSelect.innerHTML = '<option value="" disabled selected>Select a challenge...</option>';
+            const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
+            
+            myChallenges.forEach(challenge => {
+                const opt = document.createElement('option');
+                opt.value = challenge.id;
+                opt.innerText = challenge.name;
+                savingsSelect.appendChild(opt);
+            });
+
+            if (preselectedId) savingsSelect.value = preselectedId;
+        };
+
+        const closeSavingsModal = () => {
+            addSavingsModal.classList.remove('is-active');
+            document.body.style.overflow = '';
+            savingsForm.reset();
+        };
+
+        addSavingsGlobalBtn?.addEventListener('click', () => openSavingsModal());
+        closeSavingsBtn?.addEventListener('click', closeSavingsModal);
+        cancelSavingsBtn?.addEventListener('click', closeSavingsModal);
+
+        window.openAddSavingsModal = openSavingsModal;
+
+        savingsForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = savingsForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Processing...";
+            if (savingsStatus) savingsStatus.style.display = 'none';
+
+            const challengeId = savingsSelect.value;
+            const amountToAdd = parseFloat(document.getElementById('savingsAmountInput').value);
+            const targetChallenge = currentData.find(c => c.id === challengeId);
+            
+            if (!targetChallenge) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Contribute";
+                return;
+            }
+
+            const newCurrentAmount = (parseFloat(targetChallenge.current_amount) || 0) + amountToAdd;
+            let newPercentage = (newCurrentAmount / targetChallenge.amount) * 100;
+            if (newPercentage > 100) newPercentage = 100;
+
+            const { error } = await supabase
+                .from('finance_app_challenge')
+                .update({ 
+                    current_amount: newCurrentAmount,
+                    percentage: newPercentage
+                })
+                .eq('id', challengeId);
+
+            if (error) {
+                savingsStatus.style.display = 'block';
+                savingsStatus.innerText = "Error: " + error.message;
+                savingsStatus.style.color = "#ef4444";
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Contribute";
+            } else {
+                savingsStatus.style.display = 'block';
+                savingsStatus.innerText = "✨ Funds added successfully!";
+                savingsStatus.style.color = "#10b981";
+                
+                setTimeout(() => {
+                    closeSavingsModal();
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Contribute";
+                }, 1000);
+            }
+        });
+    
+        // ==========================================
+        // MODULE D: AUTHENTICATION BARRIER
+        // ==========================================
+        supabase.auth.onAuthStateChange((event, session) => {
+            currentUser = session ? session.user : null;
+            if (session) {
+                if (authContainer) authContainer.style.display = 'none';
+            } else {
+                if (authContainer) authContainer.style.display = 'block';
+            }
+            renderActiveChallenges();
+        });
+    
+        document.getElementById('signupBtn')?.addEventListener('click', async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (authMessage) {
+                authMessage.style.display = 'block';
+                authMessage.innerText = "Creating account...";
+            }
+            const { error } = await supabase.auth.signUp({ email, password });
+            if (error && authMessage) {
+                authMessage.innerText = error.message;
+                authMessage.style.color = "red";
+            } else if (authMessage) {
+                authMessage.innerText = "Account created! You can now log in.";
+                authMessage.style.color = "green";
+            }
+        });
+    
+        document.getElementById('loginBtn')?.addEventListener('click', async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (authMessage) {
+                authMessage.style.display = 'block';
+                authMessage.innerText = "Authenticating...";
+            }
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error && authMessage) {
+                authMessage.innerText = error.message;
+                authMessage.style.color = "red";
+            }
+        });
+    
+        // ==========================================
+        // MODULE E: DYNAMIC UI RENDER ENGINE & PAGINATION
+        // ==========================================
+        const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+        
+        const getRankIcon = (index) => {
+            if (index === 0) return '🏆';
+            if (index === 1) return '🥈';
+            if (index === 2) return '🥉';
+            return `${index + 1}`; 
+        };
+    
+        // 1. Pagination Renderer
+        function renderPagination() {
+            if (!paginationContainer) return;
+            paginationContainer.innerHTML = '';
+            
+            const totalPages = Math.ceil(currentData.length / itemsPerPage);
+            
+            if (totalPages <= 1) return; // Hide pagination if 5 or fewer items
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                btn.innerText = i;
+                btn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderLeaderboard();
+                    renderPagination(); // Update active highlight
+                });
+                paginationContainer.appendChild(btn);
+            }
+        }
+
+        // 2. Leaderboard Renderer (Now array-sliced for pagination)
+        function renderLeaderboard() {
+            if (!listContainer) return;
+            listContainer.innerHTML = ''; 
+
+            // Calculate exact slice boundaries
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedData = currentData.slice(startIndex, endIndex);
+
+            paginatedData.forEach((item, relativeIndex) => {
+                // Determine absolute ranking regardless of page
+                const actualRankIndex = startIndex + relativeIndex;
+                const shortName = item.name.substring(0, 15) + (item.name.length > 15 ? '...' : '');
+                
+                const card = document.createElement('div');
+                card.className = `performer-card rank-${actualRankIndex + 1}`;
+                card.innerHTML = `
+                    <div class="rank-indicator">${getRankIcon(actualRankIndex)}</div>
+                    <div class="performer-details">
+                        <div class="primary-info">
+                            <div class="performer-name" title="${item.name}">${shortName}</div>
+                            <div class="badge-info">${item.type}</div>
+                        </div>
+                        <div class="metrics">
+                            <div class="percentage">${Number(item.percentage).toFixed(1)}%</div>
+                            <div class="secondary-metrics">${formatCurrency(item.current_amount || 0)} / ${formatCurrency(item.amount)}</div>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        // 3. Active Challenges Renderer
+        function renderActiveChallenges() {
+            if (!activeChallengesContainer) return;
+            activeChallengesContainer.innerHTML = '';
+
+            if (!currentUser) {
+                activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">Please log in to view your active challenges.</p>';
+                return;
+            }
+
+            const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
+
+            if (myChallenges.length === 0) {
+                activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">You have not joined any challenges yet.</p>';
+                return;
+            }
+
+            myChallenges.forEach(challenge => {
+                const isEnded = challenge.end_date ? new Date(challenge.end_date) < new Date() : false;
+                const targetAmount = challenge.amount || 0;
+                const currentAmount = challenge.current_amount || 0;
+                const percentage = Math.min((currentAmount / targetAmount) * 100, 100).toFixed(1);
+
+                const card = document.createElement('div');
+                card.className = 'collaborative_challenge';
+                card.innerHTML = `
+                    <div class="collaborative_heading">
+                        <div class="heading_left">
+                            <div class="heading_title">
+                                <h5>${challenge.name}</h5>
+                            </div>
+                            <div class="heading_subtitle">
+                                <div class="heading_tag"><p>${challenge.type}</p></div>
+                                <div class="member_count">
+                                    <div class="members_icon"><i class="fa-solid fa-user-group"></i></div>
+                                    <div class="members_number">
+                                        <h6>${challenge.members}</h6><p>members</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="heading_right" style="text-align: right;">
+                            <div class="heading_amount">
+                                <div class="current_amount"><h6>${formatCurrency(currentAmount)}</h6></div>
+                                <div class="total_amount">
+                                    <p>of</p><h6>${formatCurrency(targetAmount)}</h6>
+                                </div>
+                            </div>
+                            ${!isEnded ? `<button class="card-add-savings-btn" onclick="window.openAddSavingsModal('${challenge.id}')">+ Add</button>` : ''}
+                        </div>
+                    </div>
+                    <div class="collaborative_body">
+                        <div class="progress_bar">
+                            <progress value="${percentage}" max="100"></progress>
+                        </div>
+                        <div class="lower_body">
+                            <div class="completion_percentage">
+                                <h6>${percentage}%</h6><p>complete</p>
+                            </div>
+                            <div class="completion_status">
+                                <div class="calendar_icon"><i class="fa-regular fa-calendar"></i></div>
+                                <div class="completion_point">
+                                    <h6 style="color: ${isEnded ? '#DC2626' : '#10b981'}">${isEnded ? 'Ended' : 'Active'}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                activeChallengesContainer.appendChild(card);
+            });
+        }
+    
+        // Master Sorter (Forces UI Reset)
+        function sortData(criterion) {
+            currentSort = criterion;
+            currentData.sort((a, b) => b[criterion] - a[criterion]); 
+            
+            currentPage = 1; // Snap back to Page 1 when sorting changes
+
+            renderLeaderboard();
+            renderPagination();
+            renderActiveChallenges();
+        }
+    
+        sortButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                sortButtons.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                sortData(e.target.getAttribute('data-sort'));
+            });
+        });
+    
+        // Unified Engine Bootstrap Initializer
+        async function init() {
+            const { data: { session } } = await supabase.auth.getSession();
+            currentUser = session ? session.user : null;
+
+            const { data } = await supabase.from('finance_app_challenge').select('*');
+            if (data) {
+                currentData = data;
+                sortData(currentSort); // This renders Leaderboard, Pagination, and Active Challenges
+            }
+    
+            supabase.channel('live-board')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_app_challenge' }, payload => {
+                    if (payload.eventType === 'INSERT') currentData.push(payload.new);
+                    else if (payload.eventType === 'UPDATE') {
+                        const idx = currentData.findIndex(i => i.id === payload.new.id);
+                        if (idx > -1) currentData[idx] = payload.new;
+                    }
+                    else if (payload.eventType === 'DELETE') {
+                        currentData = currentData.filter(i => i.id !== payload.old.id);
+                    }
+                    sortData(currentSort);
+                }).subscribe();
+    
+            checkForInvitation();
+        }
+    
+        init();
+    </script>
+
+    <!--Notifications System-->
+<script src="notifications.js"></script>
+</body>
+</html>

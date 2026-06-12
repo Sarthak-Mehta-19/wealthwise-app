@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security | WealthWise</title>
+    <!--StyleSheet-->
+    <link rel="stylesheet" href="security.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar_header">
+            <div class="logo">
+                <div class="icon">
+                    <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
+                </div>
+                <div class="text">
+                    <div class="main_text">
+                        <p>WealthWise</p>
+                    </div>
+                    <div class="subtext">
+                        <p>AI-Powered Finance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar_main">
+            <div class="navigation">
+                <div class="title">
+                    <h2>NAVIGATION</h2>
+                </div>
+                <div class="navigation_buttons">
+                    <a class="nav_btn" href="home.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                       <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Dashboard</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Overview & insights</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="saving_goals.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Goals</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Savings targets</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="expenses.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Expenses</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Track spending</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="collaborativesavings.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Groups</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Collaborative savings</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="ai_insights.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>AI Insights</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Smart recommendations</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="security.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Security</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Privacy & encryption</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="comparative_statistics">
+                <div class="title">
+                    <h2>PERFORMANCE</h2>
+                </div>
+                <div class="dyanmic_statistics_box">
+                    <div class="dyanmic_statistics_box_display">
+                        <div class="dynamic_statistics_box_logo">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                        <div class="dynamic_statistics_box_title">
+                            <h4>Savings Rate</h4>
+                        </div>
+                        <div class="dynamic_statistics_box_figure">
+                            <p>23%</p>
+                        </div>
+                    </div>
+                    <label for="completion_in_percetange"></label>
+                    <progress class="dynamic_statistics_box_progressbar"></progress>
+                    <div class="dynamic_statistics_box_caption">
+                        <div class="dynamic_statistics_box_caption_figure">
+                            <p>+12%</p>
+                        </div>
+                        <div class="dynamic_statistics_box_caption_text">
+                            <p>vs community avg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="sidebar_footer" href="profile.html">
+            <div class="user-profile">
+                <div class="user-profile_pic">
+                    <div class="user-default_pic">
+                        <h5>JD</h5>
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="user-profile-name">
+                        <h4>John Doe</h4>
+                    </div>
+                    <div class="user-profile-description">
+                        <h5>Premium Member</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="user-activity-status">
+                <div class="actvity-dot"></div>
+            </div>
+        </a>
+    </div>
+    <div class="dashboard">
+        <div class="dashboard_header">
+            <div class="menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="dashboard_title">
+                <h1>WealthWise</h1>
+            </div>
+        </div>
+        <div class="dashboard-main">
+            <div class="dashboard-main-big-head">
+                <div class="main-text">
+                    <div class="dashboard-main-title">
+                        <h1>Security Center</h1>
+                    </div>
+                    <div class="dahsboard-main-subtitle">
+                        <h2>Manage your data privacy, encryption, and security settings</h2>
+                    </div>
+                </div>
+                <div class="major-buttons">
+                    <button class="goal-creator">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                        <p>Download My Data</p>
+                    </button>
+                </div>
+            </div>
+            <div class="dashboard-main-info">
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Security Score</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>70%</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-shield"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Your account</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>protection level</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Encryption</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>AES-256</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Bank-grade</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>encryption</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Data Privacy</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>Private</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-regular fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Your data</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>sharing status</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-display">
+                        <div class="info-box-text">
+                            <div class="info-box-title">
+                                <h5>Last Security Check</h5>
+                            </div>
+                            <div class="info-box-dynamic-number">
+                                <p>Today</p>
+                            </div>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa-regular fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <div class="info-box-sub-display">
+                        <div class="info-box-dynamic-subtitle">
+                            <div class="info-box-dynamic-subtitle-dynamic-number">
+                                <p>Automated</p>
+                            </div>
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>daily scans</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="security-settings-master-layout-container">
+                <div class="security-dashboard-primary-content-column">
+                    <div class="security-dashboard-surface-panel-card">
+                        <div class="security-dashboard-panel-header-section">
+                            <h2 class="security-dashboard-panel-title-text">
+                                <span class="security-dashboard-panel-title-icon-wrapper">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                </span>
+                                Privacy & Security Settings
+                            </h2>
+                        </div>
+                        <div class="security-setting-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="security-setting-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">
+                                        Two-Factor Authentication
+                                        <span class="security-status-badge-recommended">Recommended</span>
+                                    </h3>
+                                    <p class="security-setting-item-secondary-description">Add an extra layer of security to your account</p>
+                                </div>
+                            </div>
+                            <div class="security-setting-item-action-area">
+                                <input type="checkbox" id="toggle-2fa" class="security-setting-toggle-switch-input" checked>
+                                <label for="toggle-2fa" class="security-setting-toggle-switch-label"></label>
+                            </div>
+                        </div>
+                        <div class="security-setting-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="security-setting-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2" ry="2"></rect><path d="M9 9h.01"></path><path d="M15 9h.01"></path><path d="M9 15h.01"></path><path d="M15 15h.01"></path></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">
+                                        Biometric Login
+                                        <span class="security-status-badge-recommended">Recommended</span>
+                                    </h3>
+                                    <p class="security-setting-item-secondary-description">Use fingerprint or face recognition to sign in</p>
+                                </div>
+                            </div>
+                            <div class="security-setting-item-action-area">
+                                <input type="checkbox" id="toggle-biometric" class="security-setting-toggle-switch-input" checked>
+                                <label for="toggle-biometric" class="security-setting-toggle-switch-label"></label>
+                            </div>
+                        </div>
+                        <div class="security-setting-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="security-setting-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">Anonymous Data Sharing</h3>
+                                    <p class="security-setting-item-secondary-description">Help improve WealthWise by sharing anonymous usage data</p>
+                                </div>
+                            </div>
+                            <div class="security-setting-item-action-area">
+                                <input type="checkbox" id="toggle-data" class="security-setting-toggle-switch-input">
+                                <label for="toggle-data" class="security-setting-toggle-switch-label"></label>
+                            </div>
+                        </div>
+                        <div class="security-setting-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="security-setting-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">
+                                        Analytics & Insights
+                                        <span class="security-status-badge-recommended">Recommended</span>
+                                    </h3>
+                                    <p class="security-setting-item-secondary-description">Allow AI to analyze your spending patterns</p>
+                                </div>
+                            </div>
+                            <div class="security-setting-item-action-area">
+                                <input type="checkbox" id="toggle-analytics" class="security-setting-toggle-switch-input" checked>
+                                <label for="toggle-analytics" class="security-setting-toggle-switch-label"></label>
+                            </div>
+                        </div>
+                        <div class="security-setting-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="security-setting-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">Marketing Communications</h3>
+                                    <p class="security-setting-item-secondary-description">Receive tips, news, and promotional content</p>
+                                </div>
+                            </div>
+                            <div class="security-setting-item-action-area">
+                                <input type="checkbox" id="toggle-marketing" class="security-setting-toggle-switch-input" checked>
+                                <label for="toggle-marketing" class="security-setting-toggle-switch-label"></label>
+                            </div>
+                        </div>
+                        <div class="security-setting-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="security-setting-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">Session Timeout</h3>
+                                    <p class="security-setting-item-secondary-description">Auto-logout after inactivity</p>
+                                </div>
+                            </div>
+                            <div class="security-setting-item-action-area">
+                                <select class="security-setting-dropdown-select-element">
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 hour</option>
+                                    <option value="120" selected>2 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="security-dashboard-surface-panel-card">
+                        <div class="security-dashboard-panel-header-section">
+                            <h2 class="security-dashboard-panel-title-text">
+                                <span class="security-dashboard-panel-title-icon-wrapper">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                                </span>
+                                Data Encryption
+                            </h2>
+                            <div class="security-status-badge-protected-wrapper">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                Fully Protected
+                            </div>
+                        </div>
+                        <div class="encryption-detail-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="encryption-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">End-to-End Encryption</h3>
+                                    <p class="security-setting-item-secondary-description">All data encrypted during transmission</p>
+                                </div>
+                            </div>
+                            <span class="encryption-protocol-badge-pill">TLS 1.3</span>
+                        </div>
+                        <div class="encryption-detail-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="encryption-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">At-Rest Encryption</h3>
+                                    <p class="security-setting-item-secondary-description">Stored data protected with AES-256</p>
+                                </div>
+                            </div>
+                            <span class="encryption-protocol-badge-pill">AES-256-GCM</span>
+                        </div>
+                        <div class="encryption-detail-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="encryption-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">Key Management</h3>
+                                    <p class="security-setting-item-secondary-description">Secure key rotation and storage</p>
+                                </div>
+                            </div>
+                            <span class="encryption-protocol-badge-pill">AWS KMS</span>
+                        </div>
+                        <div class="encryption-detail-list-item-row">
+                            <div class="security-setting-item-information-group">
+                                <div class="encryption-item-icon-container">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                                </div>
+                                <div class="security-setting-item-text-content">
+                                    <h3 class="security-setting-item-primary-label">Cloud Security</h3>
+                                    <p class="security-setting-item-secondary-description">SOC 2 Type II compliant infrastructure</p>
+                                </div>
+                            </div>
+                            <span class="encryption-protocol-badge-pill">ISO 27001</span>
+                        </div>
+                        <div class="encryption-protection-score-container">
+                            <div class="encryption-score-header-row">
+                                <span class="encryption-score-label-text">Data Protection Score</span>
+                                <span class="encryption-score-percentage-text">100%</span>
+                            </div>
+                            <div class="encryption-score-progress-bar-track">
+                                <div class="encryption-score-progress-bar-fill"></div>
+                            </div>
+                            <p class="encryption-score-subtext">Your data is protected with enterprise-grade security</p>
+                            
+                            <h4 class="security-setting-item-primary-label" style="margin-bottom: 12px; font-size:14px;">Compliance Certifications</h4>
+                            <div class="encryption-compliance-certifications-row">
+                                <div class="encryption-compliance-badge-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    GDPR
+                                </div>
+                                <div class="encryption-compliance-badge-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    CCPA
+                                </div>
+                                <div class="encryption-compliance-badge-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    SOC 2
+                                </div>
+                                <div class="encryption-compliance-badge-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    PCI DSS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="security-dashboard-secondary-sidebar-column">
+                    <div class="security-dashboard-surface-panel-card">
+                        <div class="security-dashboard-panel-header-section no-border-bottom">
+                            <h2 class="security-dashboard-panel-title-text">
+                                <span class="security-dashboard-panel-title-icon-wrapper">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </span>
+                                Export Your Data
+                            </h2>
+                        </div>
+                        <p class="export-data-informational-text">Download a copy of your data in JSON or CSV format.</p>
+                        <div class="export-data-checkbox-list-container">
+                            <label class="export-data-custom-checkbox-wrapper">
+                                <input type="checkbox" class="export-data-checkbox-input" checked>
+                                <span class="export-data-checkbox-label-text">Savings Goals</span>
+                            </label>
+                            <label class="export-data-custom-checkbox-wrapper">
+                                <input type="checkbox" class="export-data-checkbox-input" checked>
+                                <span class="export-data-checkbox-label-text">Expenses & Transactions</span>
+                            </label>
+                            <label class="export-data-custom-checkbox-wrapper">
+                                <input type="checkbox" class="export-data-checkbox-input" checked>
+                                <span class="export-data-checkbox-label-text">Group Challenges</span>
+                            </label>
+                            <label class="export-data-custom-checkbox-wrapper">
+                                <input type="checkbox" class="export-data-checkbox-input" checked>
+                                <span class="export-data-checkbox-label-text">Account Settings</span>
+                            </label>
+                        </div>
+                        <div class="export-data-action-buttons-row">
+                            <button class="export-data-format-action-button">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                JSON
+                            </button>
+                            <button class="export-data-format-action-button">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                CSV
+                            </button>
+                        </div>
+                        <p class="export-data-footer-disclaimer-text">Your data belongs to you. Export anytime.</p>
+                    </div>
+                    <div class="security-dashboard-surface-panel-card">
+                        <div class="security-dashboard-panel-header-section no-border-bottom">
+                            <h2 class="security-dashboard-panel-title-text">
+                                <span class="security-dashboard-panel-title-icon-wrapper">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                </span>
+                                Recent Activity
+                            </h2>
+                        </div>
+                        <div class="activity-timeline-list-container">
+                            <div class="activity-timeline-list-item-row">
+                                <div class="activity-timeline-icon-indicator theme-green">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                                </div>
+                                <div class="activity-timeline-content-wrapper">
+                                    <div class="activity-timeline-primary-details">
+                                        <h4 class="activity-timeline-event-title">Successful login</h4>
+                                        <p class="activity-timeline-device-subtitle">Chrome on MacOS</p>
+                                    </div>
+                                    <div class="activity-timeline-timestamp-details">
+                                        <span class="activity-timeline-date-text">Jun 2</span>
+                                        <span class="activity-timeline-time-text">9:03 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-timeline-list-item-row">
+                                <div class="activity-timeline-icon-indicator theme-purple">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                </div>
+                                <div class="activity-timeline-content-wrapper">
+                                    <div class="activity-timeline-primary-details">
+                                        <h4 class="activity-timeline-event-title">Privacy settings updated</h4>
+                                        <p class="activity-timeline-device-subtitle">Mobile App</p>
+                                    </div>
+                                    <div class="activity-timeline-timestamp-details">
+                                        <span class="activity-timeline-date-text">Jun 2</span>
+                                        <span class="activity-timeline-time-text">7:03 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-timeline-list-item-row">
+                                <div class="activity-timeline-icon-indicator theme-gray">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                </div>
+                                <div class="activity-timeline-content-wrapper">
+                                    <div class="activity-timeline-primary-details">
+                                        <h4 class="activity-timeline-event-title">Security scan completed</h4>
+                                        <p class="activity-timeline-device-subtitle">System</p>
+                                    </div>
+                                    <div class="activity-timeline-timestamp-details">
+                                        <span class="activity-timeline-date-text">Jun 1</span>
+                                        <span class="activity-timeline-time-text">9:03 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-timeline-list-item-row">
+                                <div class="activity-timeline-icon-indicator theme-blue">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </div>
+                                <div class="activity-timeline-content-wrapper">
+                                    <div class="activity-timeline-primary-details">
+                                        <h4 class="activity-timeline-event-title">Data export requested</h4>
+                                        <p class="activity-timeline-device-subtitle">Chrome on MacOS</p>
+                                    </div>
+                                    <div class="activity-timeline-timestamp-details">
+                                        <span class="activity-timeline-date-text">May 30</span>
+                                        <span class="activity-timeline-time-text">9:03 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-timeline-list-item-row">
+                                <div class="activity-timeline-icon-indicator theme-yellow">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                                </div>
+                                <div class="activity-timeline-content-wrapper">
+                                    <div class="activity-timeline-primary-details">
+                                        <h4 class="activity-timeline-event-title">New device authorized</h4>
+                                        <p class="activity-timeline-device-subtitle">iPhone 15 Pro</p>
+                                    </div>
+                                    <div class="activity-timeline-timestamp-details">
+                                        <span class="activity-timeline-date-text">May 26</span>
+                                        <span class="activity-timeline-time-text">9:03 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Notifications System-->
+<script src="notifications.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - WealthWise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="sign-up.css">
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="form-side">
+        <div class="form-content">
+            <div class="brand-header">
+                <div class="logo-icon"><i class="fa-solid fa-wallet"></i></div>
+                <div class="brand-text">
+                    <h2>WealthWise</h2>
+                    <p>AI-Powered Finance</p>
+                </div>
+            </div>
+
+            <div class="welcome-text">
+                <h1>Create an account</h1>
+                <p>Join the community and start optimizing your savings today.</p>
+            </div>
+
+            <div class="main_form">
+                <div id="register-error-display" class="error-message" style="display: none;"></div>
+                
+                <form id="sign-up-form" action="">
+                    <label for="reg-username">Username</label>
+                    <input type="text" id="reg-username" name="username" required>
+
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" name="email" required>
+
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" name="password" required>
+
+                    <button type="submit" id="reg-submit-btn">
+                        <span class="btn-text">
+                            <span>Create Account</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                        <i class="fa-solid fa-circle-notch fa-spin reg-loader" style="display: none;"></i>
+                    </button>
+                </form>
+                
+                <div class="sign-up">
+                    <div class="helping_text">
+                        <span>Already have an account?</span>
+                    </div>
+                    <div class="sign-up_redirect">
+                        <a href="login.html">Sign in</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="marketing-side">
+        <div class="marketing-content">
+            <h1 class="hero-text">Save Smarter.<br>Achieve<br>faster.</h1>
+            <p class="hero-subtext">Personal AI coach in your pocket. Set goals, track expenses, and challenge friends — all while seeing exactly how you compare to the community.</p>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <h3>12K+</h3>
+                    <p>Goals tracked</p>
+                </div>
+                <div class="stat-box">
+                    <h3>₹ 4.2Cr+</h3>
+                    <p>Saved by users</p>
+                </div>
+                <div class="stat-box">
+                    <h3>+18%</h3>
+                    <p>Average rate<br>boost</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const signUpForm = document.getElementById('sign-up-form');
+        const errorDisplay = document.getElementById('register-error-display');
+        const btnText = document.querySelector('#reg-submit-btn .btn-text');
+        const loader = document.querySelector('.reg-loader');
+        const submitBtn = document.getElementById('reg-submit-btn');
+
+        signUpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            // UI Loading State
+            errorDisplay.style.display = 'none';
+            btnText.style.display = 'none';
+            loader.style.display = 'inline-block';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/register/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        username: username, 
+                        email: email,
+                        password: password 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // SUCCESS: Save tokens and jump straight to the app
+                    localStorage.setItem('access_token', data.access);
+                    localStorage.setItem('refresh_token', data.refresh);
+                    window.location.href = 'Home.html'; 
+                } else {
+                    // ERROR: Format Django's dictionary of errors into a readable string
+                    let errorMessage = "";
+                    for (const [field, errors] of Object.entries(data)) {
+                        errorMessage += `${field}: ${errors[0]}\n`;
+                    }
+                    
+                    errorDisplay.innerText = errorMessage;
+                    errorDisplay.style.display = 'block';
+                    
+                    // Reset UI
+                    btnText.style.display = 'flex';
+                    loader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                errorDisplay.innerText = "Connection error. Ensure your server is running.";
+                errorDisplay.style.display = 'block';
+                
+                // Reset UI
+                btnText.style.display = 'flex';
+                loader.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
