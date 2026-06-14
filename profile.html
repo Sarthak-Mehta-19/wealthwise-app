@@ -198,7 +198,7 @@
                     <h2>NAVIGATION</h2>
                 </div>
                 <div class="navigation_buttons">
-                    <a class="nav_btn" href="index.html">
+                    <a class="nav_btn" href="dashboard.html">
                         <div class="nav_btn_icon">
                             <i class="fa-solid fa-desktop"></i>
                         </div>
@@ -355,165 +355,217 @@
 
             <div class="profile-wrapper">
                 
-                <div class="profile-card">
-                    <div class="profile-card-header">
-                        <h3>Personal Information</h3>
-                        <p>This data helps WealthWise AI tailor recommendations specifically to you.</p>
-                    </div>
+    <!-- Left Column: Personal Data & AI Context -->
+    <div class="profile-card">
+        <div class="profile-card-header">
+            <h3>Personal Information</h3>
+            <p>This data helps WealthWise AI tailor recommendations specifically to you.</p>
+        </div>
 
-                    <div class="avatar-section">
-                        <div class="avatar-circle">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div>
-                            <button class="avatar-upload-btn">Upload new picture</button>
-                            <p style="font-size: 12px; color: #94a3b8; margin-top: 6px;">JPG, GIF or PNG. Max size of 2MB.</p>
-                        </div>
-                    </div>
-
-                    <form id="profileForm">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">First Name</label>
-                                <input type="text" class="form-input" value="John">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" class="form-input" value="Doe">
-                            </div>
-                            <div class="form-group full-width">
-                                <label class="form-label">Email Address</label>
-                                <input type="email" class="form-input" value="johndoe@wealthwise.com">
-                            </div>
-                            <div class="form-group full-width">
-                                <label class="form-label">Residential Address</label>
-                                <input type="text" class="form-input" placeholder="e.g. 123 Tech Park, Bangalore">
-                            </div>
-                            
-                            <div class="form-group full-width" style="margin-top: 12px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
-                                <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">AI Context Parameters <span class="ai-badge">AI</span></h4>
-                                <p style="font-size: 12px; color: #64748b; margin: 0 0 12px 0;">We use these to calibrate your smart insights.</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Current Profession</label>
-                                <input type="text" class="form-input" placeholder="e.g. Software Engineer">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Risk Tolerance</label>
-                                <select class="form-select">
-                                    <option value="low">Conservative (Low Risk)</option>
-                                    <option value="medium" selected>Moderate (Medium Risk)</option>
-                                    <option value="high">Aggressive (High Risk)</option>
-                                </select>
-                            </div>
-                            <div class="form-group full-width">
-                                <label class="form-label">Primary Financial Goal</label>
-                                <select class="form-select">
-                                    <option value="wealth">General Wealth Accumulation</option>
-                                    <option value="home">Buying a Home</option>
-                                    <option value="retirement">Early Retirement (FIRE)</option>
-                                    <option value="debt">Clearing Debt</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: 32px; display: flex; align-items: center; gap: 16px;">
-                            <button type="submit" class="primary-btn" style="width: auto; padding: 10px 24px;" id="saveProfileBtn">Save Changes</button>
-                            <span id="profileStatus" style="font-size: 13px; font-weight: 600; color: #10b981; display: none;">✓ Profile updated</span>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="profile-card" style="height: fit-content;">
-                    <div class="report-icon-wrapper">
-                        <i class="fa-solid fa-file-pdf"></i>
-                    </div>
-                    <div class="profile-card-header" style="border: none; padding: 0; margin-bottom: 20px;">
-                        <h3>Monthly AI Report <span class="ai-badge">AI</span></h3>
-                        <p style="margin-top: 8px;">Generate a simplified, non-jargon summary of your financial health, spending habits, and goal progress over the last 30 days.</p>
-                    </div>
-
-                    <form id="reportForm">
-                        <div class="form-group" style="margin-bottom: 16px;">
-                            <label class="form-label">Share with (Email Addresses)</label>
-                            <input type="text" class="form-input" placeholder="e.g. spouse@email.com, advisor@email.com" required>
-                            <p style="font-size: 11px; color: #94a3b8; margin-top: 6px;">Separate multiple emails with commas.</p>
-                        </div>
-
-                        <button type="submit" class="primary-btn" id="sendReportBtn">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            Generate & Send PDF
-                        </button>
-                        <p id="reportStatus" style="font-size: 13px; font-weight: 600; margin-top: 12px; text-align: center; display: none;"></p>
-                    </form>
-                </div>
-
+        <div class="avatar-section">
+            <div class="avatar-circle">
+                <i class="fa-solid fa-user"></i>
             </div>
+            <div>
+                <button class="avatar-upload-btn">Upload new picture</button>
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 6px;">JPG, GIF or PNG. Max size of 2MB.</p>
+            </div>
+        </div>
+
+        <form id="profileForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" placeholder="e.g. John">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" placeholder="e.g. Doe">
+                </div>
+                
+                <!-- ID added and set to readonly to act as the secure credential display -->
+                <div class="form-group full-width">
+                    <label class="form-label">Email Address (Account Credential)</label>
+                    <input type="email" id="profileEmail" class="form-input" readonly style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; border-color: #e2e8f0;">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label class="form-label">Residential Address</label>
+                    <input type="text" class="form-input" placeholder="e.g. 123 Tech Park, City">
+                </div>
+                
+                <!-- AI Context Fields -->
+                <div class="form-group full-width" style="margin-top: 12px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">AI Context Parameters <span class="ai-badge">AI</span></h4>
+                    <p style="font-size: 12px; color: #64748b; margin: 0 0 12px 0;">We use these to calibrate your smart insights.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Current Profession</label>
+                    <input type="text" class="form-input" placeholder="e.g. Software Engineer">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Risk Tolerance</label>
+                    <select class="form-select">
+                        <option value="low">Conservative (Low Risk)</option>
+                        <option value="medium" selected>Moderate (Medium Risk)</option>
+                        <option value="high">Aggressive (High Risk)</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Primary Financial Goal</label>
+                    <select class="form-select">
+                        <option value="wealth">General Wealth Accumulation</option>
+                        <option value="home">Buying a Home</option>
+                        <option value="retirement">Early Retirement (FIRE)</option>
+                        <option value="debt">Clearing Debt</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div style="margin-top: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <button type="submit" class="primary-btn" style="width: auto; padding: 10px 24px;" id="saveProfileBtn">Save Changes</button>
+                    <span id="profileStatus" style="font-size: 13px; font-weight: 600; color: #10b981; display: none;">✓ Profile updated</span>
+                </div>
+                
+                <!-- NEW: Sign Out Button -->
+                <button type="button" id="signOutBtn" style="padding: 10px 24px; background: #fef2f2; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Right Column: AI Financial Report Generator -->
+    <div class="profile-card" style="height: fit-content;">
+        <div class="report-icon-wrapper">
+            <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <div class="profile-card-header" style="border: none; padding: 0; margin-bottom: 20px;">
+            <h3>Monthly AI Report <span class="ai-badge">AI</span></h3>
+            <p style="margin-top: 8px;">Generate a simplified, non-jargon summary of your financial health, spending habits, and goal progress over the last 30 days.</p>
+        </div>
+
+        <form id="reportForm">
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label class="form-label">Share with (Email Addresses)</label>
+                <input type="text" class="form-input" placeholder="e.g. spouse@email.com, advisor@email.com" required>
+                <p style="font-size: 11px; color: #94a3b8; margin-top: 6px;">Separate multiple emails with commas.</p>
+            </div>
+
+            <button type="submit" class="primary-btn" id="sendReportBtn">
+                <i class="fa-solid fa-paper-plane"></i>
+                Generate & Send PDF
+            </button>
+            <p id="reportStatus" style="font-size: 13px; font-weight: 600; margin-top: 12px; text-align: center; display: none;"></p>
+        </form>
+    </div>
+
+</div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Profile Save Logic
-            const profileForm = document.getElementById('profileForm');
-            const saveProfileBtn = document.getElementById('saveProfileBtn');
-            const profileStatus = document.getElementById('profileStatus');
+    <!-- Auth and Interface Logic Engine -->
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-            profileForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const originalText = saveProfileBtn.innerText;
-                saveProfileBtn.innerText = "Saving...";
-                saveProfileBtn.disabled = true;
+    // Initialize Database
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-                // Simulate Database Save
-                setTimeout(() => {
-                    saveProfileBtn.innerText = originalText;
-                    saveProfileBtn.disabled = false;
-                    profileStatus.style.display = 'inline-block';
-                    
-                    setTimeout(() => {
-                        profileStatus.style.display = 'none';
-                    }, 3000);
-                }, 800);
-            });
+    // --- 1. SECURE SESSION MANAGER ---
+    async function loadUserProfile() {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        // Security Gate: Redirect to landing page if not logged in
+        if (!session) {
+            window.location.href = 'index.html';
+            return;
+        }
 
-            // Report Generation & Sending Logic
-            const reportForm = document.getElementById('reportForm');
-            const sendReportBtn = document.getElementById('sendReportBtn');
-            const reportStatus = document.getElementById('reportStatus');
+        // Inject the exact credentials into the UI
+        const profileEmailInput = document.getElementById('profileEmail');
+        if (profileEmailInput) {
+            profileEmailInput.value = session.user.email;
+        }
+    }
 
-            reportForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const originalContent = sendReportBtn.innerHTML;
-                
-                // Stage 1: Generation
-                sendReportBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Data...';
-                sendReportBtn.disabled = true;
-                reportStatus.style.display = 'none';
+    loadUserProfile();
 
-                // Simulate AI compilation and PDF sending delay
-                setTimeout(() => {
-                    sendReportBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> Sending PDF...';
-                    
-                    setTimeout(() => {
-                        sendReportBtn.innerHTML = originalContent;
-                        sendReportBtn.disabled = false;
-                        
-                        reportStatus.style.color = '#10b981';
-                        reportStatus.innerText = '✓ Report successfully sent via email!';
-                        reportStatus.style.display = 'block';
-                        reportForm.reset();
+    // --- 2. SIGN OUT PIPELINE ---
+    const signOutBtn = document.getElementById('signOutBtn');
+    if (signOutBtn) {
+        signOutBtn.addEventListener('click', async () => {
+            const originalText = signOutBtn.innerHTML;
+            signOutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out...';
+            signOutBtn.disabled = true;
 
-                        setTimeout(() => {
-                            reportStatus.style.display = 'none';
-                        }, 4000);
-
-                    }, 1200);
-                }, 1500);
-            });
+            const { error } = await supabase.auth.signOut();
+            
+            if (error) {
+                alert("Sign out error: " + error.message);
+                signOutBtn.innerHTML = originalText;
+                signOutBtn.disabled = false;
+            } else {
+                // Immediately route back to the storefront
+                window.location.href = 'index.html';
+            }
         });
-    </script>
+    }
+
+    // --- 3. UI SIMULATION (Save & Report) ---
+    // Profile Save Logic
+    const profileForm = document.getElementById('profileForm');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    const profileStatus = document.getElementById('profileStatus');
+
+    profileForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const originalText = saveProfileBtn.innerText;
+        saveProfileBtn.innerText = "Saving...";
+        saveProfileBtn.disabled = true;
+
+        setTimeout(() => {
+            saveProfileBtn.innerText = originalText;
+            saveProfileBtn.disabled = false;
+            profileStatus.style.display = 'inline-block';
+            
+            setTimeout(() => { profileStatus.style.display = 'none'; }, 3000);
+        }, 800);
+    });
+
+    // Report Generation Logic
+    const reportForm = document.getElementById('reportForm');
+    const sendReportBtn = document.getElementById('sendReportBtn');
+    const reportStatus = document.getElementById('reportStatus');
+
+    reportForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const originalContent = sendReportBtn.innerHTML;
+        
+        sendReportBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Data...';
+        sendReportBtn.disabled = true;
+        reportStatus.style.display = 'none';
+
+        setTimeout(() => {
+            sendReportBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> Sending PDF...';
+            setTimeout(() => {
+                sendReportBtn.innerHTML = originalContent;
+                sendReportBtn.disabled = false;
+                
+                reportStatus.style.color = '#10b981';
+                reportStatus.innerText = '✓ Report successfully sent via email!';
+                reportStatus.style.display = 'block';
+                reportForm.reset();
+
+                setTimeout(() => { reportStatus.style.display = 'none'; }, 4000);
+            }, 1200);
+        }, 1500);
+    });
+</script>
 
     <!--Notifications System-->
 <script src="notifications.js"></script>

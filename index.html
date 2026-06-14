@@ -3,1427 +3,482 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wealthwise | Home</title>
-    <!--StyleSheet-->
-    <link rel="stylesheet" href="style.css">
-    <!--Font Awesome-->
+    <title>Welcome to WealthWise | AI-Powered Finance</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!--Charts-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src='https://www.gstatic.com/charts/loader.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: #059669;
+            color: white;
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: color 0.2s;
+        }
+
+        .btn-login:hover {
+            color: #059669;
+        }
+
+        .btn-signup {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-signup:hover {
+            background: #1e293b;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .hero-badge {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin: 0 0 24px 0;
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 600px;
+            line-height: 1.6;
+            margin: 0 0 40px 0;
+        }
+
+        .hero-cta {
+            background: #10b981;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            background: #059669;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            padding: 60px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        .feature-icon {
+            height: 48px;
+            width: 48px;
+            background: #f8fafc;
+            color: #8b5cf6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin: 0 0 12px 0;
+            color: #0f172a;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Auth Modal */
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .auth-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .auth-card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .auth-overlay.active .auth-card {
+            transform: translateY(0);
+        }
+
+        .auth-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .auth-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            color: #0f172a;
+        }
+
+        .auth-subtitle {
+            font-size: 14px;
+            color: #64748b;
+            margin: 0 0 24px 0;
+        }
+
+        .auth-input-group {
+            margin-bottom: 16px;
+        }
+
+        .auth-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #059669;
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 14px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .auth-submit:hover {
+            background: #047857;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .auth-switch span {
+            color: #059669;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar_header">
-            <div class="logo">
-                <div class="icon">
-                    <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
-                </div>
-                <div class="text">
-                    <div class="main_text">
-                        <p>WealthWise</p>
-                    </div>
-                    <div class="subtext">
-                        <p>AI-Powered Finance</p>
-                    </div>
-                </div>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="fa-solid fa-wallet"></i>
             </div>
-        </div>
-        <div class="sidebar_main">
-            <div class="navigation">
-                <div class="title">
-                    <h2>NAVIGATION</h2>
-                </div>
-                <div class="navigation_buttons">
-                    <a class="nav_btn" href="index.html">
-                        <div class="nav_btn_icon">
-                            <i class="fa-solid fa-desktop"></i>
-                        </div>
-                       <div class="nav_btn_text_box">  
-                            <div class="nav_btn_title">
-                                <h4>Dashboard</h4>
-                            </div>
-                            <div class="nav_btn_subtitle">
-                                <h5>Overview & insights</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="nav_btn" href="saving_goals.html">
-                        <div class="nav_btn_icon">
-                            <i class="fa-solid fa-bullseye"></i>
-                        </div>
-                        <div class="nav_btn_text_box">  
-                            <div class="nav_btn_title">
-                                <h4>Goals</h4>
-                            </div>
-                            <div class="nav_btn_subtitle">
-                                <h5>Savings targets</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="nav_btn" href="expenses.html">
-                        <div class="nav_btn_icon">
-                            <i class="fa-solid fa-sack-dollar"></i>
-                        </div>
-                        <div class="nav_btn_text_box">  
-                            <div class="nav_btn_title">
-                                <h4>Expenses</h4>
-                            </div>
-                            <div class="nav_btn_subtitle">
-                                <h5>Track spending</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="nav_btn" href="collaborativesavings.html">
-                        <div class="nav_btn_icon">
-                            <i class="fa-solid fa-user-group"></i>
-                        </div>
-                        <div class="nav_btn_text_box">  
-                            <div class="nav_btn_title">
-                                <h4>Groups</h4>
-                            </div>
-                            <div class="nav_btn_subtitle">
-                                <h5>Collaborative savings</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="nav_btn" href="ai_insights.html">
-                        <div class="nav_btn_icon">
-                            <i class="fa-solid fa-lightbulb"></i>
-                        </div>
-                        <div class="nav_btn_text_box">  
-                            <div class="nav_btn_title">
-                                <h4>AI Insights</h4>
-                            </div>
-                            <div class="nav_btn_subtitle">
-                                <h5>Smart recommendations</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="nav_btn" href="security.html">
-                        <div class="nav_btn_icon">
-                            <i class="fa-solid fa-layer-group"></i>
-                        </div>
-                        <div class="nav_btn_text_box">  
-                            <div class="nav_btn_title">
-                                <h4>Security</h4>
-                            </div>
-                            <div class="nav_btn_subtitle">
-                                <h5>Privacy & encryption</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="comparative_statistics">
-                <div class="title">
-                    <h2>PERFORMANCE</h2>
-                </div>
-                <div class="dyanmic_statistics_box">
-                    <div class="dyanmic_statistics_box_display">
-                        <div class="dynamic_statistics_box_logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="dynamic_statistics_box_title">
-                            <h4>Savings Rate</h4>
-                        </div>
-                        <div class="dynamic_statistics_box_figure">
-                            <p>23%</p>
-                        </div>
-                    </div>
-                    <label for="completion_in_percetange"></label>
-                    <progress class="dynamic_statistics_box_progressbar"></progress>
-                    <div class="dynamic_statistics_box_caption">
-                        <div class="dynamic_statistics_box_caption_figure">
-                            <p>+12%</p>
-                        </div>
-                        <div class="dynamic_statistics_box_caption_text">
-                            <p>vs community avg</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a class="sidebar_footer" href="profile.html">
-            <div class="user-profile">
-                <div class="user-profile_pic">
-                    <div class="user-default_pic">
-                        <h5>JD</h5>
-                    </div>
-                </div>
-                <div class="user-details">
-                    <div class="user-profile-name">
-                        <h4>John Doe</h4>
-                    </div>
-                    <div class="user-profile-description">
-                        <h5>Premium Member</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="user-activity-status">
-                <div class="actvity-dot"></div>
-            </div>
-        </a>
-    </div>
-    <div class="dashboard">
-        <div class="dashboard_header">
-            <div class="menu">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="dashboard_title">
+            <div class="logo-text">
                 <h1>WealthWise</h1>
             </div>
         </div>
-        <div class="dashboard-main">
-            <div class="dashboard-main-big-head">
-                <div class="main-text">
-                    <div class="dashboard-main-title">
-                        <h1>Financial Overview</h1>
-                    </div>
-                    <div class="dahsboard-main-subtitle">
-                        <h2>Track your progress and discover new opportunities</h2>
-                    </div>
-                </div>
-                <div class="major-buttons">
-                    <a class="expense-adder" href="expenses.html">
-                        <i class="fa-solid fa-plus"></i>
-                        <p>Add Expense</p>
-                    </a>
-                    <a class="goal-creator" href="saving_goals.html">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <p>Create goal</p>
-                    </a>
-                </div>
+        <div class="nav-buttons">
+            <button class="btn-login" onclick="openAuth('login')">Log In</button>
+            <button class="btn-signup" onclick="openAuth('signup')">Sign Up Free</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-badge">AI-Powered Financial Intelligence</div>
+        <h1>Master your money with smart insights and community.</h1>
+        <p>Stop stressing over spreadsheets. WealthWise uses advanced AI to track your expenses, optimize your savings, and connect you with friends for collaborative financial challenges.</p>
+        <button class="hero-cta" onclick="openAuth('signup')">Start Your Journey Today</button>
+    </header>
+
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon" style="color: #059669; background: #ecfdf5;">
+                <i class="fa-solid fa-brain"></i>
             </div>
-            <div class="dashboard-main-info">
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Total Savings</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>₹ 38,500</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-piggy-bank"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>+12%</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Monthly Expenses</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>₹ 734.15</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-dollar-sign"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>-3.2%</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Active Goals</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>4</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-bullseye"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>+1</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Savings Rate</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>46.4%</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-chart-line"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>+5.1%</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <h3>Smart AI Recommendations</h3>
+            <p>Our algorithms analyze your spending patterns and automatically suggest optimized budgets and saving strategies tailored to your lifestyle.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon" style="color: #8b5cf6; background: #f5f3ff;">
+                <i class="fa-solid fa-users"></i>
             </div>
-            <div class="dashboard_main_content">
-                <div class="dasboard_main_content_right">
-                    <div class="fp-dashboard-card">
-    
-    <div class="fp-header">
-      <div class="fp-title-group">
-        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
-        <h2>Financial Performance</h2>
-      </div>
-      <svg class="fp-calendar-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-      </svg>
-    </div>
-
-    <div class="fp-insight-banner">
-      This month's expenses are <strong>₹734.15</strong> resulting in a <strong>46.4%</strong> savings rate. <br>
-      This is <strong>5.1% higher</strong> than last month. Total savings reached <strong>₹38,500.00</strong>.
-    </div>
-
-    <div class="fp-chart-wrapper">
-      <canvas id="financialChart"></canvas>
-    </div>
-
-    <div class="fp-summary-container">
-      <div class="fp-summary-block">
-        <div class="fp-summary-label">
-          <div class="fp-dot expenses"></div>
-          Expenses
+            <h3>Collaborative Savings</h3>
+            <p>Team up with friends or community members. Create shared goals, track collective progress, and compete on the active leaderboard.</p>
         </div>
-        <div class="fp-summary-value" id="totalExpenses">₹0</div>
-      </div>
-      
-      <div class="fp-summary-block">
-        <div class="fp-summary-label">
-          <div class="fp-dot savings"></div>
-          Savings
+        <div class="feature-card">
+            <div class="feature-icon" style="color: #ea580c; background: #fff7ed;">
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <h3>Real-Time Tracking</h3>
+            <p>Log expenses securely in seconds. Visualize where your money goes with dynamic charts and progress bars updated in real-time.</p>
         </div>
-        <div class="fp-summary-value" id="totalSavings">₹0</div>
-      </div>
+    </section>
 
-      <div class="fp-summary-block">
-        <div class="fp-summary-label">
-          <svg class="fp-icon-net" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-          </svg>
-          Net
-        </div>
-        <div class="fp-summary-value net-value" id="totalNet">₹0</div>
-      </div>
-    </div>
+    <!-- Authentication Modal Overlay -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-card">
+            <button class="auth-close" onclick="closeAuth()"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="auth-title" id="authTitle">Welcome Back</h2>
+            <p class="auth-subtitle" id="authSubtitle">Enter your credentials to access your dashboard.</p>
 
-  </div>
-
-           <div class="community-dashboard-main-card-container">
-              
-              <div class="community-dashboard-top-header-section">
-                <div class="community-dashboard-header-title-wrapper">
-                  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                  </svg>
-                  <h2>You vs. Community</h2>
+            <form id="authForm">
+                <div class="auth-input-group">
+                    <label class="auth-label">Email Address</label>
+                    <input type="email" id="authEmail" class="auth-input" placeholder="you@example.com" required>
+                </div>
+                <div class="auth-input-group">
+                    <label class="auth-label">Password</label>
+                    <input type="password" id="authPassword" class="auth-input" placeholder="••••••••" required>
                 </div>
                 
-                <div class="community-dashboard-view-toggle-container">
-                  <button id="btn-progress" class="community-dashboard-view-toggle-button community-dashboard-active-state">Progress</button>
-                  <button id="btn-monthly" class="community-dashboard-view-toggle-button">Monthly</button>
-                </div>
-              </div>
-          
-              <div class="community-dashboard-charts-container">
-                <div id="wrapper-progress" class="community-dashboard-chart-wrapper">
-                  <canvas id="radarChart"></canvas>
-                </div>
-                <div id="wrapper-monthly" class="community-dashboard-chart-wrapper" style="display: none;">
-                  <canvas id="barChart"></canvas>
-                </div>
-              </div>
-              
-              <p id="chart-subtitle" class="community-dashboard-chart-description-subtitle">Progress % per goal category vs. community average</p>
-          
-              <div class="community-dashboard-status-tags-container">
-                <div class="community-dashboard-status-indicator-tag community-dashboard-positive-trend">↑ Emergency Fund</div>
-                <div class="community-dashboard-status-indicator-tag community-dashboard-negative-trend">↓ Dream Vacation...</div>
-                <div class="community-dashboard-status-indicator-tag community-dashboard-negative-trend">↓ New Car Down P...</div>
-                <div class="community-dashboard-status-indicator-tag community-dashboard-positive-trend">↑ Home Renovatio...</div>
-              </div>
-          
-            </div>
+                <p id="authErrorMsg" style="color: #ef4444; font-size: 13px; font-weight: 600; display: none; margin: 0 0 10px 0;"></p>
+                <p id="authSuccessMsg" style="color: #10b981; font-size: 13px; font-weight: 600; display: none; margin: 0 0 10px 0;"></p>
 
-            <div class="recent_activity">
-                <div class="recent_actvity_title_bar">
-                    <div class="recent_activity_dynamic_trend_icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <div class="recent_activity_main_title">
-                        <h5>Recent Activity</h5>
-                    </div>
-                </div>
-                <div class="activity_container">
-                    <div class="activity_bar">
-                        <div class="corner_left">
-                            <div class="actvity_icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="actvity_main_info">
-                                <div class="activity_title">
-                            <h6>Progress on Emergency Fund</h6>
-                            </div>
-                        <div class="activity_time">
-                            <div class="month">
-                                <h6>Aug</h6>
-                            </div>
-                            <div class="date">
-                                <h6>31,</h6>
-                            </div>
-                            <div class="year">
-                                <h6>2025</h6>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="corner_right">
-                            <div class="activity_status">
-                                <div class="activity_status_trend_icon">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <div class="activity_status_amount">
-                                    <div class="actvity_status_amount_additivity">
-                                        <h6>+</h6>
-                                    </div>
-                                    <div class="activity_status_amount_amount">
-                                        <h6>₹ 18,500</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actvity_status_category">
-                                <h6>emergency fund</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="activity_container">
-                    <div class="activity_bar">
-                        <div class="corner_left">
-                            <div class="actvity_icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="actvity_main_info">
-                                <div class="activity_title">
-                            <h6>Progress on Dream Vacation to Japan</h6>
-                            </div>
-                        <div class="activity_time">
-                            <div class="month">
-                                <h6>Aug</h6>
-                            </div>
-                            <div class="date">
-                                <h6>31,</h6>
-                            </div>
-                            <div class="year">
-                                <h6>2025</h6>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="corner_right">
-                            <div class="activity_status">
-                                <div class="activity_status_trend_icon">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <div class="activity_status_amount">
-                                    <div class="actvity_status_amount_additivity">
-                                        <h6>+</h6>
-                                    </div>
-                                    <div class="activity_status_amount_amount">
-                                        <h6>₹ 3,200</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actvity_status_category">
-                                <h6>vacation</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="activity_container">
-                    <div class="activity_bar">
-                        <div class="corner_left">
-                            <div class="actvity_icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="actvity_main_info">
-                                <div class="activity_title">
-                            <h6>Progress on New Car Down Payment</h6>
-                            </div>
-                        <div class="activity_time">
-                            <div class="month">
-                                <h6>Aug</h6>
-                            </div>
-                            <div class="date">
-                                <h6>31,</h6>
-                            </div>
-                            <div class="year">
-                                <h6>2025</h6>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="corner_right">
-                            <div class="activity_status">
-                                <div class="activity_status_trend_icon">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <div class="activity_status_amount">
-                                    <div class="actvity_status_amount_additivity">
-                                        <h6>+</h6>
-                                    </div>
-                                    <div class="activity_status_amount_amount">
-                                        <h6>₹ 4,800</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actvity_status_category">
-                                <h6>car</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="activity_container">
-                    <div class="activity_bar">
-                        <div class="corner_left">
-                            <div class="actvity_icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="actvity_main_info">
-                                <div class="activity_title">
-                            <h6>Progress on Home Renovation</h6>
-                            </div>
-                        <div class="activity_time">
-                            <div class="month">
-                                <h6>Aug</h6>
-                            </div>
-                            <div class="date">
-                                <h6>31,</h6>
-                            </div>
-                            <div class="year">
-                                <h6>2025</h6>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="corner_right">
-                            <div class="activity_status">
-                                <div class="activity_status_trend_icon">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <div class="activity_status_amount">
-                                    <div class="actvity_status_amount_additivity">
-                                        <h6>+</h6>
-                                    </div>
-                                    <div class="activity_status_amount_amount">
-                                        <h6>₹ 12,000</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actvity_status_category">
-                                <h6>home</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="activity_container">
-                    <div class="activity_bar">
-                        <div class="corner_left">
-                            <div class="actvity_icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="actvity_main_info">
-                                <div class="activity_title">
-                            <h6>Grocery Shopping at Whole Foods</h6>
-                            </div>
-                        <div class="activity_time">
-                            <div class="month">
-                                <h6>Dec</h6>
-                            </div>
-                            <div class="date">
-                                <h6>20,</h6>
-                            </div>
-                            <div class="year">
-                                <h6>2025</h6>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="corner_right">
-                            <div class="activity_status">
-                                <div class="activity_status_trend_icon">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <div class="activity_status_amount">
-                                    <div class="actvity_status_amount_additivity">
-                                        <h6>-</h6>
-                                    </div>
-                                    <div class="activity_status_amount_amount">
-                                        <h6>₹ 156.78</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actvity_status_category">
-                                <h6>food</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="activity_container">
-                    <div class="activity_bar">
-                        <div class="corner_left">
-                            <div class="actvity_icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="actvity_main_info">
-                                <div class="activity_title">
-                            <h6>Gasoline for car</h6>
-                            </div>
-                        <div class="activity_time">
-                            <div class="month">
-                                <h6>Dec</h6>
-                            </div>
-                            <div class="date">
-                                <h6>19,</h6>
-                            </div>
-                            <div class="year">
-                                <h6>2025</h6>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="corner_right">
-                            <div class="activity_status">
-                                <div class="activity_status_trend_icon">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                </div>
-                                <div class="activity_status_amount">
-                                    <div class="actvity_status_amount_additivity">
-                                        <h6>-</h6>
-                                    </div>
-                                    <div class="activity_status_amount_amount">
-                                        <h6>₹ 62.45</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actvity_status_category">
-                                <h6>transportation</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            
-            <div class="dashboard_main_content_left">
-                <div class="goal_progress_tracker">
-                <div class="goal_progress_tracker_heading">
-                    <div class="goal_progress_tracker_heading_icon">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                    <div class="goal_progress_tracker_title">
-                        <h6>Goal Progress</h6>
-                    </div>
-                    <div class="goal_progress_tracker_expansion_button">
-                        <button>
-                            <h6>View All</h6>
-                            <i class="fa-solid fa-arrow-up-right-from-square" style="color: rgb(0, 0, 0);"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="goal_status_display">
-                    <div class="important_goal_status_display">
-                        <div class="upper">
-                            <div class="right-corner">
-                            <div class ="important_goal_status_display_title">
-                            <h6>Emergency Fund</h6>
-                            </div>
-                            <div class="important_goal_status_display_completion_status">
-                            <div class="important_goal_status_display_completion_status_icon">
-                                <i class="fa-regular fa-calendar"></i>
-                            </div>
-                            <div class="important_goal_status_display_completion_status_title">
-                                <h6>Overdue</h6>
-                            </div>
-                        </div>
-                        <div class="left-corner">
-                            <div class="important_goal_status_display_status_amount">
-                                <h6>₹ 18,500</h6>
-                            </div>
-                            <div class="important_goal_status_display_goal_amount">
-                                <h6>of ₹ 25,000</h6>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="lower">
-                            <div class="important_goal_status_display_progress_bar">
-                                <label for="completion_in_percetange"></label>
-                                <progress id="completion_in_percetange" value="74.0" max="100"></progress>
-                            </div>
-                            <div class="important_goal_status_display_progress_bar_descriptive_details">
-                                <div class="important_goal_status_display_progress_bar_percentage">
-                                    <h6>74.0%</h6>
-                                    <p>complete</p>
-                                </div>
-                                <div class="important_goal_status_display_progress_bar_deadline">
-                                    <div class="important_goal_status_display_progress_bar_deadline_month">
-                                        <h6>Dec</h6>
-                                    </div>
-                                    <div class="important_goal_status_display_progress_bar_deadline_date">
-                                        <h6>31</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   </div>
-                    <div class="important_goal_status_display">
-                        <div class="upper">
-                            <div class="right-corner">
-                            <div class ="important_goal_status_display_title">
-                            <h6>Dream Vacation to Japan</h6>
-                            </div>
-                            <div class="important_goal_status_display_completion_status">
-                            <div class="important_goal_status_display_completion_status_icon">
-                                <i class="fa-regular fa-calendar"></i>
-                            </div>
-                            <div class="important_goal_status_display_completion_status_title">
-                                <h6>Overdue</h6>
-                            </div>
-                        </div>
-                        <div class="left-corner">
-                            <div class="important_goal_status_display_status_amount">
-                                <h6>₹ 3,200</h6>
-                            </div>
-                            <div class="important_goal_status_display_goal_amount">
-                                <h6>of ₹ 8,000</h6>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="lower">
-                            <div class="important_goal_status_display_progress_bar">
-                                <label for="completion_in_percetange"></label>
-                                <progress id="completion_in_percetange" value="40.0" max="100"></progress>
-                            </div>
-                            <div class="important_goal_status_display_progress_bar_descriptive_details">
-                                <div class="important_goal_status_display_progress_bar_percentage">
-                                    <h6>40.0%</h6>
-                                    <p>complete</p>
-                                </div>
-                                <div class="important_goal_status_display_progress_bar_deadline">
-                                    <div class="important_goal_status_display_progress_bar_deadline_month">
-                                        <h6>Aug</h6>
-                                    </div>
-                                    <div class="important_goal_status_display_progress_bar_deadline_date">
-                                        <h6>15</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   </div>
-                   <div class="important_goal_status_display">
-                        <div class="upper">
-                            <div class="right-corner">
-                            <div class ="important_goal_status_display_title">
-                            <h6>New Car Down Payment</h6>
-                            </div>
-                            <div class="important_goal_status_display_completion_status">
-                            <div class="important_goal_status_display_completion_status_icon">
-                                <i class="fa-regular fa-calendar"></i>
-                            </div>
-                            <div class="important_goal_status_display_completion_status_title">
-                                <h6>Overdue</h6>
-                            </div>
-                        </div>
-                        <div class="left-corner">
-                            <div class="important_goal_status_display_status_amount">
-                                <h6>₹ 4,800</h6>
-                            </div>
-                            <div class="important_goal_status_display_goal_amount">
-                                <h6>of ₹ 15,000</h6>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="lower">
-                            <div class="important_goal_status_display_progress_bar">
-                                <label for="completion_in_percetange"></label>
-                                <progress id="completion_in_percetange" value="32.0" max="100"></progress>
-                            </div>
-                            <div class="important_goal_status_display_progress_bar_descriptive_details">
-                                <div class="important_goal_status_display_progress_bar_percentage">
-                                    <h6>32.0%</h6>
-                                    <p>complete</p>
-                                </div>
-                                <div class="important_goal_status_display_progress_bar_deadline">
-                                    <div class="important_goal_status_display_progress_bar_deadline_month">
-                                        <h6>Jun</h6>
-                                    </div>
-                                    <div class="important_goal_status_display_progress_bar_deadline_date">
-                                        <h6>30</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   </div>
-                </div>
-                </div>
-                <div class="ai_insights_and_recommendations_container">
-                <div class="ai_insights_and_recommendations_container_heading">
-                    <div class="ai_insights_and_recommendations_containner_title_and_icon">
-                        <div class="ai_insights_and_recommendations_container_icon">
-                            <i class="fa-solid fa-wand-sparkles"></i>
-                        </div>
-                        <div class="ai_insights_and_recommendations_container_title">
-                            <h6>AI Insights</h6>
-                        </div>
-                    </div>
-                    <div class="ai_insights_and_recommendations_container_button">
-                        <button>
-                            <i class="fa-solid fa-arrows-rotate"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="ai_insights_and_recommendations_container_display">
-                    <div class="insight">
-                        <div class="insight_main_icon_container">
-                            <i class="fa-regular fa-lightbulb"></i>
-                        </div>
-                        <div class="inisght_title_and_description_container">
-                            <div class="insight_tile_container">
-                                <h5>Optimize Entertainment and Shopping Expenses</h5>
-                            </div>
-                            <div class="insight_decsiptive_text_container">
-                                <h6>Consider reducing your entertainment budget to less than 10% of monthly expenses and limiting shopping to essential items only, which could save you upwards of ₹ 200 monthly.</h6>
-                            </div>
-                        </div>
-                        <div class="insight_significance_of_action_tag">
-                            <h6>medium impact</h6>
-                        </div>
-                    </div>
-                    <div class="insight">
-                        <div class="insight_main_icon_container">
-                            <i class="fa-regular fa-lightbulb"></i>
-                        </div>
-                        <div class="inisght_title_and_description_container">
-                            <div class="insight_tile_container">
-                                <h5>Optimize Entertainment and Shopping Expenses</h5>
-                            </div>
-                            <div class="insight_decsiptive_text_container">
-                                <h6>Consider reducing your entertainment budget to less than 10% of monthly expenses and limiting shopping to essential items only, which could save you upwards of ₹ 200 monthly.</h6>
-                            </div>
-                        </div>
-                        <div class="insight_significance_of_action_tag">
-                            <h6>medium impact</h6>
-                        </div>
-                    </div>
-                    <div class="insight">
-                        <div class="insight_main_icon_container">
-                            <i class="fa-regular fa-lightbulb"></i>
-                        </div>
-                        <div class="inisght_title_and_description_container">
-                            <div class="insight_tile_container">
-                                <h5>Optimize Entertainment and Shopping Expenses</h5>
-                            </div>
-                            <div class="insight_decsiptive_text_container">
-                                <h6>Consider reducing your entertainment budget to less than 10% of monthly expenses and limiting shopping to essential items only, which could save you upwards of ₹ 200 monthly.</h6>
-                            </div>
-                        </div>
-                        <div class="insight_significance_of_action_tag">
-                            <h6>medium impact</h6>
-                        </div>
-                    </div>
-                    <div class="insight">
-                        <div class="insight_main_icon_container">
-                            <i class="fa-regular fa-lightbulb"></i>
-                        </div>
-                        <div class="inisght_title_and_description_container">
-                            <div class="insight_tile_container">
-                                <h5>Optimize Entertainment and Shopping Expenses</h5>
-                            </div>
-                            <div class="insight_decsiptive_text_container">
-                                <h6>Consider reducing your entertainment budget to less than 10% of monthly expenses and limiting shopping to essential items only, which could save you upwards of ₹ 200 monthly.</h6>
-                            </div>
-                        </div>
-                        <div class="insight_significance_of_action_tag">
-                            <h6>medium impact</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="recent_group_challenges_summary">
-                <div class="recent_group_challenges_summary_heading">
-                    <div class="recent_group_challenges_summary_heading_header">
-                        <div class="recent_group_challenges_summary_main_icon">
-                            <i class="fa-solid fa-user-group"></i>
-                        </div>
-                        <div class="recent_group_challenges_summary_main_heading">
-                            <div class="recent_group_challenges_summary_main_title">
-                                <h5>Group Challenges</h5>
-                            </div>
-                            <div class="recent_group_challenges_summary_subtitle">
-                                <h6>Collabrative savings with friends</h6>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="recent_group_challenges_summary_expansion_button">
-                            <button>
-                                <h6>View All</h6>
-                                <i class="fa-solid fa-arrow-up-right-from-square" style="color: rgb(0, 0, 0);"></i>
-                            </button>
-                        </div>
-                </div>
-                <div class="recent_group_challenges_summary_display">
-                    <div class="challenge_container">
-                        <div class="challenge_container_main_heading">
-                            <div class="challenge_container_main_icon">
-                                <i class="fa-solid fa-certificate"></i>
-                            </div>
-                            <div class="challenge_container_main_title">
-                                <h6>Investment Learning Challenge</h6>
-                            </div>
-                        </div>
-                        <div class="challenge_container_progress_bar">
-                                <div class="challenge_container_total_amount">
-                                    <h6>₹ 1200</h6>
-                                </div>
-                                <label for="title">Progress</label>
-                                <progress id="completion_in_percetange" value="40" max="100"></progress>
-                        </div>
-                        <div class="challenge_container_descriptive_details">
-                            <div class="challenge_container_challenge_participation">
-                                <h6>8</h6>
-                                <p>participants</p>
-                            </div>
-                            <div class="challenge_container_progress_bar_deadline">
-                                <div class="challenge_container_progress_bar_deadline_calendar_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="challenge_container_progress_bar_deadline_date">
-                                    <h6>31/01/2025</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="challenge_container">
-                        <div class="challenge_container_main_heading">
-                            <div class="challenge_container_main_icon">
-                                <i class="fa-solid fa-certificate"></i>
-                            </div>
-                            <div class="challenge_container_main_title">
-                                <h6>Investment Learning Challenge</h6>
-                            </div>
-                        </div>
-                        <div class="challenge_container_progress_bar">
-                                <div class="challenge_container_total_amount">
-                                    <h6>₹ 1200</h6>
-                                </div>
-                                <label for="title">Progress</label>
-                                <progress id="completion_in_percetange" value="40" max="100"></progress>
-                        </div>
-                        <div class="challenge_container_descriptive_details">
-                            <div class="challenge_container_challenge_participation">
-                                <h6>8</h6>
-                                <p>participants</p>
-                            </div>
-                            <div class="challenge_container_progress_bar_deadline">
-                                <div class="challenge_container_progress_bar_deadline_calendar_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="challenge_container_progress_bar_deadline_date">
-                                    <h6>31/01/2025</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="challenge_container">
-                        <div class="challenge_container_main_heading">
-                            <div class="challenge_container_main_icon">
-                                <i class="fa-solid fa-certificate"></i>
-                            </div>
-                            <div class="challenge_container_main_title">
-                                <h6>Investment Learning Challenge</h6>
-                            </div>
-                        </div>
-                        <div class="challenge_container_progress_bar">
-                                <div class="challenge_container_total_amount">
-                                    <h6>₹ 1200</h6>
-                                </div>
-                                <label for="title">Progress</label>
-                                <progress id="completion_in_percetange" value="40" max="100"></progress>
-                        </div>
-                        <div class="challenge_container_descriptive_details">
-                            <div class="challenge_container_challenge_participation">
-                                <h6>8</h6>
-                                <p>participants</p>
-                            </div>
-                            <div class="challenge_container_progress_bar_deadline">
-                                <div class="challenge_container_progress_bar_deadline_calendar_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="challenge_container_progress_bar_deadline_date">
-                                    <h6>31/01/2025</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="auth-submit" id="authSubmitBtn">Log In</button>
+            </form>
+
+            <div class="auth-switch" id="authSwitchText">
+                Don't have an account? <span onclick="toggleAuthMode()">Sign up here</span>
             </div>
         </div>
     </div>
 
-    <!--Bar Chart-->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    <!-- The Supabase Authentication Engine -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    
+        const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      // 1. Exact Data to satisfy the mathematical constraints
-      // Jun Expenses: 734.15 | Jun Savings: 635.53 (Rate: 46.4%)
-      // May Expenses: 804.00 | May Savings: 565.66 (Rate: 41.3%, diff = 5.1%)
-      // Total Savings Sum = 38500.00 exactly.
-      const rawData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        expenses: [6000, 6500, 7000, 12000, 804.00, 734.15],
-        savings: [7000, 7500, 8000, 14798.81, 565.66, 635.53] 
-      };
-
-      // Calculate Net (Savings - Expenses) for the line chart overlay
-      const netData = rawData.savings.map((sav, i) => sav - rawData.expenses[i]);
-
-      // Calculate Totals for the bottom summary boxes
-      const totalExpenses = rawData.expenses.reduce((a, b) => a + b, 0);
-      const totalSavings = rawData.savings.reduce((a, b) => a + b, 0); // Will exactly equal 38,500
-      const totalNet = totalSavings - totalExpenses;
-
-      // Currency formatter helper
-      const formatCurrency = (val) => {
-        return '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      };
-
-      // Populate HTML summary boxes
-      document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-      document.getElementById('totalSavings').textContent = formatCurrency(totalSavings);
-      document.getElementById('totalNet').textContent = formatCurrency(totalNet);
-
-
-      // 2. Custom Plugin for the grey column hover effect
-      const columnHoverHighlightPlugin = {
-        id: 'columnHoverHighlightPlugin',
-        beforeDraw: (chart) => {
-          if (chart.tooltip?._active?.length) {
-            const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-            const activePoint = chart.tooltip._active[0];
-            const segmentWidth = x.width / x.ticks.length;
-            const xPos = x.getPixelForTick(activePoint.index) - segmentWidth / 2;
-            
-            ctx.save();
-            ctx.fillStyle = 'rgba(200, 200, 200, 0.3)'; // Light grey background
-            ctx.fillRect(xPos, top, segmentWidth, bottom - top);
-            ctx.restore();
-          }
-        }
-      };
-
-      // 3. Initialize Chart.js
-      const ctx = document.getElementById('financialChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        plugins: [columnHoverHighlightPlugin],
-        data: {
-          labels: rawData.labels,
-          datasets: [
-            {
-              label: 'Expenses',
-              data: rawData.expenses,
-              backgroundColor: '#f87b7b', // Soft Red
-              borderRadius: 4,
-              barPercentage: 0.6,
-              categoryPercentage: 0.8,
-              order: 2 // Keeps bars behind the line
-            },
-            {
-              label: 'Savings',
-              data: rawData.savings,
-              backgroundColor: '#71d2a4', // Soft Green
-              borderRadius: 4,
-              barPercentage: 0.6,
-              categoryPercentage: 0.8,
-              order: 2
-            },
-            {
-              label: 'Net',
-              data: netData,
-              type: 'line',
-              borderColor: '#5d5fef', // Blue line
-              borderWidth: 2,
-              tension: 0.4, // Curves the line slightly
-              pointBackgroundColor: '#ffffff',
-              pointBorderColor: '#5d5fef',
-              pointBorderWidth: 2,
-              pointRadius: 4,
-              pointHoverRadius: 6,
-              order: 1 // Draws line on top of bars
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: 'index',
-            intersect: false, // Groups tooltips by month column
-          },
-          plugins: {
-            legend: {
-              display: false // Hiding native legend to use our custom HTML bottom one
-            },
-            tooltip: {
-              backgroundColor: '#ffffff',
-              titleColor: '#111827',
-              titleFont: { size: 16, weight: 'bold', family: 'sans-serif' },
-              bodyFont: { size: 14, family: 'sans-serif', weight: '500' },
-              borderColor: '#eaeaea',
-              borderWidth: 1,
-              padding: 16,
-              cornerRadius: 12,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              displayColors: false, // Removes default color squares
-              callbacks: {
-                label: function(context) {
-                  return context.dataset.label + ': ' + formatCurrency(context.raw);
-                },
-                labelTextColor: function(context) {
-                  // Colors the tooltip text dynamically
-                  if (context.dataset.label === 'Expenses') return '#f87b7b';
-                  if (context.dataset.label === 'Savings') return '#2eb872';
-                  return '#5d5fef'; // Net
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                color: '#8892b0',
-                font: { size: 13 },
-                // Format Y-axis to show abbreviations (e.g. ₹ 10k)
-                callback: function(value) {
-                  if (value >= 1000) return '₹' + (value / 1000) + 'k';
-                  return '₹' + value;
-                }
-              },
-              grid: {
-                color: '#e5e7eb',
-                borderDash: [5, 5],
-                drawBorder: false
-              }
-            },
-            x: {
-              ticks: { color: '#6b7280', font: { size: 14 } },
-              grid: { display: false, drawBorder: false }
-            }
-          }
-        }
-      });
-
-    });
-  </script>
-
-    <!--Radar Chart-->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-  
-  // -----------------------------------------------------
-  // 1. Tooltip Styles & Plugin Configs
-  // -----------------------------------------------------
-
-  const baseTooltipOptions = {
-    backgroundColor: '#ffffff',
-    titleColor: '#111827',
-    titleFont: { size: 14, weight: 'bold', family: 'sans-serif' },
-    bodyFont: { size: 14, family: 'sans-serif', weight: '500' },
-    borderColor: '#eaeaea',
-    borderWidth: 1,
-    padding: 12,
-    cornerRadius: 8,
-    displayColors: false, // Hides the default color boxes
-  };
-
-  const customBarHoverPlugin = {
-    id: 'customBarHoverPlugin',
-    beforeDraw: (chart) => {
-      if (chart.tooltip?._active?.length) {
-        const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-        const activePoint = chart.tooltip._active[0];
-        const segmentWidth = x.width / x.ticks.length;
-        const xPos = x.getPixelForTick(activePoint.index) - segmentWidth / 2;
+        // --- AUTH UI CONTROLS ---
+        let currentMode = 'login'; // 'login' or 'signup'
         
-        ctx.save();
-        ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
-        ctx.fillRect(xPos, top, segmentWidth, bottom - top);
-        ctx.restore();
-      }
-    }
-  };
+        window.openAuth = (mode) => {
+            currentMode = mode;
+            updateAuthUI();
+            document.getElementById('authOverlay').classList.add('active');
+        };
 
-  // -----------------------------------------------------
-  // 2. Initialize Radar Chart (Progress)
-  // -----------------------------------------------------
-  
-  const ctxRadar = document.getElementById('radarChart').getContext('2d');
-  new Chart(ctxRadar, {
-    type: 'radar',
-    data: {
-      labels: ['Emergency', 'Vacation', 'Home', 'Car', 'Education', 'Retirement', 'Other'],
-      datasets: [
-        {
-          label: 'You',
-          data: [74, 30, 20, 10, 0, 0, 0], 
-          backgroundColor: 'rgba(93, 95, 239, 0.2)', 
-          borderColor: '#5d5fef',                    
-          borderWidth: 2,
-          pointBackgroundColor: '#5d5fef',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#5d5fef',
-          pointRadius: 0,
-          pointHoverRadius: 4 // Ensures the dot appears when hovering
-        },
-        {
-          label: 'Community Avg',
-          data: [52, 25, 20, 35, 20, 30, 25],
-          backgroundColor: 'rgba(46, 184, 114, 0.1)', 
-          borderColor: '#2eb872',                     
-          borderWidth: 2,
-          borderDash: [5, 5],                         
-          pointBackgroundColor: '#2eb872',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#2eb872',
-          pointRadius: 0,
-          pointHoverRadius: 4 // Ensures the dot appears when hovering
+        window.closeAuth = () => {
+            document.getElementById('authOverlay').classList.remove('active');
+            document.getElementById('authForm').reset();
+            document.getElementById('authErrorMsg').style.display = 'none';
+            document.getElementById('authSuccessMsg').style.display = 'none';
+        };
+
+        window.toggleAuthMode = () => {
+            currentMode = currentMode === 'login' ? 'signup' : 'login';
+            updateAuthUI();
+        };
+
+        function updateAuthUI() {
+            document.getElementById('authErrorMsg').style.display = 'none';
+            document.getElementById('authSuccessMsg').style.display = 'none';
+            if (currentMode === 'login') {
+                document.getElementById('authTitle').innerText = "Welcome Back";
+                document.getElementById('authSubtitle').innerText = "Enter your credentials to access your dashboard.";
+                document.getElementById('authSubmitBtn').innerText = "Log In";
+                document.getElementById('authSwitchText').innerHTML = `Don't have an account? <span onclick="toggleAuthMode()">Sign up here</span>`;
+            } else {
+                document.getElementById('authTitle').innerText = "Create an Account";
+                document.getElementById('authSubtitle').innerText = "Start your journey to financial freedom today.";
+                document.getElementById('authSubmitBtn').innerText = "Sign Up";
+                document.getElementById('authSwitchText').innerHTML = `Already have an account? <span onclick="toggleAuthMode()">Log in here</span>`;
+            }
         }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      
-      // FIX: Added Interaction Mode to group tooltips by axis
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
-      
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            usePointStyle: true,
-            padding: 20,
-            font: { size: 14, family: "sans-serif" },
-            color: '#6b7280'
-          }
-        },
-        tooltip: {
-          ...baseTooltipOptions,
-          callbacks: {
-            label: function(context) { return context.dataset.label + ': ' + context.raw + '%'; },
-            labelTextColor: function(context) { return context.datasetIndex === 0 ? '#5d5fef' : '#2eb872'; }
-          }
+
+        // --- SUPABASE SESSION SENSOR ---
+        // If they are already logged in and visit index.html, automatically forward them to the dashboard
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
         }
-      },
-      scales: {
-        r: {
-          min: 0,
-          max: 100,
-          ticks: {
-            stepSize: 25,
-            display: true,
-            color: '#8892b0',
-            backdropColor: 'transparent',
-            font: { size: 10 }
-          },
-          pointLabels: {
-            font: { size: 13, family: "sans-serif" },
-            color: '#6b7280'
-          },
-          grid: { color: '#e5e7eb', circular: false },
-          angleLines: { color: '#e5e7eb' }
-        }
-      }
-    }
-  });
+        checkSession();
 
-  // -----------------------------------------------------
-  // 3. Initialize Bar Chart (Monthly)
-  // -----------------------------------------------------
-  
-  const ctxBar = document.getElementById('barChart').getContext('2d');
-  new Chart(ctxBar, {
-    type: 'bar',
-    plugins: [customBarHoverPlugin], 
-    data: {
-      labels: ['Emergency Fu...', 'Dream Vacati...', 'New Car Down...', 'Home Renovat...'],
-      datasets: [
-        {
-          label: 'You',
-          data: [1000, 600, 800, 1200],
-          backgroundColor: '#7b81f3', 
-          borderRadius: 4,
-          barPercentage: 0.6,
-          categoryPercentage: 0.8
-        },
-        {
-          label: 'Avg Peer',
-          data: [280, 150, 300, 520],
-          backgroundColor: '#98d8b1', 
-          borderRadius: 4,
-          barPercentage: 0.6,
-          categoryPercentage: 0.8
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            usePointStyle: true,
-            padding: 20,
-            font: { size: 14, family: "sans-serif" },
-            color: '#6b7280'
-          }
-        },
-        tooltip: {
-          ...baseTooltipOptions,
-          callbacks: {
-            label: function(context) { return context.dataset.label + ': $' + context.raw + '/mo'; },
-            labelTextColor: function(context) { return context.datasetIndex === 0 ? '#5d5fef' : '#2eb872'; }
-          }
-        }
-      },
-      scales: {
-        y: {
-          min: 0,
-          max: 1200,
-          ticks: {
-            stepSize: 300,
-            callback: function(value) { return '$' + value; },
-            color: '#8892b0',
-            font: { size: 12 }
-          },
-          grid: {
-            color: '#e5e7eb',
-            borderDash: [5, 5], 
-            drawBorder: false
-          }
-        },
-        x: {
-          ticks: { color: '#6b7280', font: { size: 13 } },
-          grid: { display: false, drawBorder: false }
-        }
-      }
-    }
-  });
+        // --- SUBMISSION HANDLER ---
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const btn = document.getElementById('authSubmitBtn');
+            const errorMsg = document.getElementById('authErrorMsg');
+            const successMsg = document.getElementById('authSuccessMsg');
 
-  // -----------------------------------------------------
-  // 4. Handle View Toggle Interaction
-  // -----------------------------------------------------
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
 
-  const btnProgress = document.getElementById('btn-progress');
-  const btnMonthly = document.getElementById('btn-monthly');
-  const wrapperProgress = document.getElementById('wrapper-progress');
-  const wrapperMonthly = document.getElementById('wrapper-monthly');
-  const chartSubtitle = document.getElementById('chart-subtitle');
-
-  btnProgress.addEventListener('click', () => {
-    btnProgress.classList.add('community-dashboard-active-state');
-    btnMonthly.classList.remove('community-dashboard-active-state');
-    wrapperProgress.style.display = 'flex';
-    wrapperMonthly.style.display = 'none';
-    chartSubtitle.textContent = 'Progress % per goal category vs. community average';
-  });
-
-  btnMonthly.addEventListener('click', () => {
-    btnMonthly.classList.add('community-dashboard-active-state');
-    btnProgress.classList.remove('community-dashboard-active-state');
-    wrapperProgress.style.display = 'none';
-    wrapperMonthly.style.display = 'flex';
-    chartSubtitle.textContent = 'Monthly contributions vs. community average per goal';
-  });
-
-});
+            if (currentMode === 'signup') {
+                const { data, error } = await supabase.auth.signUp({ email, password });
+                if (error) {
+                    errorMsg.innerText = error.message;
+                    errorMsg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Sign Up";
+                } else {
+                    successMsg.innerText = "Account created securely! Redirecting...";
+                    successMsg.style.display = 'block';
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+                }
+            } else {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) {
+                    errorMsg.innerText = "Invalid credentials. Please try again.";
+                    errorMsg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Log In";
+                } else {
+                    successMsg.innerText = "Authentication successful! Redirecting...";
+                    successMsg.style.display = 'block';
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+                }
+            }
+        });
     </script>
-
-<!--Notifications System-->
-<script src="notifications.js"></script>
-
 </body>
 </html>
