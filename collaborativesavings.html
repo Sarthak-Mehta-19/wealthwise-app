@@ -1079,12 +1079,34 @@
             fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
         }
 
-        // Inject into the HTML
+        // 1. Inject into the Sidebar Text
         const nameEl = document.getElementById('sidebar-user-name');
         const emailEl = document.getElementById('sidebar-user-email');
         
         if (nameEl) nameEl.innerText = fullName;
         if (emailEl) emailEl.innerText = currentUser.email;
+
+        // 2. Dynamic Initials Avatar Generation
+        let initials = "";
+        if (firstName && lastName) {
+            initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+        } else if (firstName) {
+            initials = firstName.substring(0, 2).toUpperCase();
+        } else {
+            initials = currentUser.email.substring(0, 2).toUpperCase();
+        }
+
+        // 3. Inject Initials into EVERY .avatar-circle on the page
+        const avatarCircles = document.querySelectorAll('.avatar-circle');
+        avatarCircles.forEach(circle => {
+            // Remove any old generic icons and inject the styled initials
+            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+            // Apply the soft green premium styling dynamically
+            circle.style.backgroundColor = '#ecfdf5'; 
+            circle.style.display = 'flex';
+            circle.style.alignItems = 'center';
+            circle.style.justifyContent = 'center';
+        });
     }
 
     // ==========================================
