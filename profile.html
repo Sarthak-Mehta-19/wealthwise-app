@@ -376,11 +376,11 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">First Name</label>
-                    <input type="text" class="form-input" placeholder="e.g. John">
+                    <input type="text" id="profileFirstName" class="form-input" placeholder="e.g. John">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Last Name</label>
-                    <input type="text" class="form-input" placeholder="e.g. Doe">
+                    <input type="text" id="profileLastName" class="form-input" placeholder="e.g. Doe">
                 </div>
                 
                 <!-- ID added and set to readonly to act as the secure credential display -->
@@ -467,17 +467,20 @@
         </div>
     </div>
 
-    <!-- Auth and Interface Logic Engine -->
-<script type="module">
+ <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-    // Initialize Database
+    // --- 1. INITIALIZE SUPABASE ---
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // --- 1. SECURE SESSION MANAGER ---
-    async function loadUserProfile() {
+    let currentUser = null;
+
+    // ==========================================
+    // MODULE A: SESSION & DATA SYNC
+    // ==========================================
+    async function loadAndSyncUserData() {
         const { data: { session }, error } = await supabase.auth.getSession();
         
         // Security Gate: Redirect to landing page if not logged in
@@ -486,16 +489,59 @@
             return;
         }
 
-        // Inject the exact credentials into the UI
-        const profileEmailInput = document.getElementById('profileEmail');
-        if (profileEmailInput) {
-            profileEmailInput.value = session.user.email;
+        currentUser = session.user;
+        
+        // 1. Extract Profile Data
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim();
+        
+        if (!fullName) {
+            fullName = currentUser.email.split('@')[0];
+            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
         }
+
+        // 2. Inject into Sidebar
+        const sidebarNameEl = document.getElementById('sidebar-user-name');
+        const sidebarEmailEl = document.getElementById('sidebar-user-email');
+        if (sidebarNameEl) sidebarNameEl.innerText = fullName;
+        if (sidebarEmailEl) sidebarEmailEl.innerText = currentUser.email;
+
+        // 3. Inject into Profile Form Fields
+        const profileEmailInput = document.getElementById('profileEmail');
+        const profileFirstNameInput = document.getElementById('profileFirstName');
+        const profileLastNameInput = document.getElementById('profileLastName');
+        
+        if (profileEmailInput) profileEmailInput.value = currentUser.email;
+        if (profileFirstNameInput) profileFirstNameInput.value = firstName;
+        if (profileLastNameInput) profileLastNameInput.value = lastName;
+
+        // 4. Dynamic Initials Avatar Generation
+        let initials = "";
+        if (firstName && lastName) {
+            initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+        } else if (firstName) {
+            initials = firstName.substring(0, 2).toUpperCase();
+        } else {
+            initials = currentUser.email.substring(0, 2).toUpperCase();
+        }
+
+        // Find all avatar circles (sidebar and profile page) and inject the initials
+        const avatarCircles = document.querySelectorAll('.avatar-circle');
+        avatarCircles.forEach(circle => {
+            // Remove the FontAwesome icon and replace with styled text
+            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+            // Optional: Give it a nice soft background to make the green pop
+            circle.style.backgroundColor = '#ecfdf5'; 
+            circle.style.display = 'flex';
+            circle.style.alignItems = 'center';
+            circle.style.justifyContent = 'center';
+        });
     }
 
-    loadUserProfile();
-
-    // --- 2. SIGN OUT PIPELINE ---
+    // ==========================================
+    // MODULE B: SIGN OUT PIPELINE
+    // ==========================================
     const signOutBtn = document.getElementById('signOutBtn');
     if (signOutBtn) {
         signOutBtn.addEventListener('click', async () => {
@@ -510,14 +556,16 @@
                 signOutBtn.innerHTML = originalText;
                 signOutBtn.disabled = false;
             } else {
-                // Immediately route back to the storefront
                 window.location.href = 'index.html';
             }
         });
     }
 
-    // --- 3. UI SIMULATION (Save & Report) ---
-    // Profile Save Logic
+    // ==========================================
+    // MODULE C: UI SIMULATION (SAVE & REPORT)
+    // ==========================================
+    
+    // 1. Profile Save Logic
     const profileForm = document.getElementById('profileForm');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
     const profileStatus = document.getElementById('profileStatus');
@@ -528,16 +576,18 @@
         saveProfileBtn.innerText = "Saving...";
         saveProfileBtn.disabled = true;
 
+        // Simulate network delay
         setTimeout(() => {
             saveProfileBtn.innerText = originalText;
             saveProfileBtn.disabled = false;
-            profileStatus.style.display = 'inline-block';
-            
-            setTimeout(() => { profileStatus.style.display = 'none'; }, 3000);
+            if (profileStatus) {
+                profileStatus.style.display = 'inline-block';
+                setTimeout(() => { profileStatus.style.display = 'none'; }, 3000);
+            }
         }, 800);
     });
 
-    // Report Generation Logic
+    // 2. Report Generation Logic
     const reportForm = document.getElementById('reportForm');
     const sendReportBtn = document.getElementById('sendReportBtn');
     const reportStatus = document.getElementById('reportStatus');
@@ -548,7 +598,7 @@
         
         sendReportBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Data...';
         sendReportBtn.disabled = true;
-        reportStatus.style.display = 'none';
+        if (reportStatus) reportStatus.style.display = 'none';
 
         setTimeout(() => {
             sendReportBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> Sending PDF...';
@@ -556,18 +606,24 @@
                 sendReportBtn.innerHTML = originalContent;
                 sendReportBtn.disabled = false;
                 
-                reportStatus.style.color = '#10b981';
-                reportStatus.innerText = '✓ Report successfully sent via email!';
-                reportStatus.style.display = 'block';
-                reportForm.reset();
-
-                setTimeout(() => { reportStatus.style.display = 'none'; }, 4000);
+                if (reportStatus) {
+                    reportStatus.style.color = '#10b981';
+                    reportStatus.innerText = '✓ Report successfully sent via email!';
+                    reportStatus.style.display = 'block';
+                    reportForm.reset();
+                    setTimeout(() => { reportStatus.style.display = 'none'; }, 4000);
+                }
             }, 1200);
         }, 1500);
     });
+
+    // ==========================================
+    // BOOTSTRAP INITIALIZER
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', loadAndSyncUserData);
+
 </script>
 
-    <!--Notifications System-->
 <script src="notifications.js"></script>
 </body>
 </html>
