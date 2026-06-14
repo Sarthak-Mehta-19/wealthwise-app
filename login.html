@@ -102,116 +102,119 @@
         </div>
     </div>
 
-    <!--Log In-->
-    <script>
-        document.getElementById('sign-in-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent standard page reload on submit
-        
-            // Grab the elements
-            const submitBtn = document.getElementById('submit-btn');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const loader = submitBtn.querySelector('.loader');
-            const errorDisplay = document.getElementById('error-display');
-        
-            // 1. Initialize Loading State
-            errorDisplay.style.display = 'none';      // Hide any previous errors
-            btnText.style.display = 'none';           // Hide "Sign In ->" text
-            loader.style.display = 'inline-block';    // Show the spinner
-            submitBtn.disabled = true;                // Prevent double clicks
-        
-            // 2. Simulate API/Backend Request
-            // Replace this setTimeout with your actual fetch() or axios call
-            setTimeout(() => {
-                
-                // Simulating a failed login attempt for demonstration
-                const loginSuccessful = false; 
-        
-                if (!loginSuccessful) {
-                    // Display the error
-                    errorDisplay.textContent = "Invalid email or password. Please try again.";
-                    errorDisplay.style.display = 'block';
-                }
-        
-                // 3. Reset Button State
-                btnText.style.display = 'flex';       // Bring back the text
-                loader.style.display = 'none';        // Hide the spinner
-                submitBtn.disabled = false;           // Re-enable the button
-        
-            }, 2000); // Simulated 2-second network delay
-        });
-    </script>
-
     <!--Login Funationality-->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Grab all the necessary DOM elements
-            const signInForm = document.getElementById('sign-in-form');
-            const errorDisplay = document.getElementById('error-display');
-            const btnText = document.querySelector('.btn-text');
-            const loader = document.querySelector('.loader');
-            const submitBtn = document.getElementById('submit-btn');
+    <script type="module">
+    // 1. Import and Initialize Supabase
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
     
-            // 2. Listen for the form submission
-            signInForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); // Stop the browser from instantly reloading the page
-    
-                // Get the input values
-                const username = document.getElementById('user-name').value;
-                const password = document.getElementById('user-password').value;
-    
-                // 3. Trigger UI Loading State (Hide text, show spinner)
-                errorDisplay.style.display = 'none';
-                btnText.style.display = 'none';
-                loader.style.display = 'inline-block';
-                submitBtn.disabled = true;
-    
-                try {
-                    // 4. Send the data to your Django API
-                    const response = await fetch('http://127.0.0.1:8000/api/token/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ 
-                            username: username, 
-                            password: password 
-                        })
-                    });
-    
-                    const data = await response.json();
-    
-                    if (response.ok) {
-                        // 5. SUCCESS: Save the keys to the vault
-                        localStorage.setItem('access_token', data.access);
-                        localStorage.setItem('refresh_token', data.refresh);
-    
-                        // Instantly redirect the user to your main app page
-                        // (Change 'dashboard.html' to whatever your next file is named)
-                        window.location.href = 'Home.html'; 
-                    } else {
-                        // 6. FAILED: Show Django's rejection message (e.g., wrong password)
-                        errorDisplay.innerText = data.detail || "Invalid credentials. Please try again.";
-                        errorDisplay.style.color = "red";
-                        errorDisplay.style.display = 'block';
-                        
-                        // Reset the button UI
-                        btnText.style.display = 'flex'; // Assuming flex because of the icon
-                        loader.style.display = 'none';
-                        submitBtn.disabled = false;
-                    }
-                } catch (error) {
-                    // 7. NETWORK ERROR: Server is down or CORS failed
-                    errorDisplay.innerText = "Connection error. Ensure your Django server is running.";
-                    errorDisplay.style.color = "red";
-                    errorDisplay.style.display = 'block';
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. Redirect automatically if already logged in
+    async function checkSession() {
+        try {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error) throw error;
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        } catch (err) {
+            console.error("Session check error:", err);
+        }
+    }
+
+    // 3. Wait for the HTML to fully load before attaching scripts
+    document.addEventListener('DOMContentLoaded', () => {
+        checkSession();
+
+        // Grab DOM Elements using your exact IDs
+        const signInForm = document.getElementById('sign-in-form');
+        const errorDisplay = document.getElementById('error-display');
+        const btnText = document.querySelector('.btn-text');
+        const loader = document.querySelector('.loader');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Failsafe: Ensure the form actually exists on the page
+        if (!signInForm) {
+            console.error("CRITICAL: Could not find the form with id 'sign-in-form'");
+            return;
+        }
+
+        // 4. Listen for the form submission
+        signInForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            console.log("Form submitted. Attempting login...");
+
+            // Get the input values (Supabase requires the username to be an email)
+            const emailInput = document.getElementById('user-name');
+            const passwordInput = document.getElementById('user-password');
+
+            if (!emailInput || !passwordInput) {
+                console.error("CRITICAL: Could not find email or password input fields.");
+                return;
+            }
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // 5. Trigger UI Loading State safely
+            if (errorDisplay) errorDisplay.style.display = 'none';
+            if (btnText) btnText.style.display = 'none';
+            if (loader) loader.style.display = 'inline-block';
+            if (submitBtn) submitBtn.disabled = true;
+
+            try {
+                // 6. Send to Supabase Auth
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    console.error("Supabase Rejection:", error.message);
                     
-                    // Reset the button UI
-                    btnText.style.display = 'flex';
-                    loader.style.display = 'none';
-                    submitBtn.disabled = false;
+                    // FAILED: Show Supabase rejection message
+                    if (errorDisplay) {
+                        errorDisplay.innerText = error.message;
+                        errorDisplay.style.color = "#ef4444"; // Error Red
+                        errorDisplay.style.display = 'block';
+                    }
+                    
+                    // Reset the button UI safely
+                    if (btnText) btnText.style.display = 'inline-block'; 
+                    if (loader) loader.style.display = 'none';
+                    if (submitBtn) submitBtn.disabled = false;
+                } else {
+                    console.log("Login successful! Tokens received.", data);
+                    
+                    // SUCCESS: Instantly redirect the user to the updated dashboard
+                    if (errorDisplay) {
+                        errorDisplay.innerText = "Success! Redirecting...";
+                        errorDisplay.style.color = "#10b981"; // Success Green
+                        errorDisplay.style.display = 'block';
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html'; 
+                    }, 800);
                 }
-            });
+            } catch (err) {
+                // 7. CATCH-ALL: Handle network drops or unexpected JS crashes
+                console.error("Unexpected network or script error:", err);
+                
+                if (errorDisplay) {
+                    errorDisplay.innerText = "Connection lost. Please check your internet and try again.";
+                    errorDisplay.style.color = "#ef4444";
+                    errorDisplay.style.display = 'block';
+                }
+                
+                if (btnText) btnText.style.display = 'inline-block'; 
+                if (loader) loader.style.display = 'none';
+                if (submitBtn) submitBtn.disabled = false;
+            }
         });
-    </script>
+    });
+</script>
 </body>
 </html>
