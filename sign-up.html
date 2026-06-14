@@ -82,68 +82,113 @@
     </div>
 </div>
 
-<script>
+<script type="module">
+    // 1. Import and Initialize Supabase
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. Redirect automatically if already logged in
+    async function checkSession() {
+        try {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        } catch (err) {
+            console.error("Session check error:", err);
+        }
+    }
+
+    // 3. Wait for the HTML to fully load before attaching scripts
     document.addEventListener('DOMContentLoaded', () => {
-        const signUpForm = document.getElementById('sign-up-form');
-        const errorDisplay = document.getElementById('register-error-display');
-        const btnText = document.querySelector('#reg-submit-btn .btn-text');
-        const loader = document.querySelector('.reg-loader');
-        const submitBtn = document.getElementById('reg-submit-btn');
+        checkSession();
 
+        // Grab DOM Elements (Make sure these match your sign-up HTML IDs)
+        const signUpForm = document.getElementById('sign-up-form') || document.querySelector('form');
+        const errorDisplay = document.getElementById('error-display');
+        const btnText = document.querySelector('.btn-text');
+        const loader = document.querySelector('.loader');
+        const submitBtn = document.getElementById('submit-btn');
+
+        if (!signUpForm) {
+            console.error("CRITICAL: Could not find the sign-up form.");
+            return;
+        }
+
+        // 4. Listen for the form submission
         signUpForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            e.preventDefault(); 
+            console.log("Form submitted. Attempting sign up...");
 
-            const username = document.getElementById('reg-username').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
+            // Get the input values
+            const emailInput = document.getElementById('user-name') || document.querySelector('input[type="email"]');
+            const passwordInput = document.getElementById('user-password') || document.querySelector('input[type="password"]');
 
-            // UI Loading State
-            errorDisplay.style.display = 'none';
-            btnText.style.display = 'none';
-            loader.style.display = 'inline-block';
-            submitBtn.disabled = true;
+            if (!emailInput || !passwordInput) {
+                console.error("CRITICAL: Could not find email or password input fields.");
+                return;
+            }
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // 5. Trigger UI Loading State safely
+            if (errorDisplay) errorDisplay.style.display = 'none';
+            if (btnText) btnText.style.display = 'none';
+            if (loader) loader.style.display = 'inline-block';
+            if (submitBtn) submitBtn.disabled = true;
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/register/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        username: username, 
-                        email: email,
-                        password: password 
-                    })
+                // 6. Send to Supabase Auth (Using signUp instead of signInWithPassword)
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
                 });
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    // SUCCESS: Save tokens and jump straight to the app
-                    localStorage.setItem('access_token', data.access);
-                    localStorage.setItem('refresh_token', data.refresh);
-                    window.location.href = 'Home.html'; 
-                } else {
-                    // ERROR: Format Django's dictionary of errors into a readable string
-                    let errorMessage = "";
-                    for (const [field, errors] of Object.entries(data)) {
-                        errorMessage += `${field}: ${errors[0]}\n`;
+                if (error) {
+                    console.error("Supabase Rejection:", error.message);
+                    
+                    // FAILED: Show Supabase rejection message
+                    if (errorDisplay) {
+                        errorDisplay.innerText = error.message;
+                        errorDisplay.style.color = "#ef4444"; // Error Red
+                        errorDisplay.style.display = 'block';
                     }
                     
-                    errorDisplay.innerText = errorMessage;
-                    errorDisplay.style.display = 'block';
+                    // Reset the button UI safely
+                    if (btnText) btnText.style.display = 'inline-block'; 
+                    if (loader) loader.style.display = 'none';
+                    if (submitBtn) submitBtn.disabled = false;
+                } else {
+                    console.log("Sign up successful!", data);
                     
-                    // Reset UI
-                    btnText.style.display = 'flex';
-                    loader.style.display = 'none';
-                    submitBtn.disabled = false;
+                    // SUCCESS: Instantly redirect the user to the dashboard
+                    if (errorDisplay) {
+                        errorDisplay.innerText = "Account created securely! Redirecting...";
+                        errorDisplay.style.color = "#10b981"; // Success Green
+                        errorDisplay.style.display = 'block';
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html'; 
+                    }, 1000);
                 }
-            } catch (error) {
-                errorDisplay.innerText = "Connection error. Ensure your server is running.";
-                errorDisplay.style.display = 'block';
+            } catch (err) {
+                // 7. CATCH-ALL: Handle network drops or unexpected JS crashes
+                console.error("Unexpected network or script error:", err);
                 
-                // Reset UI
-                btnText.style.display = 'flex';
-                loader.style.display = 'none';
-                submitBtn.disabled = false;
+                if (errorDisplay) {
+                    errorDisplay.innerText = "Connection lost. Please check your internet and try again.";
+                    errorDisplay.style.color = "#ef4444";
+                    errorDisplay.style.display = 'block';
+                }
+                
+                if (btnText) btnText.style.display = 'inline-block'; 
+                if (loader) loader.style.display = 'none';
+                if (submitBtn) submitBtn.disabled = false;
             }
         });
     });
