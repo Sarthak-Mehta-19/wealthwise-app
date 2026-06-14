@@ -154,10 +154,10 @@
                 </div>
                 <div class="user-details">
                     <div class="user-profile-name">
-                        <h4>John Doe</h4>
+                        <h4 id="sidebar-user-name">Loading...</h4>
                     </div>
-                    <div class="user-profile-description">
-                        <h5>Premium Member</h5>
+                    <div class="user-profile-description">                      
+                        <p id="sidebar-user-email">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -1421,6 +1421,41 @@
 
 });
     </script>
+
+<!-- Global Sidebar Sync Script -->
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function syncSidebar() {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session) {
+            const user = session.user;
+            // Pull the names we saved during Sign-Up!
+            const firstName = user.user_metadata?.first_name || '';
+            const lastName = user.user_metadata?.last_name || '';
+            let fullName = `${firstName} ${lastName}`.trim();
+            
+            // Failsafe: If they used the old sign-up form without a name, use the first part of their email
+            if (!fullName) {
+                fullName = user.email.split('@')[0];
+                fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+            }
+
+            // Inject into the HTML
+            const nameEl = document.getElementById('sidebar-user-name');
+            const emailEl = document.getElementById('sidebar-user-email');
+            
+            if (nameEl) nameEl.innerText = fullName;
+            if (emailEl) emailEl.innerText = user.email;
+        }
+    }
+    
+    syncSidebar();
+</script>
 
 <!--Notifications System-->
 <script src="notifications.js"></script>

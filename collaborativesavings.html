@@ -187,10 +187,10 @@
                 </div>
                 <div class="user-details">
                     <div class="user-profile-name">
-                        <h4>John Doe</h4>
+                        <h4 id="sidebar-user-name">Loading...</h4>
                     </div>
-                    <div class="user-profile-description">
-                        <h5>Premium Member</h5>
+                    <div class="user-profile-description">                      
+                        <p id="sidebar-user-email">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -525,587 +525,603 @@
     </div>
 
     <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-    
-        // --- 1. INITIALIZE SUPABASE ---
-        const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-        // --- 2. DOM SELECTORS ---
-        const triggerButtons = document.querySelectorAll('.challenge-creator');
-        const overlay = document.getElementById('challengeModalOverlay');
-        const closeIconBtn = document.getElementById('closeChallengeModalBtn');
-        const cancelBtn = document.getElementById('cancelChallengeModalBtn');
-        const challengeForm = document.getElementById('newChallengeForm');
-        const statusMsg = document.getElementById('challengeFormStatus');
-        const shareContainer = document.getElementById('challengeShareContainer');
-        const shareInput = document.getElementById('challengeShareInput');
-        const copyLinkBtn = document.getElementById('copyLinkBtn');
-    
-        const activeChallengesContainer = document.getElementById('activeChallengesContainer');
-        const addSavingsGlobalBtn = document.querySelector('.add-savings-global-btn');
-        const addSavingsModal = document.getElementById('addSavingsModalOverlay');
-        const closeSavingsBtn = document.getElementById('closeSavingsModalBtn');
-        const cancelSavingsBtn = document.getElementById('cancelSavingsModalBtn');
-        const savingsForm = document.getElementById('addSavingsForm');
-        const savingsSelect = document.getElementById('savingsChallengeSelect');
-        const savingsStatus = document.getElementById('savingsFormStatus');
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-        const authContainer = document.getElementById('authContainer');
-        const authMessage = document.getElementById('authMessage');
-        const listContainer = document.getElementById('leaderboardList');
-        const sortButtons = document.querySelectorAll('.sort-btn');
-        const paginationContainer = document.getElementById('leaderboardPagination'); // NEW: Pagination selector
+    // --- 1. INITIALIZE SUPABASE (Declared only once) ---
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- 2. DOM SELECTORS ---
+    const triggerButtons = document.querySelectorAll('.challenge-creator');
+    const overlay = document.getElementById('challengeModalOverlay');
+    const closeIconBtn = document.getElementById('closeChallengeModalBtn');
+    const cancelBtn = document.getElementById('cancelChallengeModalBtn');
+    const challengeForm = document.getElementById('newChallengeForm');
+    const statusMsg = document.getElementById('challengeFormStatus');
+    const shareContainer = document.getElementById('challengeShareContainer');
+    const shareInput = document.getElementById('challengeShareInput');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+    const activeChallengesContainer = document.getElementById('activeChallengesContainer');
+    const addSavingsGlobalBtn = document.querySelector('.add-savings-global-btn');
+    const addSavingsModal = document.getElementById('addSavingsModalOverlay');
+    const closeSavingsBtn = document.getElementById('closeSavingsModalBtn');
+    const cancelSavingsBtn = document.getElementById('cancelSavingsModalBtn');
+    const savingsForm = document.getElementById('addSavingsForm');
+    const savingsSelect = document.getElementById('savingsChallengeSelect');
+    const savingsStatus = document.getElementById('savingsFormStatus');
+
+    const authContainer = document.getElementById('authContainer');
+    const authMessage = document.getElementById('authMessage');
+    const listContainer = document.getElementById('leaderboardList');
+    const sortButtons = document.querySelectorAll('.sort-btn');
+    const paginationContainer = document.getElementById('leaderboardPagination');
+
+    const joinOverlay = document.getElementById('joinModalOverlay');
+    const confirmJoinBtn = document.getElementById('confirmJoinBtn');
+    const declineJoinBtn = document.getElementById('declineJoinBtn');
+    const joinStatus = document.getElementById('joinFormStatus');
+
+    // --- 3. UNIFIED GLOBAL STATE ---
+    let currentData = [];
+    let currentSort = 'percentage';
+    let activeInviteChallenge = null;
+    let currentUser = null; 
     
-        const joinOverlay = document.getElementById('joinModalOverlay');
-        const confirmJoinBtn = document.getElementById('confirmJoinBtn');
-        const declineJoinBtn = document.getElementById('declineJoinBtn');
-        const joinStatus = document.getElementById('joinFormStatus');
-    
-        // --- 3. UNIFIED GLOBAL STATE ---
-        let currentData = [];
-        let currentSort = 'percentage';
-        let activeInviteChallenge = null;
-        let currentUser = null; 
-        
-        // NEW: Pagination State Variables
-        let currentPage = 1;
-        const itemsPerPage = 5;
-    
-        // ==========================================
-        // MODULE A: CHALLENGE CREATOR MODAL
-        // ==========================================
-        const openModal = () => {
-            if (overlay) {
-                overlay.classList.add('is-active');
-                document.body.style.overflow = 'hidden';
-                if (shareContainer) shareContainer.style.display = 'none';
-                if (statusMsg) statusMsg.style.display = 'none';
-            }
-        };
-    
-        const closeModal = () => {
-            if (overlay) {
-                overlay.classList.remove('is-active');
-                document.body.style.overflow = '';
-            }
-        };
-    
-        if (triggerButtons.length > 0) {
-            triggerButtons.forEach(btn => btn.addEventListener('click', openModal));
-        }
-    
-        closeIconBtn?.addEventListener('click', closeModal);
-        cancelBtn?.addEventListener('click', closeModal);
-    
-        overlay?.addEventListener('click', (event) => {
-            if (event.target === overlay) closeModal();
-        });
-    
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                if (overlay?.classList.contains('is-active')) closeModal();
-                if (addSavingsModal?.classList.contains('is-active')) closeSavingsModal();
-            }
-        });
-    
-        copyLinkBtn?.addEventListener('click', () => {
-            if (shareInput) {
-                shareInput.select();
-                navigator.clipboard.writeText(shareInput.value);
-                const originalText = copyLinkBtn.innerText;
-                copyLinkBtn.innerText = "Copied! ✓";
-                copyLinkBtn.style.background = "#22c55e";
-                setTimeout(() => {
-                    copyLinkBtn.innerText = originalText;
-                    copyLinkBtn.style.background = "#1e293b";
-                }, 2000);
-            }
-        });
-    
-        challengeForm?.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const submitBtn = challengeForm.querySelector('.challenge-modal-btn-submit');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Generating...";
+    // Pagination State Variables
+    let currentPage = 1;
+    const itemsPerPage = 5;
+
+    // ==========================================
+    // MODULE A: CHALLENGE CREATOR MODAL
+    // ==========================================
+    const openModal = () => {
+        if (overlay) {
+            overlay.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+            if (shareContainer) shareContainer.style.display = 'none';
             if (statusMsg) statusMsg.style.display = 'none';
-    
-            if (!currentUser) {
-                if (statusMsg) {
-                    statusMsg.style.display = 'block';
-                    statusMsg.innerText = "Authentication required to create challenges.";
-                    statusMsg.style.color = "#ef4444";
-                }
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-                return;
-            }
-    
-            const challengeId = crypto.randomUUID();
-    
-            const newChallenge = {
-                id: challengeId,
-                name: document.getElementById('chalTitle').value,
-                type: document.getElementById('chalType').value,
-                description: document.getElementById('chalDesc').value,
-                amount: parseFloat(document.getElementById('chalTarget').value),
-                max_participants: parseInt(document.getElementById('chalParticipants').value || 10),
-                end_date: document.getElementById('chalEndDate').value,
-                reward_type: document.getElementById('chalReward').value,
-                percentage: 0.0,
-                current_amount: 0.0,
-                members: 1,
-                participant_ids: [currentUser.id]
-            };
-    
-            const { error } = await supabase.from('finance_app_challenge').insert([newChallenge]);
-    
-            if (error) {
-                console.error(error);
-                if (statusMsg) {
-                    statusMsg.style.display = 'block';
-                    statusMsg.innerText = `Error: ${error.message}`;
-                    statusMsg.style.color = "#ef4444";
-                }
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            } else {
-                const inviteUrl = `${window.location.origin}${window.location.pathname}?join=${challengeId}`;
-                if (shareInput) shareInput.value = inviteUrl;
-                if (shareContainer) shareContainer.style.display = 'block';
-                if (statusMsg) {
-                    statusMsg.style.display = 'block';
-                    statusMsg.innerText = "✨ Group challenge generated!";
-                    statusMsg.style.color = "#8b5cf6"; 
-                }
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }, 500);
-            }
-        });
-    
-        // ==========================================
-        // MODULE B: INVITATION INGESTION ENGINE
-        // ==========================================
-        async function checkForInvitation() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const challengeId = urlParams.get('join');
-            if (!challengeId) return;
-    
-            const { data, error } = await supabase
-                .from('finance_app_challenge')
-                .select('*')
-                .eq('id', challengeId)
-                .single();
-    
-            if (error || !data) {
-                console.error("Invalid invitation token:", error);
-                return;
-            }
-    
-            activeInviteChallenge = data;
-    
-            document.getElementById('joinChallengeName').innerText = data.name;
-            document.getElementById('joinChallengeDesc').innerText = data.description || "No description provided.";
-            document.getElementById('joinChallengeTarget').innerText = `₹ ${Number(data.amount).toLocaleString('en-IN')}`;
-            document.getElementById('joinChallengeMembers').innerText = `${data.members} / ${data.max_participants || 10} members`;
-    
-            joinOverlay?.classList.add('is-active');
-            document.body.style.overflow = 'hidden';
         }
-    
-        const closeJoinModal = () => {
-            joinOverlay?.classList.remove('is-active');
+    };
+
+    const closeModal = () => {
+        if (overlay) {
+            overlay.classList.remove('is-active');
             document.body.style.overflow = '';
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-        };
-    
-        declineJoinBtn?.addEventListener('click', closeJoinModal);
-    
-        confirmJoinBtn?.addEventListener('click', async () => {
-            if (!activeInviteChallenge) return;
-            
-            confirmJoinBtn.disabled = true;
-            confirmJoinBtn.innerText = "Joining...";
-            if (joinStatus) joinStatus.style.display = 'none';
-    
-            if (!currentUser) {
-                if (joinStatus) {
-                    joinStatus.style.display = 'block';
-                    joinStatus.innerText = "Please log in using the Admin block first.";
-                    joinStatus.style.color = "#ef4444";
-                }
-                confirmJoinBtn.disabled = false;
-                confirmJoinBtn.innerText = "Accept & Join";
-                return;
-            }
+        }
+    };
 
-            if (activeInviteChallenge.participant_ids && activeInviteChallenge.participant_ids.includes(currentUser.id)) {
-                alert("You are already a participant in this challenge!");
-                closeJoinModal();
-                return;
-            }
-    
-            if (activeInviteChallenge.members >= (activeInviteChallenge.max_participants || 10)) {
-                alert("This challenge is full!");
-                closeJoinModal();
-                return;
-            }
-            
-            const updatedParticipants = [...(activeInviteChallenge.participant_ids || []), currentUser.id];
-    
-            const { error } = await supabase
-                .from('finance_app_challenge')
-                .update({ 
-                    members: activeInviteChallenge.members + 1,
-                    participant_ids: updatedParticipants 
-                })
-                .eq('id', activeInviteChallenge.id);
-    
-            if (error) {
-                alert("Error updating challenge: " + error.message);
-                confirmJoinBtn.disabled = false;
-                confirmJoinBtn.innerText = "Accept & Join";
-            } else {
-                if (joinStatus) {
-                    joinStatus.style.display = 'block';
-                    joinStatus.innerText = "🎉 Joined successfully!";
-                    joinStatus.style.color = "#22c55e";
-                }
-                setTimeout(() => {
-                    closeJoinModal();
-                    confirmJoinBtn.disabled = false;
-                    confirmJoinBtn.innerText = "Accept & Join";
-                }, 1500);
-            }
-        });
+    if (triggerButtons.length > 0) {
+        triggerButtons.forEach(btn => btn.addEventListener('click', openModal));
+    }
 
-        // ==========================================
-        // MODULE C: ADD SAVINGS LOGIC (FILTERED)
-        // ==========================================
-        const openSavingsModal = (preselectedId = null) => {
-            if (!currentUser) {
-                alert("Please log in to add savings to a challenge.");
-                return;
-            }
+    closeIconBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
 
-            addSavingsModal.classList.add('is-active');
-            document.body.style.overflow = 'hidden';
-            if (savingsStatus) savingsStatus.style.display = 'none';
-            
-            savingsSelect.innerHTML = '<option value="" disabled selected>Select a challenge...</option>';
-            const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
-            
-            myChallenges.forEach(challenge => {
-                const opt = document.createElement('option');
-                opt.value = challenge.id;
-                opt.innerText = challenge.name;
-                savingsSelect.appendChild(opt);
-            });
+    overlay?.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
 
-            if (preselectedId) savingsSelect.value = preselectedId;
-        };
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            if (overlay?.classList.contains('is-active')) closeModal();
+            if (addSavingsModal?.classList.contains('is-active')) closeSavingsModal();
+        }
+    });
 
-        const closeSavingsModal = () => {
-            addSavingsModal.classList.remove('is-active');
-            document.body.style.overflow = '';
-            savingsForm.reset();
-        };
+    copyLinkBtn?.addEventListener('click', () => {
+        if (shareInput) {
+            shareInput.select();
+            navigator.clipboard.writeText(shareInput.value);
+            const originalText = copyLinkBtn.innerText;
+            copyLinkBtn.innerText = "Copied! ✓";
+            copyLinkBtn.style.background = "#22c55e";
+            setTimeout(() => {
+                copyLinkBtn.innerText = originalText;
+                copyLinkBtn.style.background = "#1e293b";
+            }, 2000);
+        }
+    });
 
-        addSavingsGlobalBtn?.addEventListener('click', () => openSavingsModal());
-        closeSavingsBtn?.addEventListener('click', closeSavingsModal);
-        cancelSavingsBtn?.addEventListener('click', closeSavingsModal);
-
-        window.openAddSavingsModal = openSavingsModal;
-
-        savingsForm?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = savingsForm.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Processing...";
-            if (savingsStatus) savingsStatus.style.display = 'none';
-
-            const challengeId = savingsSelect.value;
-            const amountToAdd = parseFloat(document.getElementById('savingsAmountInput').value);
-            const targetChallenge = currentData.find(c => c.id === challengeId);
-            
-            if (!targetChallenge) {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Contribute";
-                return;
-            }
-
-            const newCurrentAmount = (parseFloat(targetChallenge.current_amount) || 0) + amountToAdd;
-            let newPercentage = (newCurrentAmount / targetChallenge.amount) * 100;
-            if (newPercentage > 100) newPercentage = 100;
-
-            const { error } = await supabase
-                .from('finance_app_challenge')
-                .update({ 
-                    current_amount: newCurrentAmount,
-                    percentage: newPercentage
-                })
-                .eq('id', challengeId);
-
-            if (error) {
-                savingsStatus.style.display = 'block';
-                savingsStatus.innerText = "Error: " + error.message;
-                savingsStatus.style.color = "#ef4444";
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Contribute";
-            } else {
-                savingsStatus.style.display = 'block';
-                savingsStatus.innerText = "✨ Funds added successfully!";
-                savingsStatus.style.color = "#10b981";
-                
-                setTimeout(() => {
-                    closeSavingsModal();
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = "Contribute";
-                }, 1000);
-            }
-        });
-    
-        // ==========================================
-        // MODULE D: AUTHENTICATION BARRIER
-        // ==========================================
-        supabase.auth.onAuthStateChange((event, session) => {
-            currentUser = session ? session.user : null;
-            if (session) {
-                if (authContainer) authContainer.style.display = 'none';
-            } else {
-                if (authContainer) authContainer.style.display = 'block';
-            }
-            renderActiveChallenges();
-        });
-    
-        document.getElementById('signupBtn')?.addEventListener('click', async () => {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            if (authMessage) {
-                authMessage.style.display = 'block';
-                authMessage.innerText = "Creating account...";
-            }
-            const { error } = await supabase.auth.signUp({ email, password });
-            if (error && authMessage) {
-                authMessage.innerText = error.message;
-                authMessage.style.color = "red";
-            } else if (authMessage) {
-                authMessage.innerText = "Account created! You can now log in.";
-                authMessage.style.color = "green";
-            }
-        });
-    
-        document.getElementById('loginBtn')?.addEventListener('click', async () => {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            if (authMessage) {
-                authMessage.style.display = 'block';
-                authMessage.innerText = "Authenticating...";
-            }
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error && authMessage) {
-                authMessage.innerText = error.message;
-                authMessage.style.color = "red";
-            }
-        });
-    
-        // ==========================================
-        // MODULE E: DYNAMIC UI RENDER ENGINE & PAGINATION
-        // ==========================================
-        const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+    challengeForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const submitBtn = challengeForm.querySelector('.challenge-modal-btn-submit');
+        const originalText = submitBtn.innerHTML;
         
-        const getRankIcon = (index) => {
-            if (index === 0) return '🏆';
-            if (index === 1) return '🥈';
-            if (index === 2) return '🥉';
-            return `${index + 1}`; 
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Generating...";
+        if (statusMsg) statusMsg.style.display = 'none';
+
+        if (!currentUser) {
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = "Authentication required to create challenges.";
+                statusMsg.style.color = "#ef4444";
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+        }
+
+        const challengeId = crypto.randomUUID();
+
+        const newChallenge = {
+            id: challengeId,
+            name: document.getElementById('chalTitle').value,
+            type: document.getElementById('chalType').value,
+            description: document.getElementById('chalDesc').value,
+            amount: parseFloat(document.getElementById('chalTarget').value),
+            max_participants: parseInt(document.getElementById('chalParticipants').value || 10),
+            end_date: document.getElementById('chalEndDate').value,
+            reward_type: document.getElementById('chalReward').value,
+            percentage: 0.0,
+            current_amount: 0.0,
+            members: 1,
+            participant_ids: [currentUser.id]
         };
-    
-        // 1. Pagination Renderer
-        function renderPagination() {
-            if (!paginationContainer) return;
-            paginationContainer.innerHTML = '';
-            
-            const totalPages = Math.ceil(currentData.length / itemsPerPage);
-            
-            if (totalPages <= 1) return; // Hide pagination if 5 or fewer items
 
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement('button');
-                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
-                btn.innerText = i;
-                btn.addEventListener('click', () => {
-                    currentPage = i;
-                    renderLeaderboard();
-                    renderPagination(); // Update active highlight
-                });
-                paginationContainer.appendChild(btn);
+        const { error } = await supabase.from('finance_app_challenge').insert([newChallenge]);
+
+        if (error) {
+            console.error(error);
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = `Error: ${error.message}`;
+                statusMsg.style.color = "#ef4444";
             }
-        }
-
-        // 2. Leaderboard Renderer (Now array-sliced for pagination)
-        function renderLeaderboard() {
-            if (!listContainer) return;
-            listContainer.innerHTML = ''; 
-
-            // Calculate exact slice boundaries
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedData = currentData.slice(startIndex, endIndex);
-
-            paginatedData.forEach((item, relativeIndex) => {
-                // Determine absolute ranking regardless of page
-                const actualRankIndex = startIndex + relativeIndex;
-                const shortName = item.name.substring(0, 15) + (item.name.length > 15 ? '...' : '');
-                
-                const card = document.createElement('div');
-                card.className = `performer-card rank-${actualRankIndex + 1}`;
-                card.innerHTML = `
-                    <div class="rank-indicator">${getRankIcon(actualRankIndex)}</div>
-                    <div class="performer-details">
-                        <div class="primary-info">
-                            <div class="performer-name" title="${item.name}">${shortName}</div>
-                            <div class="badge-info">${item.type}</div>
-                        </div>
-                        <div class="metrics">
-                            <div class="percentage">${Number(item.percentage).toFixed(1)}%</div>
-                            <div class="secondary-metrics">${formatCurrency(item.current_amount || 0)} / ${formatCurrency(item.amount)}</div>
-                        </div>
-                    </div>
-                `;
-                listContainer.appendChild(card);
-            });
-        }
-
-        // 3. Active Challenges Renderer
-        function renderActiveChallenges() {
-            if (!activeChallengesContainer) return;
-            activeChallengesContainer.innerHTML = '';
-
-            if (!currentUser) {
-                activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">Please log in to view your active challenges.</p>';
-                return;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        } else {
+            const inviteUrl = `${window.location.origin}${window.location.pathname}?join=${challengeId}`;
+            if (shareInput) shareInput.value = inviteUrl;
+            if (shareContainer) shareContainer.style.display = 'block';
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = "✨ Group challenge generated!";
+                statusMsg.style.color = "#8b5cf6"; 
             }
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }, 500);
+        }
+    });
 
-            const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
+    // ==========================================
+    // MODULE B: INVITATION INGESTION ENGINE
+    // ==========================================
+    async function checkForInvitation() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const challengeId = urlParams.get('join');
+        if (!challengeId) return;
 
-            if (myChallenges.length === 0) {
-                activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">You have not joined any challenges yet.</p>';
-                return;
+        const { data, error } = await supabase
+            .from('finance_app_challenge')
+            .select('*')
+            .eq('id', challengeId)
+            .single();
+
+        if (error || !data) {
+            console.error("Invalid invitation token:", error);
+            return;
+        }
+
+        activeInviteChallenge = data;
+
+        document.getElementById('joinChallengeName').innerText = data.name;
+        document.getElementById('joinChallengeDesc').innerText = data.description || "No description provided.";
+        document.getElementById('joinChallengeTarget').innerText = `₹ ${Number(data.amount).toLocaleString('en-IN')}`;
+        document.getElementById('joinChallengeMembers').innerText = `${data.members} / ${data.max_participants || 10} members`;
+
+        joinOverlay?.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    const closeJoinModal = () => {
+        joinOverlay?.classList.remove('is-active');
+        document.body.style.overflow = '';
+        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+    };
+
+    declineJoinBtn?.addEventListener('click', closeJoinModal);
+
+    confirmJoinBtn?.addEventListener('click', async () => {
+        if (!activeInviteChallenge) return;
+        
+        confirmJoinBtn.disabled = true;
+        confirmJoinBtn.innerText = "Joining...";
+        if (joinStatus) joinStatus.style.display = 'none';
+
+        if (!currentUser) {
+            if (joinStatus) {
+                joinStatus.style.display = 'block';
+                joinStatus.innerText = "Please log in using the Admin block first.";
+                joinStatus.style.color = "#ef4444";
             }
-
-            myChallenges.forEach(challenge => {
-                const isEnded = challenge.end_date ? new Date(challenge.end_date) < new Date() : false;
-                const targetAmount = challenge.amount || 0;
-                const currentAmount = challenge.current_amount || 0;
-                const percentage = Math.min((currentAmount / targetAmount) * 100, 100).toFixed(1);
-
-                const card = document.createElement('div');
-                card.className = 'collaborative_challenge';
-                card.innerHTML = `
-                    <div class="collaborative_heading">
-                        <div class="heading_left">
-                            <div class="heading_title">
-                                <h5>${challenge.name}</h5>
-                            </div>
-                            <div class="heading_subtitle">
-                                <div class="heading_tag"><p>${challenge.type}</p></div>
-                                <div class="member_count">
-                                    <div class="members_icon"><i class="fa-solid fa-user-group"></i></div>
-                                    <div class="members_number">
-                                        <h6>${challenge.members}</h6><p>members</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="heading_right" style="text-align: right;">
-                            <div class="heading_amount">
-                                <div class="current_amount"><h6>${formatCurrency(currentAmount)}</h6></div>
-                                <div class="total_amount">
-                                    <p>of</p><h6>${formatCurrency(targetAmount)}</h6>
-                                </div>
-                            </div>
-                            ${!isEnded ? `<button class="card-add-savings-btn" onclick="window.openAddSavingsModal('${challenge.id}')">+ Add</button>` : ''}
-                        </div>
-                    </div>
-                    <div class="collaborative_body">
-                        <div class="progress_bar">
-                            <progress value="${percentage}" max="100"></progress>
-                        </div>
-                        <div class="lower_body">
-                            <div class="completion_percentage">
-                                <h6>${percentage}%</h6><p>complete</p>
-                            </div>
-                            <div class="completion_status">
-                                <div class="calendar_icon"><i class="fa-regular fa-calendar"></i></div>
-                                <div class="completion_point">
-                                    <h6 style="color: ${isEnded ? '#DC2626' : '#10b981'}">${isEnded ? 'Ended' : 'Active'}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                activeChallengesContainer.appendChild(card);
-            });
+            confirmJoinBtn.disabled = false;
+            confirmJoinBtn.innerText = "Accept & Join";
+            return;
         }
-    
-        // Master Sorter (Forces UI Reset)
-        function sortData(criterion) {
-            currentSort = criterion;
-            currentData.sort((a, b) => b[criterion] - a[criterion]); 
-            
-            currentPage = 1; // Snap back to Page 1 when sorting changes
 
-            renderLeaderboard();
-            renderPagination();
-            renderActiveChallenges();
+        if (activeInviteChallenge.participant_ids && activeInviteChallenge.participant_ids.includes(currentUser.id)) {
+            alert("You are already a participant in this challenge!");
+            closeJoinModal();
+            return;
         }
-    
-        sortButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                sortButtons.forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                sortData(e.target.getAttribute('data-sort'));
-            });
+
+        if (activeInviteChallenge.members >= (activeInviteChallenge.max_participants || 10)) {
+            alert("This challenge is full!");
+            closeJoinModal();
+            return;
+        }
+        
+        const updatedParticipants = [...(activeInviteChallenge.participant_ids || []), currentUser.id];
+
+        const { error } = await supabase
+            .from('finance_app_challenge')
+            .update({ 
+                members: activeInviteChallenge.members + 1,
+                participant_ids: updatedParticipants 
+            })
+            .eq('id', activeInviteChallenge.id);
+
+        if (error) {
+            alert("Error updating challenge: " + error.message);
+            confirmJoinBtn.disabled = false;
+            confirmJoinBtn.innerText = "Accept & Join";
+        } else {
+            if (joinStatus) {
+                joinStatus.style.display = 'block';
+                joinStatus.innerText = "🎉 Joined successfully!";
+                joinStatus.style.color = "#22c55e";
+            }
+            setTimeout(() => {
+                closeJoinModal();
+                confirmJoinBtn.disabled = false;
+                confirmJoinBtn.innerText = "Accept & Join";
+            }, 1500);
+        }
+    });
+
+    // ==========================================
+    // MODULE C: ADD SAVINGS LOGIC (FILTERED)
+    // ==========================================
+    const openSavingsModal = (preselectedId = null) => {
+        if (!currentUser) {
+            alert("Please log in to add savings to a challenge.");
+            return;
+        }
+
+        addSavingsModal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+        if (savingsStatus) savingsStatus.style.display = 'none';
+        
+        savingsSelect.innerHTML = '<option value="" disabled selected>Select a challenge...</option>';
+        const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
+        
+        myChallenges.forEach(challenge => {
+            const opt = document.createElement('option');
+            opt.value = challenge.id;
+            opt.innerText = challenge.name;
+            savingsSelect.appendChild(opt);
         });
-    
-        // Unified Engine Bootstrap Initializer
-        async function init() {
-            const { data: { session } } = await supabase.auth.getSession();
-            currentUser = session ? session.user : null;
 
-            const { data } = await supabase.from('finance_app_challenge').select('*');
-            if (data) {
-                currentData = data;
-                sortData(currentSort); // This renders Leaderboard, Pagination, and Active Challenges
-            }
-    
-            supabase.channel('live-board')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_app_challenge' }, payload => {
-                    if (payload.eventType === 'INSERT') currentData.push(payload.new);
-                    else if (payload.eventType === 'UPDATE') {
-                        const idx = currentData.findIndex(i => i.id === payload.new.id);
-                        if (idx > -1) currentData[idx] = payload.new;
-                    }
-                    else if (payload.eventType === 'DELETE') {
-                        currentData = currentData.filter(i => i.id !== payload.old.id);
-                    }
-                    sortData(currentSort);
-                }).subscribe();
-    
-            checkForInvitation();
+        if (preselectedId) savingsSelect.value = preselectedId;
+    };
+
+    const closeSavingsModal = () => {
+        addSavingsModal.classList.remove('is-active');
+        document.body.style.overflow = '';
+        savingsForm.reset();
+    };
+
+    addSavingsGlobalBtn?.addEventListener('click', () => openSavingsModal());
+    closeSavingsBtn?.addEventListener('click', closeSavingsModal);
+    cancelSavingsBtn?.addEventListener('click', closeSavingsModal);
+
+    window.openAddSavingsModal = openSavingsModal;
+
+    savingsForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = savingsForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Processing...";
+        if (savingsStatus) savingsStatus.style.display = 'none';
+
+        const challengeId = savingsSelect.value;
+        const amountToAdd = parseFloat(document.getElementById('savingsAmountInput').value);
+        const targetChallenge = currentData.find(c => c.id === challengeId);
+        
+        if (!targetChallenge) {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Contribute";
+            return;
         }
-    
-        init();
-    </script>
 
-    <!--Notifications System-->
+        const newCurrentAmount = (parseFloat(targetChallenge.current_amount) || 0) + amountToAdd;
+        let newPercentage = (newCurrentAmount / targetChallenge.amount) * 100;
+        if (newPercentage > 100) newPercentage = 100;
+
+        const { error } = await supabase
+            .from('finance_app_challenge')
+            .update({ 
+                current_amount: newCurrentAmount,
+                percentage: newPercentage
+            })
+            .eq('id', challengeId);
+
+        if (error) {
+            savingsStatus.style.display = 'block';
+            savingsStatus.innerText = "Error: " + error.message;
+            savingsStatus.style.color = "#ef4444";
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Contribute";
+        } else {
+            savingsStatus.style.display = 'block';
+            savingsStatus.innerText = "✨ Funds added successfully!";
+            savingsStatus.style.color = "#10b981";
+            
+            setTimeout(() => {
+                closeSavingsModal();
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Contribute";
+            }, 1000);
+        }
+    });
+
+    // ==========================================
+    // MODULE D: AUTHENTICATION BARRIER
+    // ==========================================
+    supabase.auth.onAuthStateChange((event, session) => {
+        currentUser = session ? session.user : null;
+        if (session) {
+            if (authContainer) authContainer.style.display = 'none';
+            syncSidebar(); // Ensure sidebar updates if they log in dynamically
+        } else {
+            if (authContainer) authContainer.style.display = 'block';
+        }
+        renderActiveChallenges();
+    });
+
+    document.getElementById('signupBtn')?.addEventListener('click', async () => {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        if (authMessage) {
+            authMessage.style.display = 'block';
+            authMessage.innerText = "Creating account...";
+        }
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error && authMessage) {
+            authMessage.innerText = error.message;
+            authMessage.style.color = "red";
+        } else if (authMessage) {
+            authMessage.innerText = "Account created! You can now log in.";
+            authMessage.style.color = "green";
+        }
+    });
+
+    document.getElementById('loginBtn')?.addEventListener('click', async () => {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        if (authMessage) {
+            authMessage.style.display = 'block';
+            authMessage.innerText = "Authenticating...";
+        }
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error && authMessage) {
+            authMessage.innerText = error.message;
+            authMessage.style.color = "red";
+        }
+    });
+
+    // ==========================================
+    // MODULE E: DYNAMIC UI RENDER ENGINE & PAGINATION
+    // ==========================================
+    const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+    
+    const getRankIcon = (index) => {
+        if (index === 0) return '🏆';
+        if (index === 1) return '🥈';
+        if (index === 2) return '🥉';
+        return `${index + 1}`; 
+    };
+
+    function renderPagination() {
+        if (!paginationContainer) return;
+        paginationContainer.innerHTML = '';
+        
+        const totalPages = Math.ceil(currentData.length / itemsPerPage);
+        
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+            btn.innerText = i;
+            btn.addEventListener('click', () => {
+                currentPage = i;
+                renderLeaderboard();
+                renderPagination();
+            });
+            paginationContainer.appendChild(btn);
+        }
+    }
+
+    function renderLeaderboard() {
+        if (!listContainer) return;
+        listContainer.innerHTML = ''; 
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = currentData.slice(startIndex, endIndex);
+
+        paginatedData.forEach((item, relativeIndex) => {
+            const actualRankIndex = startIndex + relativeIndex;
+            const shortName = item.name.substring(0, 15) + (item.name.length > 15 ? '...' : '');
+            
+            const card = document.createElement('div');
+            card.className = `performer-card rank-${actualRankIndex + 1}`;
+            card.innerHTML = `
+                <div class="rank-indicator">${getRankIcon(actualRankIndex)}</div>
+                <div class="performer-details">
+                    <div class="primary-info">
+                        <div class="performer-name" title="${item.name}">${shortName}</div>
+                        <div class="badge-info">${item.type}</div>
+                    </div>
+                    <div class="metrics">
+                        <div class="percentage">${Number(item.percentage).toFixed(1)}%</div>
+                        <div class="secondary-metrics">${formatCurrency(item.current_amount || 0)} / ${formatCurrency(item.amount)}</div>
+                    </div>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+
+    function renderActiveChallenges() {
+        if (!activeChallengesContainer) return;
+        activeChallengesContainer.innerHTML = '';
+
+        if (!currentUser) {
+            activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">Please log in to view your active challenges.</p>';
+            return;
+        }
+
+        const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
+
+        if (myChallenges.length === 0) {
+            activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">You have not joined any challenges yet.</p>';
+            return;
+        }
+
+        myChallenges.forEach(challenge => {
+            const isEnded = challenge.end_date ? new Date(challenge.end_date) < new Date() : false;
+            const targetAmount = challenge.amount || 0;
+            const currentAmount = challenge.current_amount || 0;
+            const percentage = Math.min((currentAmount / targetAmount) * 100, 100).toFixed(1);
+
+            const card = document.createElement('div');
+            card.className = 'collaborative_challenge';
+            card.innerHTML = `
+                <div class="collaborative_heading">
+                    <div class="heading_left">
+                        <div class="heading_title">
+                            <h5>${challenge.name}</h5>
+                        </div>
+                        <div class="heading_subtitle">
+                            <div class="heading_tag"><p>${challenge.type}</p></div>
+                            <div class="member_count">
+                                <div class="members_icon"><i class="fa-solid fa-user-group"></i></div>
+                                <div class="members_number">
+                                    <h6>${challenge.members}</h6><p>members</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="heading_right" style="text-align: right;">
+                        <div class="heading_amount">
+                            <div class="current_amount"><h6>${formatCurrency(currentAmount)}</h6></div>
+                            <div class="total_amount">
+                                <p>of</p><h6>${formatCurrency(targetAmount)}</h6>
+                            </div>
+                        </div>
+                        ${!isEnded ? `<button class="card-add-savings-btn" onclick="window.openAddSavingsModal('${challenge.id}')">+ Add</button>` : ''}
+                    </div>
+                </div>
+                <div class="collaborative_body">
+                    <div class="progress_bar">
+                        <progress value="${percentage}" max="100"></progress>
+                    </div>
+                    <div class="lower_body">
+                        <div class="completion_percentage">
+                            <h6>${percentage}%</h6><p>complete</p>
+                        </div>
+                        <div class="completion_status">
+                            <div class="calendar_icon"><i class="fa-regular fa-calendar"></i></div>
+                            <div class="completion_point">
+                                <h6 style="color: ${isEnded ? '#DC2626' : '#10b981'}">${isEnded ? 'Ended' : 'Active'}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            activeChallengesContainer.appendChild(card);
+        });
+    }
+
+    function sortData(criterion) {
+        currentSort = criterion;
+        currentData.sort((a, b) => b[criterion] - a[criterion]); 
+        
+        currentPage = 1;
+
+        renderLeaderboard();
+        renderPagination();
+        renderActiveChallenges();
+    }
+
+    // ==========================================
+    // MODULE F: GLOBAL SIDEBAR SYNC
+    // ==========================================
+    async function syncSidebar() {
+        if (!currentUser) return;
+        
+        // Pull the names saved during Sign-Up
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim();
+        
+        // Failsafe: Use first part of email if no name exists
+        if (!fullName) {
+            fullName = currentUser.email.split('@')[0];
+            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+        }
+
+        // Inject into the HTML
+        const nameEl = document.getElementById('sidebar-user-name');
+        const emailEl = document.getElementById('sidebar-user-email');
+        
+        if (nameEl) nameEl.innerText = fullName;
+        if (emailEl) emailEl.innerText = currentUser.email;
+    }
+
+    // ==========================================
+    // BOOTSTRAP INITIALIZER
+    // ==========================================
+    async function init() {
+        const { data: { session } } = await supabase.auth.getSession();
+        currentUser = session ? session.user : null;
+
+        // Sync the sidebar immediately upon load
+        syncSidebar();
+
+        const { data } = await supabase.from('finance_app_challenge').select('*');
+        if (data) {
+            currentData = data;
+            sortData(currentSort); 
+        }
+
+        supabase.channel('live-board')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_app_challenge' }, payload => {
+                if (payload.eventType === 'INSERT') currentData.push(payload.new);
+                else if (payload.eventType === 'UPDATE') {
+                    const idx = currentData.findIndex(i => i.id === payload.new.id);
+                    if (idx > -1) currentData[idx] = payload.new;
+                }
+                else if (payload.eventType === 'DELETE') {
+                    currentData = currentData.filter(i => i.id !== payload.old.id);
+                }
+                sortData(currentSort);
+            }).subscribe();
+
+        checkForInvitation();
+    }
+
+    init();
+</script>
+
 <script src="notifications.js"></script>
 </body>
 </html>

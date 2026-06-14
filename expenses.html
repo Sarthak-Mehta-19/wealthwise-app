@@ -152,10 +152,10 @@
                 </div>
                 <div class="user-details">
                     <div class="user-profile-name">
-                        <h4>John Doe</h4>
+                        <h4 id="sidebar-user-name">Loading...</h4>
                     </div>
-                    <div class="user-profile-description">
-                        <h5>Premium Member</h5>
+                    <div class="user-profile-description">                      
+                        <p id="sidebar-user-email">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -741,7 +741,6 @@
         </div>
     </div>
 
-    <!--JavaScript for Expense Adder-->
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
@@ -749,38 +748,62 @@
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let currentUser = null;
 
-    // --- 2. DOM ELEMENTS ---
+    // --- 2. DOM ELEMENTS (EXPENSE ADDER) ---
     const existingOpenBtn = document.querySelector('.expense-adder');
     const overlay = document.getElementById('expenseModalOverlay');
     const closeIconBtn = document.getElementById('closeModalIconBtn');
     const cancelBtn = document.getElementById('cancelModalBtn');
     const form = document.getElementById('newExpenseForm');
     const dateInput = document.getElementById('expDate');
-    
-    // Dropdowns for dynamic custom tag rendering
     const categorySelect = document.getElementById('expCategory');
     const paymentSelect = document.getElementById('expPayment');
 
-    // Default baseline date initialization
     const today = new Date().toISOString().split('T')[0];
     if (dateInput) dateInput.value = today;
 
-    // --- 3. MODAL DISPLAY CONTROLS ---
+    // ==========================================
+    // MODULE A: GLOBAL SIDEBAR SYNC
+    // ==========================================
+    async function syncSidebar() {
+        if (!currentUser) return;
+        
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim();
+        
+        if (!fullName) {
+            fullName = currentUser.email.split('@')[0];
+            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+        }
+
+        const nameEl = document.getElementById('sidebar-user-name');
+        const emailEl = document.getElementById('sidebar-user-email');
+        
+        if (nameEl) nameEl.innerText = fullName;
+        if (emailEl) emailEl.innerText = currentUser.email;
+    }
+
+    // ==========================================
+    // MODULE B: EXPENSE MODAL & DATA SUBMISSION
+    // ==========================================
     const openModal = () => {
-        overlay.classList.add('is-active');
-        document.body.style.overflow = 'hidden';
+        if (overlay) {
+            overlay.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        }
     };
 
     const closeModal = () => {
-        overlay.classList.remove('is-active');
-        document.body.style.overflow = '';
+        if (overlay) {
+            overlay.classList.remove('is-active');
+            document.body.style.overflow = '';
+        }
     };
 
-    if (existingOpenBtn) {
-        existingOpenBtn.addEventListener('click', openModal);
-    }
-
+    existingOpenBtn?.addEventListener('click', openModal);
     closeIconBtn?.addEventListener('click', closeModal);
     cancelBtn?.addEventListener('click', closeModal);
 
@@ -789,14 +812,12 @@
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && overlay.classList.contains('is-active')) {
+        if (event.key === 'Escape' && overlay?.classList.contains('is-active')) {
             closeModal();
         }
     });
 
-    // --- 4. DYNAMIC TAG LOADER (MANAGE TAGS BACKEND LINK) ---
     async function loadUserCustomTags(userId) {
-        // Fetch custom tags created by this specific user
         const { data: customTags, error } = await supabase
             .from('finance_app_customtag')
             .select('*')
@@ -807,7 +828,6 @@
             return;
         }
 
-        // Loop through tags and dynamically inject them as options into dropdowns
         customTags.forEach(tag => {
             const option = document.createElement('option');
             option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
@@ -821,8 +841,6 @@
         });
     }
 
-    // --- 5. FORM SUBMIT ENGINE (SECURED) ---
-    // --- UPDATED FORM SUBMIT ENGINE WITH REFINED UX MESSAGES ---
     form?.addEventListener('submit', async (event) => {
         event.preventDefault();
         
@@ -830,14 +848,11 @@
         const statusMsg = document.getElementById('expenseFormStatus');
         const originalText = submitBtn.innerHTML;
         
-        // Setup initial loading state
         submitBtn.disabled = true;
         submitBtn.innerText = "Saving...";
         if (statusMsg) statusMsg.style.display = 'none';
 
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (!session) {
+        if (!currentUser) {
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = "Security Error: Session expired. Please log in.";
@@ -850,7 +865,7 @@
 
         const newExpense = {
             id: crypto.randomUUID(),
-            user_id: session.user.id,
+            user_id: currentUser.id,
             title: document.getElementById('expDesc').value,
             amount: parseFloat(document.getElementById('expAmount').value),
             category: categorySelect.value,
@@ -860,28 +875,24 @@
             is_recurring: document.getElementById('expRecurring').checked
         };
 
-        const { error } = await supabase
-            .from('finance_app_expense')
-            .insert([newExpense]);
+        const { error } = await supabase.from('finance_app_expense').insert([newExpense]);
 
         if (error) {
             console.error('Database Error:', error);
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = `Error: ${error.message}`;
-                statusMsg.style.color = "#ef4444"; // Premium Red
+                statusMsg.style.color = "#ef4444"; 
             }
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         } else {
-            // Success Feedback State
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = "Expense successfully added!";
-                statusMsg.style.color = "#22c55e"; // Emerald Green
+                statusMsg.style.color = "#22c55e"; 
             }
 
-            // Hold the modal open for 1 second so the user can actually see their success!
             setTimeout(() => {
                 closeModal();
                 form.reset();
@@ -890,112 +901,92 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
                 
-                if (typeof loadExpensesList === 'function') loadExpensesList(session.user.id);
+                if (typeof loadExpensesList === 'function') loadExpensesList(currentUser.id);
             }, 1000);
         }
     });
 
-    // --- 6. PAGE INITIALIZATION BOOTSTRAP ---
-    async function initPage() {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-            // Load custom profile tags dynamically if user is verified
-            loadUserCustomTags(session.user.id);
-        }
-    }
-
-    initPage();
-</script>
-    
-    <!--JavaScript for Pie Chart-->
-    <script>
-        // Data extracted from the video
-        const spendingData = [
-            { label: 'Utilities', value: 235.19, color: '#26C6DA' },
-            { label: 'Shopping', value: 189.99, color: '#FFA726' },
-            { label: 'Food', value: 165.53, color: '#66BB6A' },
-            { label: 'Personal Care', value: 65.00, color: '#EC407A' },
-            { label: 'Transportation', value: 62.45, color: '#AB47BC' },
-            { label: 'Entertainment', value: 15.99, color: '#D81B60' }
-        ];
-
-        // 1. Initialize Chart.js Donut Chart
-        const ctx = document.getElementById('spendingChart').getContext('2d');
-        
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: spendingData.map(d => d.label),
-                datasets: [{
-                    data: spendingData.map(d => d.value),
-                    backgroundColor: spendingData.map(d => d.color),
-                    borderWidth: 4, // Creates the white gaps between slices
-                    borderColor: '#ffffff',
-                    hoverOffset: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%', // Controls the thickness of the donut
-                plugins: {
-                    legend: {
-                        display: false // Hide default legend, we will build a custom one
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                        titleColor: '#4b5563',
-                        titleFont: { size: 14, weight: '500' },
-                        bodyColor: '#1a73e8', // Matches the blue amount text in the video
-                        bodyFont: { size: 18, weight: 'bold' },
-                        borderColor: 'rgba(0,0,0,0.08)',
-                        borderWidth: 1,
-                        padding: 12,
-                        cornerRadius: 8,
-                        displayColors: false, // Hides the color box inside the tooltip
-                        callbacks: {
-                            title: function(context) {
-                                return context[0].label;
-                            },
-                            label: function(context) {
-                                // Format logic to match video (e.g. $65 instead of $65.00)
-                                let val = context.raw;
-                                let formattedVal = val % 1 === 0 ? val : val.toFixed(2);
-                                return '$' + formattedVal;
+    // ==========================================
+    // MODULE C: DATA VISUALIZATION (CHART.JS)
+    // ==========================================
+    function initCharts() {
+        // 1. Donut Chart Setup
+        const pieCanvas = document.getElementById('spendingChart');
+        if (pieCanvas) {
+            const pieCtx = pieCanvas.getContext('2d');
+            const spendingData = [
+                { label: 'Utilities', value: 235.19, color: '#26C6DA' },
+                { label: 'Shopping', value: 189.99, color: '#FFA726' },
+                { label: 'Food', value: 165.53, color: '#66BB6A' },
+                { label: 'Personal Care', value: 65.00, color: '#EC407A' },
+                { label: 'Transportation', value: 62.45, color: '#AB47BC' },
+                { label: 'Entertainment', value: 15.99, color: '#D81B60' }
+            ];
+            
+            new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: spendingData.map(d => d.label),
+                    datasets: [{
+                        data: spendingData.map(d => d.value),
+                        backgroundColor: spendingData.map(d => d.color),
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                            titleColor: '#4b5563',
+                            titleFont: { size: 14, weight: '500' },
+                            bodyColor: '#1a73e8',
+                            bodyFont: { size: 18, weight: 'bold' },
+                            borderColor: 'rgba(0,0,0,0.08)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: (context) => context[0].label,
+                                label: (context) => {
+                                    let val = context.raw;
+                                    let formattedVal = val % 1 === 0 ? val : val.toFixed(2);
+                                    return '$' + formattedVal;
+                                }
                             }
                         }
                     }
                 }
+            });
+
+            // Generate Custom Legend
+            const legendContainer = document.getElementById('legend');
+            if (legendContainer) {
+                spendingData.forEach(item => {
+                    const displayValue = item.value % 1 === 0 ? item.value : item.value.toFixed(2);
+                    const row = document.createElement('div');
+                    row.className = 'legend-item';
+                    row.innerHTML = `
+                        <div class="legend-left">
+                            <div class="dot" style="background-color: ${item.color}"></div>
+                            <span>${item.label}</span>
+                        </div>
+                        <div class="legend-right">$${displayValue}</div>
+                    `;
+                    legendContainer.appendChild(row);
+                });
             }
-        });
+        }
 
-        // 2. Generate the Custom HTML Legend below the chart
-        const legendContainer = document.getElementById('legend');
-        
-        spendingData.forEach(item => {
-            // Format number: remove decimals if it's a whole number
-            const displayValue = item.value % 1 === 0 ? item.value : item.value.toFixed(2);
-            
-            const row = document.createElement('div');
-            row.className = 'legend-item';
-            
-            row.innerHTML = `
-                <div class="legend-left">
-                    <div class="dot" style="background-color: ${item.color}"></div>
-                    <span>${item.label}</span>
-                </div>
-                <div class="legend-right">$${displayValue}</div>
-            `;
-            
-            legendContainer.appendChild(row);
-        });
-    </script>
-
-    <!--JavaScript for Bar Chart-->
-    <script>
-        // Wrapping in an IIFE to prevent global namespace pollution
-        (function() {
-            // Custom Plugin: Draws the light gray background column on hover
+        // 2. Bar Chart Setup
+        const trendCanvas = document.getElementById('mtw-trendChart');
+        if (trendCanvas) {
             const mtwHoverBackgroundPlugin = {
                 id: 'mtwHoverBackground',
                 beforeDatasetsDraw(chart) {
@@ -1007,29 +998,25 @@
                         const bar = meta.data[activeEl.index];
                         
                         ctx.save();
-                        ctx.fillStyle = '#e5e7eb'; // Light gray background color
-                        
-                        // Add padding to the background rectangle so it wraps slightly wider than the bar
+                        ctx.fillStyle = '#e5e7eb';
                         const backgroundWidth = bar.width + 24; 
-                        
                         ctx.fillRect(bar.x - (backgroundWidth / 2), top, backgroundWidth, bottom - top);
                         ctx.restore();
                     }
                 }
             };
 
-            const ctx = document.getElementById('mtw-trendChart').getContext('2d');
-            
-            new Chart(ctx, {
+            const trendCtx = trendCanvas.getContext('2d');
+            new Chart(trendCtx, {
                 type: 'bar',
                 data: {
                     labels: ['Dec 24'],
                     datasets: [{
                         data: [734.15],
-                        backgroundColor: '#8b5cf6', // The purple bar color
-                        borderRadius: 4, // Slightly rounded top corners
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 4,
                         borderSkipped: false,
-                        barThickness: 85 // Fixed chunky width
+                        barThickness: 85
                     }]
                 },
                 options: {
@@ -1041,70 +1028,71 @@
                             max: 800,
                             ticks: {
                                 stepSize: 200,
-                                callback: function(value) {
-                                    return '$' + value;
-                                },
-                                color: '#6b7280',
-                                font: { size: 15, weight: '500' },
-                                padding: 12
-                            },
-                            border: {
-                                display: false // Hides the main vertical y-axis line
-                            },
-                            grid: {
-                                color: '#f3f4f6', // Faint dashed lines
-                                drawTicks: false,
-                                borderDash: [4, 4]
-                            }
-                        },
-                        x: {
-                            ticks: {
+                                callback: (value) => '$' + value,
                                 color: '#6b7280',
                                 font: { size: 15, weight: '500' },
                                 padding: 12
                             },
                             border: { display: false },
-                            grid: { display: false } // Hides vertical grid lines
+                            grid: { color: '#f3f4f6', drawTicks: false, borderDash: [4, 4] }
+                        },
+                        x: {
+                            ticks: { color: '#6b7280', font: { size: 15, weight: '500' }, padding: 12 },
+                            border: { display: false },
+                            grid: { display: false }
                         }
                     },
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             enabled: true,
                             backgroundColor: '#ffffff',
                             titleColor: '#000000',
-                            bodyColor: '#1a73e8', // Blue text matching the video
+                            bodyColor: '#1a73e8',
                             bodyFont: { size: 22, weight: 'bold' },
                             borderColor: 'rgba(0,0,0,0.08)',
                             borderWidth: 1,
                             padding: { top: 12, right: 16, bottom: 12, left: 16 },
                             cornerRadius: 12,
-                            displayColors: false, // Hides the color square
-                            caretSize: 0, // Removes the little pointing triangle on the tooltip
+                            displayColors: false,
+                            caretSize: 0,
                             callbacks: {
-                                title: () => null, // Hides the 'Dec 24' title inside the tooltip
-                                label: function(context) {
-                                    return '$' + context.raw.toFixed(2);
-                                }
+                                title: () => null,
+                                label: (context) => '$' + context.raw.toFixed(2)
                             }
                         }
                     },
                     interaction: {
                         mode: 'index',
-                        intersect: false // Ensures hover triggers even if not directly over the purple pixels
+                        intersect: false
                     }
                 },
-                plugins: [mtwHoverBackgroundPlugin] // Register our custom scoped gray background plugin
+                plugins: [mtwHoverBackgroundPlugin]
             });
-        })();
-    </script>
+        }
+    }
 
-    <!--JavaScript-->
-    <script src="script.js"></script>
+    // ==========================================
+    // BOOTSTRAP INITIALIZER
+    // ==========================================
+    async function initPage() {
+        const { data: { session } } = await supabase.auth.getSession();
+        currentUser = session ? session.user : null;
 
-    <!--Notifications System-->
+        syncSidebar();
+        initCharts();
+
+        if (currentUser) {
+            loadUserCustomTags(currentUser.id);
+        }
+    }
+
+    // Wait for HTML to parse so Canvas elements exist before drawing charts
+    document.addEventListener('DOMContentLoaded', initPage);
+
+</script>
+
+<script src="script.js"></script>
 <script src="notifications.js"></script>
 </body>
 </html>

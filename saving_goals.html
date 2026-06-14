@@ -150,10 +150,10 @@
                 </div>
                 <div class="user-details">
                     <div class="user-profile-name">
-                        <h4>John Doe</h4>
+                        <h4 id="sidebar-user-name">Loading...</h4>
                     </div>
-                    <div class="user-profile-description">
-                        <h5>Premium Member</h5>
+                    <div class="user-profile-description">                      
+                        <p id="sidebar-user-email">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -738,43 +738,6 @@
         </div>
     </div>
 
-    <!--JavaScript for SearchBar-->
-    <script>
-        const toggleBtn = document.getElementById('categoryToggle');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const categoryText = document.getElementById('categoryText');
-        const chevronIcon = document.getElementById('chevronIcon');
-        const dropdownItems = document.querySelectorAll('.dropdown-item');
-        
-        // Toggle dropdown open/close on button click
-        toggleBtn.addEventListener('click', (e) => {
-          e.stopPropagation(); // Prevents the global click listener from immediately closing it
-          dropdownMenu.classList.toggle('show');
-          chevronIcon.classList.toggle('closed');
-        });
-        
-        // Handle item selection inside the dropdown
-        dropdownItems.forEach(item => {
-          item.addEventListener('click', (e) => {
-            // 1. Update the button text to match the selected item
-            categoryText.textContent = e.target.textContent;
-            
-            // 2. Close the dropdown menu
-            dropdownMenu.classList.remove('show');
-            chevronIcon.classList.add('closed');
-          });
-        });
-        
-        // Close the dropdown automatically when clicking outside of it
-        document.addEventListener('click', (e) => {
-          if (!toggleBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            dropdownMenu.classList.remove('show');
-            chevronIcon.classList.add('closed');
-          }
-        });
-    </script>
-
-    <!--JavaScript for Goal Creator-->
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
@@ -782,8 +745,66 @@
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let currentUser = null;
 
-    // --- 2. DOM SELECTORS ---
+    // ==========================================
+    // MODULE A: GLOBAL SIDEBAR SYNC
+    // ==========================================
+    async function syncSidebar() {
+        if (!currentUser) return;
+        
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim();
+        
+        if (!fullName) {
+            fullName = currentUser.email.split('@')[0];
+            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+        }
+
+        const nameEl = document.getElementById('sidebar-user-name');
+        const emailEl = document.getElementById('sidebar-user-email');
+        
+        if (nameEl) nameEl.innerText = fullName;
+        if (emailEl) emailEl.innerText = currentUser.email;
+    }
+
+    // ==========================================
+    // MODULE B: SEARCH BAR DROPDOWN UI
+    // ==========================================
+    function initSearchBar() {
+        const toggleBtn = document.getElementById('categoryToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const categoryText = document.getElementById('categoryText');
+        const chevronIcon = document.getElementById('chevronIcon');
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        
+        toggleBtn?.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            dropdownMenu?.classList.toggle('show');
+            chevronIcon?.classList.toggle('closed');
+        });
+        
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (categoryText) categoryText.textContent = e.target.textContent;
+                dropdownMenu?.classList.remove('show');
+                chevronIcon?.classList.add('closed');
+            });
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (toggleBtn && dropdownMenu && !toggleBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+                chevronIcon?.classList.add('closed');
+            }
+        });
+    }
+
+    // ==========================================
+    // MODULE C: GOAL CREATOR MODAL & DATABASE
+    // ==========================================
     const goal_creator_btn = document.querySelector('.goal-creator');
     const overlay = document.getElementById('goalModalOverlay');
     const close_icon = document.querySelector('.close i');
@@ -791,7 +812,6 @@
     const form = document.getElementById('newGoalForm');
     const categorySelect = document.getElementById('select_category');
 
-    // --- 3. MODAL CONTROLLER FUNCTIONS ---
     const openGoalModal = () => {
         if (overlay) {
             overlay.classList.add('is-active');
@@ -806,9 +826,9 @@
         }
     };
 
-    if (goal_creator_btn) goal_creator_btn.addEventListener('click', openGoalModal);
-    if (close_icon) close_icon.addEventListener('click', closeGoalModal);
-    if (cancel_btn) cancel_btn.addEventListener('click', closeGoalModal);
+    goal_creator_btn?.addEventListener('click', openGoalModal);
+    close_icon?.addEventListener('click', closeGoalModal);
+    cancel_btn?.addEventListener('click', closeGoalModal);
 
     overlay?.addEventListener('click', (event) => {
         if (event.target === overlay) closeGoalModal();
@@ -820,7 +840,6 @@
         }
     });
 
-    // --- 4. LOAD USER SPECIFIC PROFILE CUSTOM TAGS ---
     async function loadCustomCategories(userId) {
         const { data: customTags, error } = await supabase
             .from('finance_app_customtag')
@@ -841,23 +860,18 @@
         });
     }
 
-    // --- 5. SUBMIT HANDLER CORE ---
     form?.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const submitBtn = document.querySelector('.create_goal_form_button');
         const statusMsg = document.getElementById('goalFormStatus');
         
-        // Locking down UI interactive states
         submitBtn.disabled = true;
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <p>Saving...</p>';
         if (statusMsg) statusMsg.style.display = 'none';
 
-        // Check active session authorization
-        const { data: { session } } = await supabase.auth.getSession();
-
-        if (!session) {
+        if (!currentUser) {
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = "Error: Authentication expired. Please re-login.";
@@ -868,12 +882,11 @@
             return;
         }
 
-        // Map perfectly to Upgraded Django Postgres Columns
         const newGoal = {
             id: crypto.randomUUID(),
-            user_id: session.user.id, // Enforce strict individual user lock
+            user_id: currentUser.id, 
             name: document.getElementById('goalTitle').value,
-            category: categorySelect.value,
+            category: categorySelect?.value || 'general',
             description: document.getElementById('goalDesc').value,
             target_amount: parseFloat(document.getElementById('goalTarget').value),
             current_amount: parseFloat(document.getElementById('goalCurrent').value || 0),
@@ -882,9 +895,7 @@
             priority: document.getElementById('priority').value
         };
 
-        const { error } = await supabase
-            .from('finance_app_goal')
-            .insert([newGoal]);
+        const { error } = await supabase.from('finance_app_goal').insert([newGoal]);
 
         if (error) {
             console.error('Database Error:', error);
@@ -899,10 +910,9 @@
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = "✨ Goal tracking active!";
-                statusMsg.style.color = "#059669"; // Matching your accent emerald green
+                statusMsg.style.color = "#059669"; 
             }
 
-            // Delayed transition for modern premium app look
             setTimeout(() => {
                 closeGoalModal();
                 form.reset();
@@ -910,26 +920,34 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
                 
-                // Trigger real-time UI re-render helper if available
-                if (typeof loadGoalsList === 'function') loadGoalsList(session.user.id);
+                if (typeof loadGoalsList === 'function') loadGoalsList(currentUser.id);
             }, 1000);
         }
     });
 
-    // --- 6. BOOTSTRAP INITIALIZATION ---
+    // ==========================================
+    // BOOTSTRAP INITIALIZER
+    // ==========================================
     async function initPage() {
+        // Run synchronous UI setups immediately
+        initSearchBar();
+
+        // Establish secure session data
         const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-            loadCustomCategories(session.user.id);
+        currentUser = session ? session.user : null;
+
+        // Sync sidebar and load customized DB data
+        syncSidebar();
+        
+        if (currentUser) {
+            loadCustomCategories(currentUser.id);
         }
     }
 
-    initPage();
+    // Wait for the HTML tree to fully render before executing logic
+    document.addEventListener('DOMContentLoaded', initPage);
 </script>
 
-    <!--JavaScript-->
-    <script src="script.js"></script>
-
-    <!--Notifications System-->
+<script src="script.js"></script>
 <script src="notifications.js"></script>
 </body> 
