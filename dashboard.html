@@ -1425,35 +1425,41 @@
 });
     </script>
 
-<!-- Global Sidebar Sync Script -->
+<script src="notifications.js"></script>
+<script src="script.js"></script>
+
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+    // Initialize Supabase
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     async function syncSidebar() {
-        if (!currentUser) return;
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        // Pull the names saved during Sign-Up
+        if (!session) return; // Do nothing if not logged in
+
+        const currentUser = session.user;
+        
+        // 1. Extract Profile Data
         const firstName = currentUser.user_metadata?.first_name || '';
         const lastName = currentUser.user_metadata?.last_name || '';
         let fullName = `${firstName} ${lastName}`.trim();
         
-        // Failsafe: Use first part of email if no name exists
         if (!fullName) {
             fullName = currentUser.email.split('@')[0];
             fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
         }
 
-        // 1. Inject into the Sidebar Text
-        const nameEl = document.getElementById('sidebar-user-name');
-        const emailEl = document.getElementById('sidebar-user-email');
-        
-        if (nameEl) nameEl.innerText = fullName;
-        if (emailEl) emailEl.innerText = currentUser.email;
+        // 2. Inject into Sidebar Text
+        const sidebarNameEl = document.getElementById('sidebar-user-name');
+        const sidebarEmailEl = document.getElementById('sidebar-user-email');
+        if (sidebarNameEl) sidebarNameEl.innerText = fullName;
+        if (sidebarEmailEl) sidebarEmailEl.innerText = currentUser.email;
 
-        // 2. Dynamic Initials Avatar Generation
+        // 3. Dynamic Initials Avatar Generation
         let initials = "";
         if (firstName && lastName) {
             initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
@@ -1463,26 +1469,20 @@
             initials = currentUser.email.substring(0, 2).toUpperCase();
         }
 
-        // 3. Inject Initials into EVERY .avatar-circle on the page
+        // 4. Inject Initials into .avatar-circle
         const avatarCircles = document.querySelectorAll('.avatar-circle');
         avatarCircles.forEach(circle => {
-            // Remove any old generic icons and inject the styled initials
             circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            // Apply the soft green premium styling dynamically
             circle.style.backgroundColor = '#ecfdf5'; 
             circle.style.display = 'flex';
             circle.style.alignItems = 'center';
             circle.style.justifyContent = 'center';
         });
     }
-    
-    syncSidebar();
-</script>
 
-<!--Notifications System-->
-<script src="notifications.js"></script>
-<!--Sidebar-->
-<script src="script.js"></script>
+    // Run immediately when page loads
+    document.addEventListener('DOMContentLoaded', syncSidebar);
+</script>
 
 </body>
 </html>
