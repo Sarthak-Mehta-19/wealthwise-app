@@ -13,241 +13,312 @@ body{
     display: flex;
 }
 
-.sidebar{
-    height: 100%;
+/* Sidebar Container */
+.sidebar {
+    height: 100vh; /* Better than 100% to ensure it stretches full screen */
     width: 15%;
+    min-width: 250px; /* Prevents it from crushing on smaller screens */
     background: #FAFAFA;
-    border: 0.8px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
     position: fixed;
+    display: flex;
+    flex-direction: column; /* Stack header, main, and footer dynamically */
 }
 
-.sidebar .sidebar_header{
+/* Header */
+.sidebar_header {
     width: 100%;
     padding: 24px;
     display: flex;
     flex-direction: row;
-    border-bottom: 0.8px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Keeps text standard color */
+    transition: opacity 0.2s;
 }
 
-.sidebar .sidebar_header .logo{
+.sidebar_header:hover {
+    opacity: 0.8; /* Subtle interaction when hovering logo */
+}
+
+.sidebar_header .logo {
     align-items: center;
     display: flex;
-    gap: 10%;
+    gap: 12px;
 }
 
-.sidebar .sidebar_header .logo .icon{
+.sidebar_header .logo .icon {
     display: flex;
-    height: 100%;
-    width: 100%;
-    padding: 8px;
-    font-size: 25px;
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
     align-items: center;
     justify-content: center;
     background-color: #059669;
-    border-radius: 30%;
+    border-radius: 12px; /* Standardized radius */
+    box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); /* Soft green glow */
 }
 
-.sidebar .sidebar_header .logo .text{
-    display: flex;
-    flex-direction: column;
-    gap: 2.5px;
-}
-
-.sidebar .sidebar_header .logo .text .main_text{
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.75rem;
-    font-family: "Noto Sans", sans-serif;
-}
-
-.sidebar .sidebar_header .logo .text .subtext{
-    display: flex;
-    font-size: 11px;
-    font-weight: 600;
-    color: rgb(100 116 139);
-    font-family: "Noto Sans", sans-serif;
-}
-
-.sidebar .sidebar_main{
-    width: 100%;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 0.8px solid #e5e7eb;
-    gap: 10%;
-}
-
-.sidebar .sidebar_main .navigation,
-.sidebar .sidebar_main .comparative_statistics{
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.sidebar .sidebar_main .navigation .title,
-.sidebar .sidebar_main .comparative_statistics .title{
-    padding: 12px 0px;
-    width: 100%;
-}
-
-.sidebar .sidebar_main .navigation .title h2,
-.sidebar .sidebar_main .comparative_statistics .title h2{
-    font-size: 12px;
-    color: rgb(100 116 139);
-    font-family: "Noto Sans", sans-serif;
-}
-
-.sidebar .sidebar_main .navigation .navigation_buttons{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar .sidebar_main .navigation .navigation_buttons .nav_btn{
-    display: flex;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.sidebar .sidebar_main .navigation .navigation_buttons .nav_btn .nav_btn_icon{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    background: rgb(241 245 249);
-    color: rgb(100 116 139);
-    border-radius: 25%;
-}
-
-.sidebar .sidebar_main .navigation .navigation_buttons .nav_btn .nav_btn_text_box{
-    width: 100%;
+.sidebar_header .logo .text {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.sidebar .sidebar_main .navigation .navigation_buttons .nav_btn .nav_btn_text_box .nav_btn_title h4{
-    color: #3F3F46;
+.sidebar_header .logo .text .main_text {
+    font-size: 20px;
+    font-weight: 800; /* Made slightly bolder */
+    line-height: 1.2;
+    color: #0f172a;
+    font-family: "Noto Sans", sans-serif;
 }
 
-.sidebar .sidebar_main .navigation .navigation_buttons .nav_btn .nav_btn_text_box .nav_btn_subtitle h5{
-    font-size: 12px;
-    color: rgb(148 163 184);
+.sidebar_header .logo .text .subtext {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    font-family: "Noto Sans", sans-serif;
 }
 
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box{
+/* Main Body */
+.sidebar_main {
+    width: 100%;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    margin-top: 10%;
+    border-bottom: 1px solid #e5e7eb;
+    gap: 32px;
+    flex-grow: 1; /* Pushes the footer to the bottom */
+    overflow-y: auto; /* Allows scrolling if screen gets too short */
 }
 
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dyanmic_statistics_box_display{
+/* Section Titles */
+.sidebar_main .title h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    font-family: "Noto Sans", sans-serif;
+    margin-bottom: 12px;
+    padding-left: 8px;
+}
+
+/* Navigation Buttons */
+.navigation_buttons {
     display: flex;
-    width: 100%;
-    justify-content: space-around;
+    flex-direction: column;
+    gap: 4px; /* Tighter gap because we use padding on buttons now */
 }
 
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dyanmic_statistics_box_display .dynamic_statistics_box_logo{
+.nav_btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transition: all 0.2s ease; /* Smooth sliding animation */
+}
+
+.nav_btn .nav_btn_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.nav_btn .nav_btn_text_box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav_btn_title h4 {
+    color: #3f3f46;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.nav_btn_subtitle h5 {
+    font-size: 11px;
+    color: #94a3b8;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Navigation Hover & Active States */
+.nav_btn:hover {
+    background-color: #f8fafc;
+    transform: translateX(4px); /* Magnetic slide right */
+}
+
+.nav_btn:hover .nav_btn_icon {
+    background-color: #059669; /* Green pop */
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);
+}
+
+.nav_btn.active {
+    background-color: #ecfdf5; /* Very soft green background */
+}
+
+.nav_btn.active .nav_btn_icon {
+    background-color: #059669;
+    color: white;
+}
+
+.nav_btn.active .nav_btn_title h4 {
+    color: #059669;
+}
+
+/* Comparative Statistics Box */
+.dyanmic_statistics_box {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dyanmic_statistics_box_display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dynamic_statistics_box_logo {
     color: #059669;
     font-size: 16px;
-}
-
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dyanmic_statistics_box_display .dynamic_statistics_box_title h4{
-    color: rgb(71 85 105);
-    font-size: 14px;
-}
-
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dyanmic_statistics_box_display .dynamic_statistics_box_figure{
-    color: #059669;
-    font-size: 14px;
-}
-
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dynamic_statistics_box_progressbar{
-    height: 12px;
-    width: 100%;
-    accent-color: #171717;
-    color: #F1F5F9;
-}
-
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dynamic_statistics_box_caption{
-    display: flex;
-    gap: 5%;
-    align-items: center;
-    justify-content: center;
-}
-
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dynamic_statistics_box_caption .dynamic_statistics_box_caption_figure{
-    color: #059669;
-    font-size: 12px;
-}
-
-.sidebar .sidebar_main .comparative_statistics .dyanmic_statistics_box .dynamic_statistics_box_caption .dynamic_statistics_box_caption_text{
-    color: rgb(148 163 184);
-    font-size: 12px;
-}
-
-.sidebar .sidebar_footer{
-    height: 50%;
-    width: 100%;
-    display: flex;
-    padding: 24px;
-    justify-content: space-evenly;
-    align-items: center;
-    text-decoration: none;
-}
-
-.sidebar .sidebar_footer .user-profile{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 0.75rem; 
-    text-decoration: none;
-}
-
-.sidebar .sidebar_footer .user-profile .user-profile_pic{
-    height: 2.5rem;
-    width: 2.5rem;
-    background: #64748b;
+    background: #ecfdf5;
+    height: 28px;
+    width: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    text-decoration: none;
+    border-radius: 6px;
 }
 
-.sidebar .sidebar_footer .user-profile .user-profile_pic .user-default_pic{
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: #FFFFFF;
-    text-decoration: none;
-}
-
-.sidebar .sidebar_footer .user-profile .user-details .user-profile-name{
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+.dynamic_statistics_box_title h4 {
+    color: #475569;
+    font-size: 13px;
     font-weight: 600;
-    text-decoration: none;
+    margin: 0;
 }
 
-.sidebar .sidebar_footer .user-profile .user-details .user-profile-description{
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: rgb(100 116 139);
-    text-decoration: none;
+.dynamic_statistics_box_figure p {
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 800;
+    margin: 0;
 }
 
-.sidebar .sidebar_footer .user-activity-status{
-    width: 0.5rem;
-    height: 0.5rem;
-    background: rgb(52 211 153);
+/* Modern Progress Bar Styling */
+.dynamic_statistics_box_progressbar {
+    height: 8px;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 10px;
+}
+.dynamic_statistics_box_progressbar::-webkit-progress-bar {
+    background-color: #f1f5f9;
+    border-radius: 10px;
+}
+.dynamic_statistics_box_progressbar::-webkit-progress-value {
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 10px;
+}
+
+.dynamic_statistics_box_caption {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.dynamic_statistics_box_caption_figure p {
+    color: #059669;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.dynamic_statistics_box_caption_text p {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Footer / User Profile */
+.sidebar_footer_link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-top: auto; /* Guarantees it sticks to the bottom */
+}
+
+.sidebar_footer {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.sidebar_footer:hover {
+    background-color: #f1f5f9;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-profile_pic {
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
-    margin: 10% 0% 10% 10%;
-    text-decoration: none;
+    background: #ecfdf5; /* Default soft green */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevents squishing */
+}
+
+.user-profile-name h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.user-profile-description p {
+    font-size: 11px;
+    color: #64748b;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px; /* Truncates long emails gracefully */
+}
+
+.user-activity-status .actvity-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px #ecfdf5; /* Creates a ring effect */
 }
 
 .dashboard{

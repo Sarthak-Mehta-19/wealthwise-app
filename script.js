@@ -41,3 +41,35 @@ document.addEventListener('click', () => {
     document.querySelectorAll('.js-dropdown-menu').forEach(menu => menu.classList.remove('show'));
     document.querySelectorAll('.js-chevron-icon').forEach(icon => icon.classList.add('closed'));
 });
+
+// --- DYNAMIC SIDEBAR ACTIVE STATE ---
+function updateActiveSidebarLink() {
+    // 1. Get the current filename from the URL (e.g., "expenses.html")
+    let currentPath = window.location.pathname;
+    let currentPage = currentPath.split("/").pop();
+
+    // Failsafe: If the path is empty (e.g., root domain), default to dashboard
+    if (currentPage === "" || currentPage === "/") {
+        currentPage = "dashboard.html";
+    }
+
+    // 2. Select all navigation buttons in the sidebar
+    const navLinks = document.querySelectorAll('.nav_btn');
+
+    navLinks.forEach(link => {
+        // 3. Strip the 'active' class from all links to reset them
+        link.classList.remove('active');
+
+        // 4. Check if the link's href matches the current page
+        // getAttribute returns just the filename (e.g., "expenses.html"), which makes matching easy
+        const linkTarget = link.getAttribute('href');
+        
+        if (linkTarget === currentPage) {
+            // 5. Apply the highlight to the correct link
+            link.classList.add('active');
+        }
+    });
+}
+
+// Run the engine as soon as the HTML loads
+document.addEventListener('DOMContentLoaded', updateActiveSidebarLink);
