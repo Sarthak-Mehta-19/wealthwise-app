@@ -906,13 +906,15 @@
                     const newTagName = prompt("Enter a new goal category:");
                     
                     if (newTagName && newTagName.trim() !== '') {
-                        const { error } = await supabase.from('finance_app_customtag').insert([{
+                        // THE FIX: Added crypto.randomUUID()
+                        const { error: insertError } = await supabase.from('finance_app_customtag').insert([{
+                            id: crypto.randomUUID(),
                             user_id: currentUser.id,
                             name: newTagName.trim(),
                             tag_type: 'goal_category'
                         }]);
 
-                        if (!error) {
+                        if (!insertError) {
                             const newOption = document.createElement('option');
                             newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
                             newOption.innerText = newTagName.trim();
@@ -920,6 +922,8 @@
                             this.insertBefore(newOption, this.lastElementChild);
                             this.value = newOption.value;
                         } else {
+                            console.error("Database Error:", insertError);
+                            alert("Failed to save tag: " + insertError.message);
                             this.selectedIndex = 0;
                         }
                     } else {

@@ -856,7 +856,7 @@
         const setupDropdown = (selectElement, typeFilter) => {
             if (!selectElement) return;
             
-            // Clear any previously injected custom tags so we don't duplicate on reload
+            // Clear any previously injected custom tags
             Array.from(selectElement.options).forEach(opt => {
                 if (opt.classList.contains('custom-injected')) opt.remove();
             });
@@ -886,26 +886,29 @@
                         const newTagName = prompt("Enter a name for your new tag:");
                         
                         if (newTagName && newTagName.trim() !== '') {
-                            const { error } = await supabase.from('finance_app_customtag').insert([{
+                            // THE FIX: Added crypto.randomUUID()
+                            const { error: insertError } = await supabase.from('finance_app_customtag').insert([{
+                                id: crypto.randomUUID(), 
                                 user_id: currentUser.id,
                                 name: newTagName.trim(),
                                 tag_type: typeFilter
                             }]);
 
-                            if (!error) {
+                            if (!insertError) {
                                 // Add it visually above the "Add New" button
                                 const newOption = document.createElement('option');
                                 newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
                                 newOption.innerText = newTagName.trim();
                                 newOption.classList.add('custom-injected');
                                 this.insertBefore(newOption, this.lastElementChild);
-                                this.value = newOption.value; // Select it
+                                this.value = newOption.value; 
                             } else {
-                                alert("Failed to save tag.");
+                                console.error("Database Error:", insertError);
+                                alert("Failed to save tag: " + insertError.message);
                                 this.selectedIndex = 0;
                             }
                         } else {
-                            this.selectedIndex = 0; // Reset if prompt cancelled
+                            this.selectedIndex = 0; 
                         }
                     }
                 });

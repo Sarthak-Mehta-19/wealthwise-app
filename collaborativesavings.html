@@ -1125,7 +1125,6 @@
             .eq('user_id', currentUser.id)
             .eq('tag_type', 'challenge_type');
 
-        // Remove previously injected custom tags to avoid duplication
         Array.from(typeSelect.options).forEach(opt => {
             if (opt.classList.contains('custom-injected')) opt.remove();
         });
@@ -1140,7 +1139,6 @@
             });
         }
 
-        // Generate the Add New Tag option
         const createNewOption = document.createElement('option');
         createNewOption.value = "__add_new__";
         createNewOption.innerHTML = "+ Add New Type...";
@@ -1149,30 +1147,33 @@
         createNewOption.classList.add('custom-injected');
         typeSelect.appendChild(createNewOption);
 
-        // Attach listener exactly ONCE
         if (!typeSelect.dataset.tagListener) {
             typeSelect.addEventListener('change', async function() {
                 if (this.value === '__add_new__') {
                     const newTagName = prompt("Enter a new challenge type:");
                     if (newTagName && newTagName.trim() !== '') {
-                        const { error } = await supabase.from('finance_app_customtag').insert([{
+                        // THE FIX: Added crypto.randomUUID()
+                        const { error: insertError } = await supabase.from('finance_app_customtag').insert([{
+                            id: crypto.randomUUID(),
                             user_id: currentUser.id,
                             name: newTagName.trim(),
                             tag_type: 'challenge_type'
                         }]);
-                        if (!error) {
+                        
+                        if (!insertError) {
                             const newOption = document.createElement('option');
                             newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
                             newOption.innerText = newTagName.trim();
                             newOption.classList.add('custom-injected');
                             this.insertBefore(newOption, this.lastElementChild);
-                            this.value = newOption.value; // Select the newly created tag automatically
+                            this.value = newOption.value; 
                         } else {
-                            alert("Failed to save tag.");
+                            console.error("Database Error:", insertError);
+                            alert("Failed to save tag: " + insertError.message);
                             this.selectedIndex = 0;
                         }
                     } else {
-                        this.selectedIndex = 0; // Reset dropdown if user cancels prompt
+                        this.selectedIndex = 0; 
                     }
                 }
             });
