@@ -484,7 +484,7 @@
             </div>
         </div>
     </div>
-    
+
     </div>
 
 </div>
@@ -494,105 +494,20 @@
  <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-    // --- 1. INITIALIZE SUPABASE ---
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let currentUser = null;
 
-    // ==========================================
-    // MODULE A: SESSION & DATA SYNC
-    // ==========================================
-    async function loadAndSyncUserData() {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        // Security Gate: Redirect to landing page if not logged in
-        if (!session) {
-            window.location.href = 'index.html';
-            return;
-        }
-
-        currentUser = session.user;
-        
-        // 1. Extract Profile Data
-        const firstName = currentUser.user_metadata?.first_name || '';
-        const lastName = currentUser.user_metadata?.last_name || '';
-        let fullName = `${firstName} ${lastName}`.trim();
-        
-        if (!fullName) {
-            fullName = currentUser.email.split('@')[0];
-            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
-        }
-
-        // 2. Inject into Sidebar
-        const sidebarNameEl = document.getElementById('sidebar-user-name');
-        const sidebarEmailEl = document.getElementById('sidebar-user-email');
-        if (sidebarNameEl) sidebarNameEl.innerText = fullName;
-        if (sidebarEmailEl) sidebarEmailEl.innerText = currentUser.email;
-
-        // 3. Inject into Profile Form Fields
-        const profileEmailInput = document.getElementById('profileEmail');
-        const profileFirstNameInput = document.getElementById('profileFirstName');
-        const profileLastNameInput = document.getElementById('profileLastName');
-        
-        if (profileEmailInput) profileEmailInput.value = currentUser.email;
-        if (profileFirstNameInput) profileFirstNameInput.value = firstName;
-        if (profileLastNameInput) profileLastNameInput.value = lastName;
-
-        // 4. Dynamic Initials Avatar Generation
-        let initials = "";
-        if (firstName && lastName) {
-            initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
-        } else if (firstName) {
-            initials = firstName.substring(0, 2).toUpperCase();
-        } else {
-            initials = currentUser.email.substring(0, 2).toUpperCase();
-        }
-
-        // Find all avatar circles (sidebar and profile page) and inject the initials
-        const avatarCircles = document.querySelectorAll('.avatar-circle');
-        avatarCircles.forEach(circle => {
-            // Remove the FontAwesome icon and replace with styled text
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            // Optional: Give it a nice soft background to make the green pop
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
-        });
-    }
-
-    // ==========================================
-    // MODULE B: SIGN OUT PIPELINE
-    // ==========================================
-    const signOutBtn = document.getElementById('signOutBtn');
-    if (signOutBtn) {
-        signOutBtn.addEventListener('click', async () => {
-            const originalText = signOutBtn.innerHTML;
-            signOutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out...';
-            signOutBtn.disabled = true;
-
-            const { error } = await supabase.auth.signOut();
-            
-            if (error) {
-                alert("Sign out error: " + error.message);
-                signOutBtn.innerHTML = originalText;
-                signOutBtn.disabled = false;
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-    }
-
-    // ==========================================
-    // MODULE D: TAG MANAGEMENT ENGINE
-    // ==========================================
+    // --- TAG MANAGER ENGINE ---
     async function loadCustomTags() {
         if (!currentUser) return;
 
         const expenseContainer = document.getElementById('expenseTagsContainer');
         const goalContainer = document.getElementById('goalTagsContainer');
+        
+        if (!expenseContainer || !goalContainer) return;
 
         const { data: tags, error } = await supabase
             .from('finance_app_customtag')
@@ -601,6 +516,7 @@
 
         if (error) {
             console.error("Failed to load tags:", error);
+            expenseContainer.innerHTML = '<p style="color: red; font-size: 13px;">Error loading tags.</p>';
             return;
         }
 
@@ -608,7 +524,7 @@
         goalContainer.innerHTML = '';
 
         const expenseTags = tags.filter(t => t.tag_type === 'category' || t.tag_type === 'payment_method');
-        const goalTags = tags.filter(t => t.tag_type === 'goal_category');
+        const goalTags = tags.filter(t => t.tag_type === 'goal_category' || t.tag_type === 'challenge_type');
 
         const renderTag = (tag, container) => {
             const tagEl = document.createElement('div');
@@ -632,82 +548,58 @@
         document.querySelectorAll('.delete-tag-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const tagId = e.currentTarget.getAttribute('data-id');
-                e.currentTarget.style.color = '#ef4444'; // Flash red
-                
+                e.currentTarget.style.color = '#ef4444'; 
                 const { error } = await supabase.from('finance_app_customtag').delete().eq('id', tagId);
-                if (!error) {
-                    loadCustomTags(); // Reload visually
-                } else {
-                    alert("Error deleting tag: " + error.message);
-                }
+                if (!error) loadCustomTags(); 
             });
         });
     }
 
-    // Call this inside your existing loadAndSyncUserData() function at the very bottom:
-    // Simply add: loadCustomTags(); right after the initials generation logic.
+    // --- MAIN INITIALIZATION ---
+    async function loadAndSyncUserData() {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { window.location.href = 'index.html'; return; }
 
-    // ==========================================
-    // MODULE C: UI SIMULATION (SAVE & REPORT)
-    // ==========================================
-    
-    // 1. Profile Save Logic
-    const profileForm = document.getElementById('profileForm');
-    const saveProfileBtn = document.getElementById('saveProfileBtn');
-    const profileStatus = document.getElementById('profileStatus');
-
-    profileForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const originalText = saveProfileBtn.innerText;
-        saveProfileBtn.innerText = "Saving...";
-        saveProfileBtn.disabled = true;
-
-        // Simulate network delay
-        setTimeout(() => {
-            saveProfileBtn.innerText = originalText;
-            saveProfileBtn.disabled = false;
-            if (profileStatus) {
-                profileStatus.style.display = 'inline-block';
-                setTimeout(() => { profileStatus.style.display = 'none'; }, 3000);
-            }
-        }, 800);
-    });
-
-    // 2. Report Generation Logic
-    const reportForm = document.getElementById('reportForm');
-    const sendReportBtn = document.getElementById('sendReportBtn');
-    const reportStatus = document.getElementById('reportStatus');
-
-    reportForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const originalContent = sendReportBtn.innerHTML;
+        currentUser = session.user;
         
-        sendReportBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Data...';
-        sendReportBtn.disabled = true;
-        if (reportStatus) reportStatus.style.display = 'none';
+        // 1. Sidebar Sync
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
+        
+        const nameEl = document.getElementById('sidebar-user-name');
+        const emailEl = document.getElementById('sidebar-user-email');
+        if (nameEl) nameEl.innerText = fullName;
+        if (emailEl) emailEl.innerText = currentUser.email;
 
-        setTimeout(() => {
-            sendReportBtn.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> Sending PDF...';
-            setTimeout(() => {
-                sendReportBtn.innerHTML = originalContent;
-                sendReportBtn.disabled = false;
-                
-                if (reportStatus) {
-                    reportStatus.style.color = '#10b981';
-                    reportStatus.innerText = '✓ Report successfully sent via email!';
-                    reportStatus.style.display = 'block';
-                    reportForm.reset();
-                    setTimeout(() => { reportStatus.style.display = 'none'; }, 4000);
-                }
-            }, 1200);
-        }, 1500);
-    });
+        // 2. Avatar Initials
+        let initials = firstName && lastName ? (firstName.charAt(0) + lastName.charAt(0)) : currentUser.email.substring(0, 2);
+        initials = initials.toUpperCase();
 
-    // ==========================================
-    // BOOTSTRAP INITIALIZER
-    // ==========================================
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+            circle.style.backgroundColor = '#ecfdf5'; 
+            circle.style.display = 'flex';
+            circle.style.alignItems = 'center';
+            circle.style.justifyContent = 'center';
+        });
+
+        // 3. Load Profile Form
+        const profileEmailInput = document.getElementById('profileEmail');
+        if (profileEmailInput) profileEmailInput.value = currentUser.email;
+
+        // 4. FIRE THE TAG MANAGER!
+        loadCustomTags();
+    }
+
     document.addEventListener('DOMContentLoaded', loadAndSyncUserData);
 
+    // Sign Out Logic
+    document.getElementById('signOutBtn')?.addEventListener('click', async (e) => {
+        e.currentTarget.disabled = true;
+        await supabase.auth.signOut();
+        window.location.href = 'index.html';
+    });
 </script>
 
 <script src="notifications.js"></script>

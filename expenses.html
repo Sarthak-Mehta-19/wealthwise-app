@@ -851,69 +851,70 @@
             .select('*')
             .eq('user_id', userId);
 
-        if (error) {
-            console.error("Error loading custom tags:", error.message);
-            return;
-        }
+        if (error) return;
 
-        // Helper function to populate and attach the creation engine to a dropdown
-        const setupDropdown = (selectElement, typeFilter, defaultText) => {
+        const setupDropdown = (selectElement, typeFilter) => {
             if (!selectElement) return;
             
-            // Clear existing and add default
-            selectElement.innerHTML = `<option value="" disabled selected>${defaultText}</option>`;
-            
-            // Add user's custom tags
+            // Clear any previously injected custom tags so we don't duplicate on reload
+            Array.from(selectElement.options).forEach(opt => {
+                if (opt.classList.contains('custom-injected')) opt.remove();
+            });
+
+            // Add Custom Tags from DB
             customTags.filter(t => t.tag_type === typeFilter).forEach(tag => {
                 const option = document.createElement('option');
                 option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
                 option.innerText = tag.name;
+                option.classList.add('custom-injected');
                 selectElement.appendChild(option);
             });
 
-            // Add the "Create New" trigger button
+            // Add the "Create New" option
             const createNewOption = document.createElement('option');
             createNewOption.value = "__add_new__";
             createNewOption.innerHTML = "+ Add New Tag...";
             createNewOption.style.fontWeight = "bold";
             createNewOption.style.color = "#059669";
+            createNewOption.classList.add('custom-injected');
             selectElement.appendChild(createNewOption);
 
-            // Prevent duplicate listeners if this runs multiple times
-            if (!selectElement.dataset.hasListener) {
+            // Attach listener exactly ONCE
+            if (!selectElement.dataset.tagListener) {
                 selectElement.addEventListener('change', async function() {
                     if (this.value === '__add_new__') {
-                        const newTagName = prompt("Enter the name for your new tag:");
+                        const newTagName = prompt("Enter a name for your new tag:");
                         
                         if (newTagName && newTagName.trim() !== '') {
-                            const { data, error } = await supabase.from('finance_app_customtag').insert([{
+                            const { error } = await supabase.from('finance_app_customtag').insert([{
                                 user_id: currentUser.id,
                                 name: newTagName.trim(),
                                 tag_type: typeFilter
-                            }]).select();
+                            }]);
 
-                            if (!error && data) {
-                                // Inject visually without reloading
+                            if (!error) {
+                                // Add it visually above the "Add New" button
                                 const newOption = document.createElement('option');
                                 newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
                                 newOption.innerText = newTagName.trim();
-                                this.insertBefore(newOption, this.lastElementChild); // Put it above the "+ Add New" button
-                                this.value = newOption.value; // Automatically select it
+                                newOption.classList.add('custom-injected');
+                                this.insertBefore(newOption, this.lastElementChild);
+                                this.value = newOption.value; // Select it
                             } else {
                                 alert("Failed to save tag.");
                                 this.selectedIndex = 0;
                             }
                         } else {
-                            this.selectedIndex = 0; // Reset if they cancelled the prompt
+                            this.selectedIndex = 0; // Reset if prompt cancelled
                         }
                     }
                 });
-                selectElement.dataset.hasListener = "true";
+                selectElement.dataset.tagListener = "true";
             }
         };
 
-        setupDropdown(categorySelect, 'category', 'Select Category');
-        setupDropdown(paymentSelect, 'payment_method', 'Select Payment Method');
+        setupDropdown(document.getElementById('expCategory'), 'category');
+        setupDropdown(document.getElementById('expPayment'), 'payment_method');
     }
 
     form?.addEventListener('submit', async (event) => {

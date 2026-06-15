@@ -869,56 +869,57 @@
     });
 
     async function loadCustomCategories(userId) {
+        const categorySelect = document.getElementById('select_category');
+        if (!categorySelect) return;
+
         const { data: customTags, error } = await supabase
             .from('finance_app_customtag')
             .select('*')
             .eq('user_id', userId)
             .eq('tag_type', 'goal_category');
 
-        if (error) {
-            console.error("Error loading goal custom categories:", error.message);
-            return;
-        }
+        if (error) return;
 
-        if (!categorySelect) return;
-
-        categorySelect.innerHTML = `<option value="" disabled selected>Select Category</option>`;
+        Array.from(categorySelect.options).forEach(opt => {
+            if (opt.classList.contains('custom-injected')) opt.remove();
+        });
 
         customTags.forEach(tag => {
             const option = document.createElement('option');
             option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
             option.innerText = tag.name;
+            option.classList.add('custom-injected');
             categorySelect.appendChild(option);
         });
 
-        // Add the "Create New" trigger button
         const createNewOption = document.createElement('option');
         createNewOption.value = "__add_new__";
-        createNewOption.innerHTML = "+ Add New Tag...";
+        createNewOption.innerHTML = "+ Add New Category...";
         createNewOption.style.fontWeight = "bold";
         createNewOption.style.color = "#059669";
+        createNewOption.classList.add('custom-injected');
         categorySelect.appendChild(createNewOption);
 
-        if (!categorySelect.dataset.hasListener) {
+        if (!categorySelect.dataset.tagListener) {
             categorySelect.addEventListener('change', async function() {
                 if (this.value === '__add_new__') {
                     const newTagName = prompt("Enter a new goal category:");
                     
                     if (newTagName && newTagName.trim() !== '') {
-                        const { data, error } = await supabase.from('finance_app_customtag').insert([{
+                        const { error } = await supabase.from('finance_app_customtag').insert([{
                             user_id: currentUser.id,
                             name: newTagName.trim(),
                             tag_type: 'goal_category'
-                        }]).select();
+                        }]);
 
-                        if (!error && data) {
+                        if (!error) {
                             const newOption = document.createElement('option');
                             newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
                             newOption.innerText = newTagName.trim();
+                            newOption.classList.add('custom-injected');
                             this.insertBefore(newOption, this.lastElementChild);
                             this.value = newOption.value;
                         } else {
-                            alert("Failed to save tag.");
                             this.selectedIndex = 0;
                         }
                     } else {
@@ -926,7 +927,7 @@
                     }
                 }
             });
-            categorySelect.dataset.hasListener = "true";
+            categorySelect.dataset.tagListener = "true";
         }
     }
 

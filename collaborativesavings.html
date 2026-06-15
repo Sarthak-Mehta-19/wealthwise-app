@@ -1113,6 +1113,74 @@
     }
 
     // ==========================================
+    // MODULE G: CUSTOM TAG INJECTION (GROUPS)
+    // ==========================================
+    async function loadGroupCustomTags() {
+        const typeSelect = document.getElementById('chalType');
+        if (!typeSelect || !currentUser) return;
+
+        const { data: customTags } = await supabase
+            .from('finance_app_customtag')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .eq('tag_type', 'challenge_type');
+
+        // Remove previously injected custom tags to avoid duplication
+        Array.from(typeSelect.options).forEach(opt => {
+            if (opt.classList.contains('custom-injected')) opt.remove();
+        });
+
+        if (customTags) {
+            customTags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
+                option.innerText = tag.name;
+                option.classList.add('custom-injected');
+                typeSelect.appendChild(option);
+            });
+        }
+
+        // Generate the Add New Tag option
+        const createNewOption = document.createElement('option');
+        createNewOption.value = "__add_new__";
+        createNewOption.innerHTML = "+ Add New Type...";
+        createNewOption.style.fontWeight = "bold";
+        createNewOption.style.color = "#059669";
+        createNewOption.classList.add('custom-injected');
+        typeSelect.appendChild(createNewOption);
+
+        // Attach listener exactly ONCE
+        if (!typeSelect.dataset.tagListener) {
+            typeSelect.addEventListener('change', async function() {
+                if (this.value === '__add_new__') {
+                    const newTagName = prompt("Enter a new challenge type:");
+                    if (newTagName && newTagName.trim() !== '') {
+                        const { error } = await supabase.from('finance_app_customtag').insert([{
+                            user_id: currentUser.id,
+                            name: newTagName.trim(),
+                            tag_type: 'challenge_type'
+                        }]);
+                        if (!error) {
+                            const newOption = document.createElement('option');
+                            newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
+                            newOption.innerText = newTagName.trim();
+                            newOption.classList.add('custom-injected');
+                            this.insertBefore(newOption, this.lastElementChild);
+                            this.value = newOption.value; // Select the newly created tag automatically
+                        } else {
+                            alert("Failed to save tag.");
+                            this.selectedIndex = 0;
+                        }
+                    } else {
+                        this.selectedIndex = 0; // Reset dropdown if user cancels prompt
+                    }
+                }
+            });
+            typeSelect.dataset.tagListener = "true";
+        }
+    }
+
+    // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
     async function init() {
@@ -1121,6 +1189,11 @@
 
         // Sync the sidebar immediately upon load
         syncSidebar();
+        
+        if (currentUser) {
+            // Load custom tags for the challenge type dropdown now that we have the user
+            loadGroupCustomTags();
+        }
 
         const { data } = await supabase.from('finance_app_challenge').select('*');
         if (data) {
@@ -1145,12 +1218,8 @@
     }
 
     init();
+
 </script>
-
-<script src="notifications.js"></script>
-
-<!--Sidebar-->
-<script src="script.js"></script>
 
 </body>
 </html>
