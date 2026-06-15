@@ -1439,7 +1439,11 @@
     async function syncSidebar() {
         const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (!session) return; // Do nothing if not logged in
+        // THE FIX: Active Security Bouncer
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
 
         const currentUser = session.user;
         

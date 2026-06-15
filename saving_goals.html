@@ -1003,16 +1003,19 @@
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
-    async function initPage() {
-        // Run synchronous UI setups immediately
-        initSearchBar();
-
-        // Establish secure session data
+    async function initPage() { // (or init() in groups)
         const { data: { session } } = await supabase.auth.getSession();
-        currentUser = session ? session.user : null;
-
-        // Sync sidebar and load customized DB data
+        
+        // THE FIX: Active Security Bouncer
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        currentUser = session.user;
+        
         syncSidebar();
+        // ...
         
         if (currentUser) {
             loadCustomCategories(currentUser.id);

@@ -1184,12 +1184,19 @@
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
-    async function init() {
+    async function initPage() { // (or init() in groups)
         const { data: { session } } = await supabase.auth.getSession();
-        currentUser = session ? session.user : null;
-
-        // Sync the sidebar immediately upon load
+        
+        // THE FIX: Active Security Bouncer
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        currentUser = session.user;
+        
         syncSidebar();
+        // ...
         
         if (currentUser) {
             // Load custom tags for the challenge type dropdown now that we have the user

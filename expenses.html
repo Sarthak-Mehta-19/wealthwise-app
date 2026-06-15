@@ -1154,11 +1154,19 @@
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
-    async function initPage() {
+    async function initPage() { // (or init() in groups)
         const { data: { session } } = await supabase.auth.getSession();
-        currentUser = session ? session.user : null;
-
+        
+        // THE FIX: Active Security Bouncer
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        currentUser = session.user;
+        
         syncSidebar();
+        // ...
         initCharts();
 
         if (currentUser) {
