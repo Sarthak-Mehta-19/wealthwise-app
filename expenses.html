@@ -856,17 +856,64 @@
             return;
         }
 
-        customTags.forEach(tag => {
-            const option = document.createElement('option');
-            option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
-            option.innerText = tag.name;
+        // Helper function to populate and attach the creation engine to a dropdown
+        const setupDropdown = (selectElement, typeFilter, defaultText) => {
+            if (!selectElement) return;
+            
+            // Clear existing and add default
+            selectElement.innerHTML = `<option value="" disabled selected>${defaultText}</option>`;
+            
+            // Add user's custom tags
+            customTags.filter(t => t.tag_type === typeFilter).forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
+                option.innerText = tag.name;
+                selectElement.appendChild(option);
+            });
 
-            if (tag.tag_type === 'category' && categorySelect) {
-                categorySelect.appendChild(option);
-            } else if (tag.tag_type === 'payment_method' && paymentSelect) {
-                paymentSelect.appendChild(option);
+            // Add the "Create New" trigger button
+            const createNewOption = document.createElement('option');
+            createNewOption.value = "__add_new__";
+            createNewOption.innerHTML = "+ Add New Tag...";
+            createNewOption.style.fontWeight = "bold";
+            createNewOption.style.color = "#059669";
+            selectElement.appendChild(createNewOption);
+
+            // Prevent duplicate listeners if this runs multiple times
+            if (!selectElement.dataset.hasListener) {
+                selectElement.addEventListener('change', async function() {
+                    if (this.value === '__add_new__') {
+                        const newTagName = prompt("Enter the name for your new tag:");
+                        
+                        if (newTagName && newTagName.trim() !== '') {
+                            const { data, error } = await supabase.from('finance_app_customtag').insert([{
+                                user_id: currentUser.id,
+                                name: newTagName.trim(),
+                                tag_type: typeFilter
+                            }]).select();
+
+                            if (!error && data) {
+                                // Inject visually without reloading
+                                const newOption = document.createElement('option');
+                                newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
+                                newOption.innerText = newTagName.trim();
+                                this.insertBefore(newOption, this.lastElementChild); // Put it above the "+ Add New" button
+                                this.value = newOption.value; // Automatically select it
+                            } else {
+                                alert("Failed to save tag.");
+                                this.selectedIndex = 0;
+                            }
+                        } else {
+                            this.selectedIndex = 0; // Reset if they cancelled the prompt
+                        }
+                    }
+                });
+                selectElement.dataset.hasListener = "true";
             }
-        });
+        };
+
+        setupDropdown(categorySelect, 'category', 'Select Category');
+        setupDropdown(paymentSelect, 'payment_method', 'Select Payment Method');
     }
 
     form?.addEventListener('submit', async (event) => {

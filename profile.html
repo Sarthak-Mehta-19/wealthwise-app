@@ -463,6 +463,29 @@
         </form>
     </div>
 
+    <div class="profile-card" style="grid-column: 1 / -1; margin-top: 24px;">
+    <div class="profile-card-header">
+        <h3>Custom Tags & Categories</h3>
+        <p>Manage the custom labels you use to organize your expenses and savings goals.</p>
+    </div>
+
+    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 250px;">
+            <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Expense Categories</h4>
+            <div id="expenseTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <p style="font-size: 13px; color: #64748b;">Loading tags...</p>
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 250px;">
+            <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Goal Categories</h4>
+            <div id="goalTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <p style="font-size: 13px; color: #64748b;">Loading tags...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
         </div>
     </div>
@@ -560,6 +583,68 @@
             }
         });
     }
+
+    // ==========================================
+    // MODULE D: TAG MANAGEMENT ENGINE
+    // ==========================================
+    async function loadCustomTags() {
+        if (!currentUser) return;
+
+        const expenseContainer = document.getElementById('expenseTagsContainer');
+        const goalContainer = document.getElementById('goalTagsContainer');
+
+        const { data: tags, error } = await supabase
+            .from('finance_app_customtag')
+            .select('*')
+            .eq('user_id', currentUser.id);
+
+        if (error) {
+            console.error("Failed to load tags:", error);
+            return;
+        }
+
+        expenseContainer.innerHTML = '';
+        goalContainer.innerHTML = '';
+
+        const expenseTags = tags.filter(t => t.tag_type === 'category' || t.tag_type === 'payment_method');
+        const goalTags = tags.filter(t => t.tag_type === 'goal_category');
+
+        const renderTag = (tag, container) => {
+            const tagEl = document.createElement('div');
+            tagEl.style.cssText = "display: inline-flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #334155; border: 1px solid #e2e8f0;";
+            tagEl.innerHTML = `
+                ${tag.name}
+                <button class="delete-tag-btn" data-id="${tag.id}" style="background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.2s;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            `;
+            container.appendChild(tagEl);
+        };
+
+        if (expenseTags.length === 0) expenseContainer.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No custom tags created yet.</p>';
+        else expenseTags.forEach(tag => renderTag(tag, expenseContainer));
+
+        if (goalTags.length === 0) goalContainer.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No custom tags created yet.</p>';
+        else goalTags.forEach(tag => renderTag(tag, goalContainer));
+
+        // Attach Delete Listeners
+        document.querySelectorAll('.delete-tag-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const tagId = e.currentTarget.getAttribute('data-id');
+                e.currentTarget.style.color = '#ef4444'; // Flash red
+                
+                const { error } = await supabase.from('finance_app_customtag').delete().eq('id', tagId);
+                if (!error) {
+                    loadCustomTags(); // Reload visually
+                } else {
+                    alert("Error deleting tag: " + error.message);
+                }
+            });
+        });
+    }
+
+    // Call this inside your existing loadAndSyncUserData() function at the very bottom:
+    // Simply add: loadCustomTags(); right after the initials generation logic.
 
     // ==========================================
     // MODULE C: UI SIMULATION (SAVE & REPORT)

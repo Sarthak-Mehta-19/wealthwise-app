@@ -873,19 +873,61 @@
             .from('finance_app_customtag')
             .select('*')
             .eq('user_id', userId)
-            .eq('tag_type', 'category');
+            .eq('tag_type', 'goal_category');
 
         if (error) {
             console.error("Error loading goal custom categories:", error.message);
             return;
         }
 
+        if (!categorySelect) return;
+
+        categorySelect.innerHTML = `<option value="" disabled selected>Select Category</option>`;
+
         customTags.forEach(tag => {
             const option = document.createElement('option');
             option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
             option.innerText = tag.name;
-            if (categorySelect) categorySelect.appendChild(option);
+            categorySelect.appendChild(option);
         });
+
+        // Add the "Create New" trigger button
+        const createNewOption = document.createElement('option');
+        createNewOption.value = "__add_new__";
+        createNewOption.innerHTML = "+ Add New Tag...";
+        createNewOption.style.fontWeight = "bold";
+        createNewOption.style.color = "#059669";
+        categorySelect.appendChild(createNewOption);
+
+        if (!categorySelect.dataset.hasListener) {
+            categorySelect.addEventListener('change', async function() {
+                if (this.value === '__add_new__') {
+                    const newTagName = prompt("Enter a new goal category:");
+                    
+                    if (newTagName && newTagName.trim() !== '') {
+                        const { data, error } = await supabase.from('finance_app_customtag').insert([{
+                            user_id: currentUser.id,
+                            name: newTagName.trim(),
+                            tag_type: 'goal_category'
+                        }]).select();
+
+                        if (!error && data) {
+                            const newOption = document.createElement('option');
+                            newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
+                            newOption.innerText = newTagName.trim();
+                            this.insertBefore(newOption, this.lastElementChild);
+                            this.value = newOption.value;
+                        } else {
+                            alert("Failed to save tag.");
+                            this.selectedIndex = 0;
+                        }
+                    } else {
+                        this.selectedIndex = 0;
+                    }
+                }
+            });
+            categorySelect.dataset.hasListener = "true";
+        }
     }
 
     form?.addEventListener('submit', async (event) => {
