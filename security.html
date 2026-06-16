@@ -256,6 +256,32 @@
         </div>
     </div>
 
+    <div id="mfaModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center;">
+        <div style="background: white; width: 100%; max-width: 400px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 18px; color: #0f172a;">Setup 2-Factor Auth</h3>
+                <button id="closeMfaBtn" style="background: none; border: none; font-size: 20px; color: #94a3b8; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div id="mfaStep1">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px;">Enter a recovery email address to receive your one-time passcodes.</p>
+                <div class="form-group">
+                    <input type="email" id="mfaEmailInput" class="form-input" placeholder="backup@example.com">
+                </div>
+                <button id="btnSendOtp" class="btn-primary" style="width: 100%;">Send Code</button>
+            </div>
+
+            <div id="mfaStep2" style="display: none;">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px;">We sent a 6-digit code to your email. Enter it below.</p>
+                <div class="form-group">
+                    <input type="text" id="mfaOtpInput" class="form-input" placeholder="000000" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 8px; font-weight: 700;">
+                </div>
+                <button id="btnVerifyOtp" class="btn-primary" style="width: 100%;">Verify & Enable</button>
+                <p id="mfaErrorMsg" style="color: #ef4444; font-size: 12px; margin-top: 12px; text-align: center; display: none;">Invalid code. Try 123456 for this test.</p>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
@@ -344,42 +370,147 @@
     // ==========================================
     // MODULE C: PRIVACY & SECURITY TOGGLES
     // ==========================================
-    // Helper function to save toggle state to Supabase metadata
+    // ==========================================
+    // MODULE C: PRIVACY, 2FA, & BIOMETRIC WIZARDS
+    // ==========================================
+    
+    // Helper: Save preference to Supabase
     async function savePreference(key, isChecked) {
         const updateData = {};
         updateData[key] = isChecked;
         await supabase.auth.updateUser({ data: updateData });
     }
 
-    // Attach listeners to all toggles (FIX: Using twofa_enabled)
+    // Standard Toggles
     document.getElementById('toggleAnalytics')?.addEventListener('change', (e) => savePreference('analytics_enabled', e.target.checked));
     document.getElementById('toggleMarketing')?.addEventListener('change', (e) => savePreference('marketing_enabled', e.target.checked));
-    document.getElementById('toggle2FA')?.addEventListener('change', (e) => savePreference('twofa_enabled', e.target.checked));
-    document.getElementById('toggleBiometric')?.addEventListener('change', (e) => savePreference('biometric_enabled', e.target.checked));
 
-    // Export Data Simulation
+    // --- BIOMETRIC LOGIN WIZARD (WebAuthn) ---
+    const toggleBiometric = document.getElementById('toggleBiometric');
+    toggleBiometric?.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            // User turned it ON - Trigger native hardware prompt
+            try {
+                // This payload tells the browser to trigger TouchID / FaceID / Windows Hello
+                const publicKeyCredentialCreationOptions = {
+                    challenge: window.crypto.getRandomValues(new Uint8Array(32)),
+                    rp: { name: "WealthWise Finance", id: window.location.hostname },
+                    user: {
+                        id: window.crypto.getRandomValues(new Uint8Array(16)),
+                        name: currentUser.email,
+                        displayName: currentUser.email
+                    },
+                    pubKeyCredParams: [{alg: -7, type: "public-key"}],
+                    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
+                    timeout: 60000
+                };
+
+                // Triggers the physical device scanner
+                const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
+                
+                // If they succeed, save it to the database
+                if (credential) {
+                    await savePreference('biometric_enabled', true);
+                    alert("Biometric authentication successfully linked to this device!");
+                }
+            } catch (err) {
+                // If they click cancel or their device doesn't support it
+                console.log("Biometric setup failed or cancelled:", err);
+                e.target.checked = false; // Turn the toggle back off
+                alert("Biometric setup was cancelled or isn't supported on this browser.");
+            }
+        } else {
+            // User turned it OFF
+            await savePreference('biometric_enabled', false);
+        }
+    });
+
+    // --- 2FA SETUP WIZARD ---
+    const toggle2FA = document.getElementById('toggle2FA');
+    const mfaModal = document.getElementById('mfaModalOverlay');
+    const mfaStep1 = document.getElementById('mfaStep1');
+    const mfaStep2 = document.getElementById('mfaStep2');
+    
+    // Reset Modal State
+    const resetMfaModal = () => {
+        mfaModal.style.display = 'none';
+        mfaStep1.style.display = 'block';
+        mfaStep2.style.display = 'none';
+        document.getElementById('mfaEmailInput').value = '';
+        document.getElementById('mfaOtpInput').value = '';
+        document.getElementById('mfaErrorMsg').style.display = 'none';
+    };
+
+    toggle2FA?.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            // Intercept the toggle turning ON and show the modal
+            mfaModal.style.display = 'flex';
+        } else {
+            // User turned it OFF
+            await savePreference('twofa_enabled', false);
+        }
+    });
+
+    // Handle closing the modal (Cancels setup)
+    document.getElementById('closeMfaBtn')?.addEventListener('click', () => {
+        toggle2FA.checked = false; // Revert toggle
+        resetMfaModal();
+    });
+
+    // Handle "Send Code" Button
+    document.getElementById('btnSendOtp')?.addEventListener('click', () => {
+        const email = document.getElementById('mfaEmailInput').value;
+        if (!email.includes('@')) {
+            alert("Please enter a valid email.");
+            return;
+        }
+        const btn = document.getElementById('btnSendOtp');
+        btn.innerText = "Sending...";
+        
+        // Simulate network delay for sending email
+        setTimeout(() => {
+            mfaStep1.style.display = 'none';
+            mfaStep2.style.display = 'block';
+            btn.innerText = "Send Code";
+        }, 1000);
+    });
+
+    // Handle "Verify Code" Button
+    document.getElementById('btnVerifyOtp')?.addEventListener('click', async () => {
+        const code = document.getElementById('mfaOtpInput').value;
+        const btn = document.getElementById('btnVerifyOtp');
+        const errorMsg = document.getElementById('mfaErrorMsg');
+        
+        btn.innerText = "Verifying...";
+        errorMsg.style.display = 'none';
+
+        setTimeout(async () => {
+            // Simulate verification (Accept '123456' as the test code)
+            if (code === '123456') {
+                await savePreference('twofa_enabled', true);
+                resetMfaModal();
+                alert("2-Factor Authentication successfully enabled!");
+            } else {
+                errorMsg.style.display = 'block';
+                btn.innerText = "Verify & Enable";
+            }
+        }, 800);
+    });
+
+    // Export Data & Sign Out All (Kept from previous version)
     document.getElementById('btnExportData')?.addEventListener('click', (e) => {
         const btn = e.currentTarget;
         const originalText = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Compiling Data...';
-        btn.style.color = "#64748b";
-        
         setTimeout(() => {
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Export Sent to Email';
-            btn.style.color = "#059669";
-            setTimeout(() => { 
-                btn.innerHTML = originalText; 
-            }, 3000);
+            setTimeout(() => { btn.innerHTML = originalText; }, 3000);
         }, 1500);
     });
 
-    // Sign Out All Devices Simulation
     document.getElementById('btnLogOutAll')?.addEventListener('click', async (e) => {
-        const btn = e.currentTarget;
-        btn.innerText = "Processing...";
-        btn.disabled = true;
-        // In a real app, you'd call a Supabase Edge Function to revoke all refresh tokens.
-        // For here, we just log them out locally to demonstrate the flow.
+        e.currentTarget.innerText = "Processing...";
+        e.currentTarget.disabled = true;
         setTimeout(async () => {
             await supabase.auth.signOut();
             window.location.href = 'index.html';
