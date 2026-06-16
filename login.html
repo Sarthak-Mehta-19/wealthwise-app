@@ -3,218 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | WealthWise</title>
-    <!--StyleSheet-->
-    <link rel="stylesheet" href="login_style.css">
-    <!--Font Awesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Log In | WealthWise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+        body { margin: 0; padding: 0; font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; display: flex; height: 100vh; align-items: center; justify-content: center; }
+        
+        .auth-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); width: 100%; max-width: 400px; border: 1px solid #e2e8f0; }
+        .logo-container { display: flex; justify-content: center; margin-bottom: 24px; }
+        .logo-icon { background: #059669; color: white; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 14px; font-size: 24px; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); }
+        
+        h2 { text-align: center; margin: 0 0 8px 0; font-size: 24px; font-weight: 800; color: #0f172a; }
+        p.subtitle { text-align: center; color: #64748b; font-size: 14px; margin: 0 0 32px 0; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: inherit; font-size: 14px; box-sizing: border-box; transition: border-color 0.2s; }
+        .form-input:focus { outline: none; border-color: #059669; box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1); }
+        
+        .btn-submit { width: 100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+        .btn-submit:hover { background: #1e293b; }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        
+        .auth-links { text-align: center; margin-top: 24px; font-size: 14px; color: #64748b; }
+        .auth-links a { color: #059669; text-decoration: none; font-weight: 600; }
+        .auth-links a:hover { text-decoration: underline; }
+
+        .alert-msg { padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 500; text-align: center; margin-bottom: 16px; display: none; }
+        .alert-error { background: #fef2f2; color: #ef4444; border: 1px solid #fca5a5; }
+        .alert-warning { background: #fffbeb; color: #ea580c; border: 1px solid #fcd34d; display: block; }
+    </style>
 </head>
 <body>
-    <div class="main">
-        <div class="login">
-            <div class="header">
-                <div class="logo">
-                    <div class="icon">
-                        <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
-                    </div>
-                    <div class="text">
-                        <div class="main_text">
-                            <p>WealthWise</p>
-                        </div>
-                        <div class="subtext">
-                            <p>AI-Powered Finance</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="header_title">
-                    <div class="title">
-                        <h1>Welcome back</h1>
-                    </div>
-                    <div class="subtitle">
-                        <h6>Track goals, optimize savings, and grow with the community.</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="main_form">
-                <div id="error-display" class="error-message" style="display: none;"></div>
-                <form id="sign-in-form" action="">
-                    <label for="user-name">Username</label>
-                    <input type="text" id="user-name" name="username" required>
-            
-                    <label for="user-password">Password</label>
-                    <input type="password" id="user-password" name="password" required>
-            
-                    <button type="submit" id="submit-btn">
-                        <span class="btn-text">
-                            <h6>Sign in</h6>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                        <i class="fa-solid fa-circle-notch fa-spin loader" style="display: none;"></i>
-                    </button>
-                </form>
-                
-                <div class="sign-up">
-                    <div class="helping_text">
-                        <h6>No account?</h6>
-                    </div>
-                    <div class="sign-up_redirect">
-                        <a href="sign-up.html">Create one</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="login-preview">
-            <div class="info">
-                <div class="tagline">
-                    <h1>Save Smarter. <br> Achieve <br> faster.</h1>
-                </div>
-                <div class="main_info_text">
-                    <p>Personal AI coach in your pocket. Set goals, track expenses, and challenge friends — all while seeing exactly how you compare to the community.</p>
-                </div>
+    <div class="auth-container">
+        <div class="logo-container">
+            <div class="logo-icon"><i class="fa-solid fa-wallet"></i></div>
+        </div>
+        <h2>Welcome back</h2>
+        <p class="subtitle">Enter your credentials to access your dashboard.</p>
+
+        <div id="timeoutMsg" class="alert-msg alert-warning" style="display: none;">
+            <i class="fa-solid fa-clock"></i> For your security, you were logged out due to inactivity.
+        </div>
+        <div id="errorMsg" class="alert-msg alert-error"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="email" class="form-input" required placeholder="you@example.com">
             </div>
-            <div class="booster_info">
-                <div class="booster_info_box">
-                    <div class="booster_info_box_main_text">
-                        <h6>12K+</h6>
-                    </div>
-                    <div class="booster_info_box_description">
-                        <p>Goals tracked</p>
-                    </div>
-                </div>
-                <div class="booster_info_box">
-                    <div class="booster_info_box_main_text">
-                        <h6>₹ 4.2Cr+</h6>
-                    </div>
-                    <div class="booster_info_box_description">
-                        <p>Saved by users</p>
-                    </div>
-                </div>
-                <div class="booster_info_box">
-                    <div class="booster_info_box_main_text">
-                        <h6>+18%</h6>
-                    </div>
-                    <div class="booster_info_box_description">
-                        <p>Average rate boost</p>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="password" class="form-input" required placeholder="••••••••">
             </div>
+            
+            <button type="submit" class="btn-submit" id="submitBtn">Log In</button>
+        </form>
+
+        <div class="auth-links">
+            Don't have an account? <a href="sign-up.html">Sign up here</a>
         </div>
     </div>
 
-    <!--Login Funationality-->
     <script type="module">
-    // 1. Import and Initialize Supabase
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-    
-    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        const supabase = createClient('https://khnwfpcuvcyxztgoyhpr.supabase.co', 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J');
 
-    // 2. Redirect automatically if already logged in
-    async function checkSession() {
-        try {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            if (error) throw error;
-            if (session) {
+        // Check for Auto-Logout Timeout
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('reason') === 'timeout') {
+            document.getElementById('timeoutMsg').style.display = 'block';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+            errorMsg.style.display = 'none';
+            document.getElementById('timeoutMsg').style.display = 'none';
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                errorMsg.innerText = error.message;
+                errorMsg.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = 'Log In';
+            } else {
+                // Success! Route to dashboard
                 window.location.href = 'dashboard.html';
             }
-        } catch (err) {
-            console.error("Session check error:", err);
-        }
-    }
-
-    // 3. Wait for the HTML to fully load before attaching scripts
-    document.addEventListener('DOMContentLoaded', () => {
-        checkSession();
-
-        // Grab DOM Elements using your exact IDs
-        const signInForm = document.getElementById('sign-in-form');
-        const errorDisplay = document.getElementById('error-display');
-        const btnText = document.querySelector('.btn-text');
-        const loader = document.querySelector('.loader');
-        const submitBtn = document.getElementById('submit-btn');
-
-        // Failsafe: Ensure the form actually exists on the page
-        if (!signInForm) {
-            console.error("CRITICAL: Could not find the form with id 'sign-in-form'");
-            return;
-        }
-
-        // 4. Listen for the form submission
-        signInForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
-            console.log("Form submitted. Attempting login...");
-
-            // Get the input values (Supabase requires the username to be an email)
-            const emailInput = document.getElementById('user-name');
-            const passwordInput = document.getElementById('user-password');
-
-            if (!emailInput || !passwordInput) {
-                console.error("CRITICAL: Could not find email or password input fields.");
-                return;
-            }
-
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
-
-            // 5. Trigger UI Loading State safely
-            if (errorDisplay) errorDisplay.style.display = 'none';
-            if (btnText) btnText.style.display = 'none';
-            if (loader) loader.style.display = 'inline-block';
-            if (submitBtn) submitBtn.disabled = true;
-
-            try {
-                // 6. Send to Supabase Auth
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-                if (error) {
-                    console.error("Supabase Rejection:", error.message);
-                    
-                    // FAILED: Show Supabase rejection message
-                    if (errorDisplay) {
-                        errorDisplay.innerText = error.message;
-                        errorDisplay.style.color = "#ef4444"; // Error Red
-                        errorDisplay.style.display = 'block';
-                    }
-                    
-                    // Reset the button UI safely
-                    if (btnText) btnText.style.display = 'inline-block'; 
-                    if (loader) loader.style.display = 'none';
-                    if (submitBtn) submitBtn.disabled = false;
-                } else {
-                    console.log("Login successful! Tokens received.", data);
-                    
-                    // SUCCESS: Instantly redirect the user to the updated dashboard
-                    if (errorDisplay) {
-                        errorDisplay.innerText = "Success! Redirecting...";
-                        errorDisplay.style.color = "#10b981"; // Success Green
-                        errorDisplay.style.display = 'block';
-                    }
-                    
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html'; 
-                    }, 800);
-                }
-            } catch (err) {
-                // 7. CATCH-ALL: Handle network drops or unexpected JS crashes
-                console.error("Unexpected network or script error:", err);
-                
-                if (errorDisplay) {
-                    errorDisplay.innerText = "Connection lost. Please check your internet and try again.";
-                    errorDisplay.style.color = "#ef4444";
-                    errorDisplay.style.display = 'block';
-                }
-                
-                if (btnText) btnText.style.display = 'inline-block'; 
-                if (loader) loader.style.display = 'none';
-                if (submitBtn) submitBtn.disabled = false;
-            }
         });
-    });
-</script>
+    </script>
 </body>
 </html>
