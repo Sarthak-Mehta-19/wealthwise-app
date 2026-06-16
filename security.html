@@ -530,7 +530,8 @@
 
             } catch (err) {
                 console.error("MFA Enrollment Error:", err);
-                alert("Failed to initialize 2FA. Please try again.");
+                // THE FIX: Print the exact Supabase error message
+                alert("Backend Error: " + err.message); 
                 e.target.checked = false;
                 resetMfaModal();
             }
