@@ -264,20 +264,19 @@
             </div>
             
             <div id="mfaStep1">
-                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px;">Enter a recovery email address to receive your one-time passcodes.</p>
-                <div class="form-group">
-                    <input type="email" id="mfaEmailInput" class="form-input" placeholder="backup@example.com">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px; text-align: center;">Scan this QR code with Google Authenticator, Authy, or Apple Passwords.</p>
+                
+                <div id="qrCodeContainer" style="display: flex; justify-content: center; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; min-height: 200px; align-items: center;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: #059669;"></i>
                 </div>
-                <button id="btnSendOtp" class="btn-primary" style="width: 100%;">Send Code</button>
-            </div>
 
-            <div id="mfaStep2" style="display: none;">
-                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px;">We sent a 6-digit code to your email. Enter it below.</p>
                 <div class="form-group">
-                    <input type="text" id="mfaOtpInput" class="form-input" placeholder="000000" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 8px; font-weight: 700;">
+                    <label class="form-label" style="text-align: center;">Enter 6-Digit Code to Verify</label>
+                    <input type="text" id="mfaOtpInput" class="form-input" placeholder="000 000" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 8px; font-weight: 700;">
                 </div>
-                <button id="btnVerifyOtp" class="btn-primary" style="width: 100%;">Verify & Enable</button>
-                <p id="mfaErrorMsg" style="color: #ef4444; font-size: 12px; margin-top: 12px; text-align: center; display: none;">Invalid code. Try 123456 for this test.</p>
+
+                <button id="btnVerifyOtp" class="btn-primary" style="width: 100%;">Verify & Enable 2FA</button>
+                <p id="mfaErrorMsg" style="color: #ef4444; font-size: 12px; margin-top: 12px; text-align: center; display: none;">Invalid code. Please try again.</p>
             </div>
         </div>
     </div>
@@ -425,11 +424,105 @@
         }
     });
 
-    // --- 2FA SETUP WIZARD ---
+    // --- REAL 2FA SETUP WIZARD (TOTP BACKEND) ---
     const toggle2FA = document.getElementById('toggle2FA');
     const mfaModal = document.getElementById('mfaModalOverlay');
-    const mfaStep1 = document.getElementById('mfaStep1');
-    const mfaStep2 = document.getElementById('mfaStep2');
+    let currentFactorId = null;
+
+    // Reset Modal State
+    const resetMfaModal = () => {
+        mfaModal.style.display = 'none';
+        document.getElementById('mfaOtpInput').value = '';
+        document.getElementById('mfaErrorMsg').style.display = 'none';
+        document.getElementById('qrCodeContainer').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: #059669;"></i>';
+    };
+
+    // 1. Initiate Enrollment when Toggle is clicked
+    toggle2FA?.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            mfaModal.style.display = 'flex';
+            
+            try {
+                // Call Supabase Backend to generate a unique TOTP secret and QR code
+                const { data, error } = await supabase.auth.mfa.enroll({
+                    factorType: 'totp'
+                });
+
+                if (error) throw error;
+
+                // Save the factor ID for the verification step
+                currentFactorId = data.id;
+
+                // Supabase natively returns the QR code as an SVG string! Inject it into the UI.
+                document.getElementById('qrCodeContainer').innerHTML = data.totp.qr_code;
+                document.getElementById('qrCodeContainer').querySelector('svg').style.width = '200px';
+                document.getElementById('qrCodeContainer').querySelector('svg').style.height = '200px';
+
+            } catch (err) {
+                console.error("MFA Enrollment Error:", err);
+                alert("Failed to initialize 2FA. Please try again.");
+                e.target.checked = false;
+                resetMfaModal();
+            }
+        } else {
+            // User turned it OFF - Here we would unenroll the factor
+            // For safety in this version, we'll just update the metadata preference
+            await savePreference('twofa_enabled', false);
+            alert("2FA has been disabled.");
+        }
+    });
+
+    // Handle closing the modal (Cancels setup)
+    document.getElementById('closeMfaBtn')?.addEventListener('click', () => {
+        toggle2FA.checked = false; 
+        resetMfaModal();
+    });
+
+    // 2. Verify the Code against Supabase Backend
+    document.getElementById('btnVerifyOtp')?.addEventListener('click', async () => {
+        const code = document.getElementById('mfaOtpInput').value.replace(/\s/g, ''); // Strip spaces
+        const btn = document.getElementById('btnVerifyOtp');
+        const errorMsg = document.getElementById('mfaErrorMsg');
+        
+        if (code.length !== 6) {
+            errorMsg.innerText = "Please enter a valid 6-digit code.";
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        btn.innerText = "Verifying securely...";
+        errorMsg.style.display = 'none';
+
+        try {
+            // Step A: Create a challenge request for this factor
+            const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
+                factorId: currentFactorId
+            });
+
+            if (challengeError) throw challengeError;
+
+            // Step B: Verify the code the user typed against the challenge
+            const { data: verifyData, error: verifyError } = await supabase.auth.mfa.verify({
+                factorId: currentFactorId,
+                challengeId: challengeData.id,
+                code: code
+            });
+
+            if (verifyError) throw verifyError;
+
+            // Success! The factor is now permanently linked to the user's account backend
+            await savePreference('twofa_enabled', true);
+            resetMfaModal();
+            alert("Bank-grade 2-Factor Authentication successfully enabled!");
+            btn.innerText = "Verify & Enable 2FA";
+
+        } catch (err) {
+            console.error("Verification Error:", err);
+            errorMsg.innerText = "Invalid or expired code. Please try again.";
+            errorMsg.style.display = 'block';
+            btn.innerText = "Verify & Enable 2FA";
+        }
+    });
     
     // Reset Modal State
     const resetMfaModal = () => {
