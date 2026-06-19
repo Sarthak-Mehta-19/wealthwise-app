@@ -315,11 +315,11 @@
                     </div>
                 </div>
                 <div class="major-buttons">
-                    <a class="expense-adder" href="expenses.html">
+                    <a class="expense-adder" id="openExpenseModalBtn" style="cursor: pointer;">
                         <i class="fa-solid fa-plus"></i>
                         <p>Add Expense</p>
                     </a>
-                    <a class="goal-creator" href="saving_goals.html">
+                    <a class="goal-creator" id="openGoalModalBtn" style="cursor: pointer;">
                         <i class="fa-solid fa-bullseye"></i>
                         <p>Create goal</p>
                     </a>
@@ -1161,399 +1161,6 @@
         </div>
     </div>
 
-    <!--Bar Chart-->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-      // 1. Exact Data to satisfy the mathematical constraints
-      // Jun Expenses: 734.15 | Jun Savings: 635.53 (Rate: 46.4%)
-      // May Expenses: 804.00 | May Savings: 565.66 (Rate: 41.3%, diff = 5.1%)
-      // Total Savings Sum = 38500.00 exactly.
-      const rawData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        expenses: [6000, 6500, 7000, 12000, 804.00, 734.15],
-        savings: [7000, 7500, 8000, 14798.81, 565.66, 635.53] 
-      };
-
-      // Calculate Net (Savings - Expenses) for the line chart overlay
-      const netData = rawData.savings.map((sav, i) => sav - rawData.expenses[i]);
-
-      // Calculate Totals for the bottom summary boxes
-      const totalExpenses = rawData.expenses.reduce((a, b) => a + b, 0);
-      const totalSavings = rawData.savings.reduce((a, b) => a + b, 0); // Will exactly equal 38,500
-      const totalNet = totalSavings - totalExpenses;
-
-      // Currency formatter helper
-      const formatCurrency = (val) => {
-        return '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      };
-
-      // Populate HTML summary boxes
-      document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-      document.getElementById('totalSavings').textContent = formatCurrency(totalSavings);
-      document.getElementById('totalNet').textContent = formatCurrency(totalNet);
-
-
-      // 2. Custom Plugin for the grey column hover effect
-      const columnHoverHighlightPlugin = {
-        id: 'columnHoverHighlightPlugin',
-        beforeDraw: (chart) => {
-          if (chart.tooltip?._active?.length) {
-            const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-            const activePoint = chart.tooltip._active[0];
-            const segmentWidth = x.width / x.ticks.length;
-            const xPos = x.getPixelForTick(activePoint.index) - segmentWidth / 2;
-            
-            ctx.save();
-            ctx.fillStyle = 'rgba(200, 200, 200, 0.3)'; // Light grey background
-            ctx.fillRect(xPos, top, segmentWidth, bottom - top);
-            ctx.restore();
-          }
-        }
-      };
-
-      // 3. Initialize Chart.js
-      const ctx = document.getElementById('financialChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        plugins: [columnHoverHighlightPlugin],
-        data: {
-          labels: rawData.labels,
-          datasets: [
-            {
-              label: 'Expenses',
-              data: rawData.expenses,
-              backgroundColor: '#f87b7b', // Soft Red
-              borderRadius: 4,
-              barPercentage: 0.6,
-              categoryPercentage: 0.8,
-              order: 2 // Keeps bars behind the line
-            },
-            {
-              label: 'Savings',
-              data: rawData.savings,
-              backgroundColor: '#71d2a4', // Soft Green
-              borderRadius: 4,
-              barPercentage: 0.6,
-              categoryPercentage: 0.8,
-              order: 2
-            },
-            {
-              label: 'Net',
-              data: netData,
-              type: 'line',
-              borderColor: '#5d5fef', // Blue line
-              borderWidth: 2,
-              tension: 0.4, // Curves the line slightly
-              pointBackgroundColor: '#ffffff',
-              pointBorderColor: '#5d5fef',
-              pointBorderWidth: 2,
-              pointRadius: 4,
-              pointHoverRadius: 6,
-              order: 1 // Draws line on top of bars
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: 'index',
-            intersect: false, // Groups tooltips by month column
-          },
-          plugins: {
-            legend: {
-              display: false // Hiding native legend to use our custom HTML bottom one
-            },
-            tooltip: {
-              backgroundColor: '#ffffff',
-              titleColor: '#111827',
-              titleFont: { size: 16, weight: 'bold', family: 'sans-serif' },
-              bodyFont: { size: 14, family: 'sans-serif', weight: '500' },
-              borderColor: '#eaeaea',
-              borderWidth: 1,
-              padding: 16,
-              cornerRadius: 12,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              displayColors: false, // Removes default color squares
-              callbacks: {
-                label: function(context) {
-                  return context.dataset.label + ': ' + formatCurrency(context.raw);
-                },
-                labelTextColor: function(context) {
-                  // Colors the tooltip text dynamically
-                  if (context.dataset.label === 'Expenses') return '#f87b7b';
-                  if (context.dataset.label === 'Savings') return '#2eb872';
-                  return '#5d5fef'; // Net
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                color: '#8892b0',
-                font: { size: 13 },
-                // Format Y-axis to show abbreviations (e.g. ₹ 10k)
-                callback: function(value) {
-                  if (value >= 1000) return '₹' + (value / 1000) + 'k';
-                  return '₹' + value;
-                }
-              },
-              grid: {
-                color: '#e5e7eb',
-                borderDash: [5, 5],
-                drawBorder: false
-              }
-            },
-            x: {
-              ticks: { color: '#6b7280', font: { size: 14 } },
-              grid: { display: false, drawBorder: false }
-            }
-          }
-        }
-      });
-
-    });
-  </script>
-
-    <!--Radar Chart-->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-  
-  // -----------------------------------------------------
-  // 1. Tooltip Styles & Plugin Configs
-  // -----------------------------------------------------
-
-  const baseTooltipOptions = {
-    backgroundColor: '#ffffff',
-    titleColor: '#111827',
-    titleFont: { size: 14, weight: 'bold', family: 'sans-serif' },
-    bodyFont: { size: 14, family: 'sans-serif', weight: '500' },
-    borderColor: '#eaeaea',
-    borderWidth: 1,
-    padding: 12,
-    cornerRadius: 8,
-    displayColors: false, // Hides the default color boxes
-  };
-
-  const customBarHoverPlugin = {
-    id: 'customBarHoverPlugin',
-    beforeDraw: (chart) => {
-      if (chart.tooltip?._active?.length) {
-        const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-        const activePoint = chart.tooltip._active[0];
-        const segmentWidth = x.width / x.ticks.length;
-        const xPos = x.getPixelForTick(activePoint.index) - segmentWidth / 2;
-        
-        ctx.save();
-        ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
-        ctx.fillRect(xPos, top, segmentWidth, bottom - top);
-        ctx.restore();
-      }
-    }
-  };
-
-  // -----------------------------------------------------
-  // 2. Initialize Radar Chart (Progress)
-  // -----------------------------------------------------
-  
-  const ctxRadar = document.getElementById('radarChart').getContext('2d');
-  new Chart(ctxRadar, {
-    type: 'radar',
-    data: {
-      labels: ['Emergency', 'Vacation', 'Home', 'Car', 'Education', 'Retirement', 'Other'],
-      datasets: [
-        {
-          label: 'You',
-          data: [74, 30, 20, 10, 0, 0, 0], 
-          backgroundColor: 'rgba(93, 95, 239, 0.2)', 
-          borderColor: '#5d5fef',                    
-          borderWidth: 2,
-          pointBackgroundColor: '#5d5fef',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#5d5fef',
-          pointRadius: 0,
-          pointHoverRadius: 4 // Ensures the dot appears when hovering
-        },
-        {
-          label: 'Community Avg',
-          data: [52, 25, 20, 35, 20, 30, 25],
-          backgroundColor: 'rgba(46, 184, 114, 0.1)', 
-          borderColor: '#2eb872',                     
-          borderWidth: 2,
-          borderDash: [5, 5],                         
-          pointBackgroundColor: '#2eb872',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#2eb872',
-          pointRadius: 0,
-          pointHoverRadius: 4 // Ensures the dot appears when hovering
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      
-      // FIX: Added Interaction Mode to group tooltips by axis
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
-      
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            usePointStyle: true,
-            padding: 20,
-            font: { size: 14, family: "sans-serif" },
-            color: '#6b7280'
-          }
-        },
-        tooltip: {
-          ...baseTooltipOptions,
-          callbacks: {
-            label: function(context) { return context.dataset.label + ': ' + context.raw + '%'; },
-            labelTextColor: function(context) { return context.datasetIndex === 0 ? '#5d5fef' : '#2eb872'; }
-          }
-        }
-      },
-      scales: {
-        r: {
-          min: 0,
-          max: 100,
-          ticks: {
-            stepSize: 25,
-            display: true,
-            color: '#8892b0',
-            backdropColor: 'transparent',
-            font: { size: 10 }
-          },
-          pointLabels: {
-            font: { size: 13, family: "sans-serif" },
-            color: '#6b7280'
-          },
-          grid: { color: '#e5e7eb', circular: false },
-          angleLines: { color: '#e5e7eb' }
-        }
-      }
-    }
-  });
-
-  // -----------------------------------------------------
-  // 3. Initialize Bar Chart (Monthly)
-  // -----------------------------------------------------
-  
-  const ctxBar = document.getElementById('barChart').getContext('2d');
-  new Chart(ctxBar, {
-    type: 'bar',
-    plugins: [customBarHoverPlugin], 
-    data: {
-      labels: ['Emergency Fu...', 'Dream Vacati...', 'New Car Down...', 'Home Renovat...'],
-      datasets: [
-        {
-          label: 'You',
-          data: [1000, 600, 800, 1200],
-          backgroundColor: '#7b81f3', 
-          borderRadius: 4,
-          barPercentage: 0.6,
-          categoryPercentage: 0.8
-        },
-        {
-          label: 'Avg Peer',
-          data: [280, 150, 300, 520],
-          backgroundColor: '#98d8b1', 
-          borderRadius: 4,
-          barPercentage: 0.6,
-          categoryPercentage: 0.8
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            usePointStyle: true,
-            padding: 20,
-            font: { size: 14, family: "sans-serif" },
-            color: '#6b7280'
-          }
-        },
-        tooltip: {
-          ...baseTooltipOptions,
-          callbacks: {
-            label: function(context) { return context.dataset.label + ': $' + context.raw + '/mo'; },
-            labelTextColor: function(context) { return context.datasetIndex === 0 ? '#5d5fef' : '#2eb872'; }
-          }
-        }
-      },
-      scales: {
-        y: {
-          min: 0,
-          max: 1200,
-          ticks: {
-            stepSize: 300,
-            callback: function(value) { return '$' + value; },
-            color: '#8892b0',
-            font: { size: 12 }
-          },
-          grid: {
-            color: '#e5e7eb',
-            borderDash: [5, 5], 
-            drawBorder: false
-          }
-        },
-        x: {
-          ticks: { color: '#6b7280', font: { size: 13 } },
-          grid: { display: false, drawBorder: false }
-        }
-      }
-    }
-  });
-
-  // -----------------------------------------------------
-  // 4. Handle View Toggle Interaction
-  // -----------------------------------------------------
-
-  const btnProgress = document.getElementById('btn-progress');
-  const btnMonthly = document.getElementById('btn-monthly');
-  const wrapperProgress = document.getElementById('wrapper-progress');
-  const wrapperMonthly = document.getElementById('wrapper-monthly');
-  const chartSubtitle = document.getElementById('chart-subtitle');
-
-  btnProgress.addEventListener('click', () => {
-    btnProgress.classList.add('community-dashboard-active-state');
-    btnMonthly.classList.remove('community-dashboard-active-state');
-    wrapperProgress.style.display = 'flex';
-    wrapperMonthly.style.display = 'none';
-    chartSubtitle.textContent = 'Progress % per goal category vs. community average';
-  });
-
-  btnMonthly.addEventListener('click', () => {
-    btnMonthly.classList.add('community-dashboard-active-state');
-    btnProgress.classList.remove('community-dashboard-active-state');
-    wrapperProgress.style.display = 'none';
-    wrapperMonthly.style.display = 'flex';
-    chartSubtitle.textContent = 'Monthly contributions vs. community average per goal';
-  });
-
-});
-    </script>
-
-<script src="notifications.js"></script>
-<script src="script.js"></script>
-
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
@@ -1561,6 +1168,9 @@
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Make currentUser available to the whole module
+    let currentUser = null; 
 
     async function syncSidebar() {
         const { data: { session }, error } = await supabase.auth.getSession();
@@ -1571,7 +1181,7 @@
             return;
         }
 
-        const currentUser = session.user;
+        currentUser = session.user;
         
         // 1. Extract Profile Data
         const firstName = currentUser.user_metadata?.first_name || '';
@@ -1612,103 +1222,98 @@
 
     // Run immediately when page loads
     document.addEventListener('DOMContentLoaded', syncSidebar);
-</script>
 
-<script>
     // --- Set Default Dates ---
-document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
 
-// --- Modal Toggle Logic ---
-document.getElementById('openExpenseModalBtn')?.addEventListener('click', () => {
-    document.getElementById('dashboardExpenseModal').classList.add('active');
-});
+    // --- Modal Toggle Logic ---
+    document.getElementById('openExpenseModalBtn')?.addEventListener('click', () => {
+        document.getElementById('dashboardExpenseModal').classList.add('active');
+    });
 
-document.getElementById('openGoalModalBtn')?.addEventListener('click', () => {
-    document.getElementById('dashboardGoalModal').classList.add('active');
-});
+    document.getElementById('openGoalModalBtn')?.addEventListener('click', () => {
+        document.getElementById('dashboardGoalModal').classList.add('active');
+    });
 
-// Close when clicking outside the modal box
-window.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('dashboardExpenseModal')) {
-        document.getElementById('dashboardExpenseModal').classList.remove('active');
-    }
-    if (e.target === document.getElementById('dashboardGoalModal')) {
-        document.getElementById('dashboardGoalModal').classList.remove('active');
-    }
-});
-
-// --- Expense Form Submission ---
-document.getElementById('dashExpenseForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('dashSubmitExpBtn');
-    const statusMsg = document.getElementById('dashExpStatus');
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
-
-    const payload = {
-        id: crypto.randomUUID(),
-        user_id: currentUser.id,
-        description: document.getElementById('dashExpDesc').value, 
-        amount: parseFloat(document.getElementById('dashExpAmount').value),
-        category: document.getElementById('dashExpCategory').value,
-        date: document.getElementById('dashExpDate').value,
-        payment_method: document.getElementById('dashExpPayment').value,
-        is_recurring: document.getElementById('dashExpRecurring').checked,
-        notes: document.getElementById('dashExpNotes').value
-    };
-
-    const { error } = await supabase.from('finance_app_expense').insert([payload]);
-
-    if (error) {
-        alert("Error saving expense: " + error.message);
-        btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
-    } else {
-        statusMsg.style.display = 'block';
-        setTimeout(() => {
+    // Close when clicking outside the modal box
+    window.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('dashboardExpenseModal')) {
             document.getElementById('dashboardExpenseModal').classList.remove('active');
-            document.getElementById('dashExpenseForm').reset();
-            document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
-            statusMsg.style.display = 'none';
-            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
-            // Call your dashboard data refresh function here if you have one
-        }, 1000);
-    }
-});
-
-// --- Goal Form Submission ---
-document.getElementById('dashGoalForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('dashSubmitGoalBtn');
-    const statusMsg = document.getElementById('dashGoalStatus');
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
-
-    const payload = {
-        id: crypto.randomUUID(),
-        user_id: currentUser.id,
-        title: document.getElementById('dashGoalTitle').value,
-        description: document.getElementById('dashGoalDesc').value,
-        target_amount: parseFloat(document.getElementById('dashGoalTarget').value),
-        current_amount: parseFloat(document.getElementById('dashGoalCurrent').value || 0),
-        category: document.getElementById('dashGoalCategory').value,
-        deadline: document.getElementById('dashGoalDate').value 
-        // Note: Monthly contribution and Priority would require DB columns to save!
-    };
-
-    const { error } = await supabase.from('finance_app_goal').insert([payload]);
-
-    if (error) {
-        alert("Error saving goal: " + error.message);
-        btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
-    } else {
-        statusMsg.style.display = 'block';
-        setTimeout(() => {
+        }
+        if (e.target === document.getElementById('dashboardGoalModal')) {
             document.getElementById('dashboardGoalModal').classList.remove('active');
-            document.getElementById('dashGoalForm').reset();
-            statusMsg.style.display = 'none';
+        }
+    });
+
+    // --- Expense Form Submission ---
+    document.getElementById('dashExpenseForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('dashSubmitExpBtn');
+        const statusMsg = document.getElementById('dashExpStatus');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+        const payload = {
+            id: crypto.randomUUID(),
+            user_id: currentUser.id,
+            description: document.getElementById('dashExpDesc').value, 
+            amount: parseFloat(document.getElementById('dashExpAmount').value),
+            category: document.getElementById('dashExpCategory').value,
+            date: document.getElementById('dashExpDate').value,
+            payment_method: document.getElementById('dashExpPayment').value,
+            is_recurring: document.getElementById('dashExpRecurring').checked,
+            notes: document.getElementById('dashExpNotes').value
+        };
+
+        const { error } = await supabase.from('finance_app_expense').insert([payload]);
+
+        if (error) {
+            alert("Error saving expense: " + error.message);
+            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
+        } else {
+            statusMsg.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('dashboardExpenseModal').classList.remove('active');
+                document.getElementById('dashExpenseForm').reset();
+                document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
+                statusMsg.style.display = 'none';
+                btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
+            }, 1000);
+        }
+    });
+
+    // --- Goal Form Submission ---
+    document.getElementById('dashGoalForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('dashSubmitGoalBtn');
+        const statusMsg = document.getElementById('dashGoalStatus');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+        const payload = {
+            id: crypto.randomUUID(),
+            user_id: currentUser.id,
+            title: document.getElementById('dashGoalTitle').value,
+            description: document.getElementById('dashGoalDesc').value,
+            target_amount: parseFloat(document.getElementById('dashGoalTarget').value),
+            current_amount: parseFloat(document.getElementById('dashGoalCurrent').value || 0),
+            category: document.getElementById('dashGoalCategory').value,
+            deadline: document.getElementById('dashGoalDate').value 
+        };
+
+        const { error } = await supabase.from('finance_app_goal').insert([payload]);
+
+        if (error) {
+            alert("Error saving goal: " + error.message);
             btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
-            // Call your dashboard data refresh function here if you have one
-        }, 1000);
-    }
-});
+        } else {
+            statusMsg.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('dashboardGoalModal').classList.remove('active');
+                document.getElementById('dashGoalForm').reset();
+                statusMsg.style.display = 'none';
+                btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
+            }, 1000);
+        }
+    });
 </script>
 
 </body>
