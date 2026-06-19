@@ -169,6 +169,132 @@
         </div>
     </a>
 </div>
+
+<div class="modal-overlay" id="dashboardExpenseModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2><i class="fa-solid fa-receipt" style="color: #3b82f6;"></i> Add New Expense</h2>
+            <button type="button" class="modal-close" onclick="document.getElementById('dashboardExpenseModal').classList.remove('active')">&times;</button>
+        </div>
+        <form id="dashExpenseForm">
+            <div class="form-row">
+                <div class="form-col" style="flex: 2;">
+                    <label class="form-label">Description *</label>
+                    <input type="text" id="dashExpDesc" class="form-control" placeholder="e.g., Lunch at restaurant" required>
+                </div>
+                <div class="form-col" style="flex: 1;">
+                    <label class="form-label">Amount *</label>
+                    <input type="number" id="dashExpAmount" step="0.01" class="form-control" placeholder="25.50" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Category *</label>
+                    <select id="dashExpCategory" class="form-control" required>
+                        <option value="food">Food & Dining</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="other" selected>Other</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Date *</label>
+                    <input type="date" id="dashExpDate" class="form-control" required>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Payment Method</label>
+                    <select id="dashExpPayment" class="form-control">
+                        <option value="card" selected>Card</option>
+                        <option value="cash">Cash</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Notes</label>
+                    <textarea id="dashExpNotes" class="form-control" placeholder="Additional details about this expense..."></textarea>
+                </div>
+            </div>
+            <div class="form-row" style="align-items: center; margin-bottom: 24px;">
+                <input type="checkbox" id="dashExpRecurring" style="width: 18px; height: 18px; cursor: pointer; accent-color: #111827;">
+                <label for="dashExpRecurring" style="font-weight: 600; margin-left: 8px; cursor: pointer; color: #111827;">This is a recurring expense</label>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                <p id="dashExpStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;">Saved!</p>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('dashboardExpenseModal').classList.remove('active')">Cancel</button>
+                <button type="submit" id="dashSubmitExpBtn" class="btn-submit-expense"><i class="fa-regular fa-floppy-disk"></i> Add Expense</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="dashboardGoalModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2><i class="fa-solid fa-bullseye" style="color: #10b981;"></i> Create New Goal</h2>
+            <button type="button" class="modal-close" onclick="document.getElementById('dashboardGoalModal').classList.remove('active')">&times;</button>
+        </div>
+        <form id="dashGoalForm">
+            <div class="form-row">
+                <div class="form-col" style="flex: 2;">
+                    <label class="form-label">Goal Title *</label>
+                    <input type="text" id="dashGoalTitle" class="form-control" placeholder="e.g., Emergency Fund" required>
+                </div>
+                <div class="form-col" style="flex: 1;">
+                    <label class="form-label">Category</label>
+                    <select id="dashGoalCategory" class="form-control">
+                        <option value="emergency">Emergency</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="home">Home / Property</option>
+                        <option value="car">Vehicle</option>
+                        <option value="other" selected>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Description</label>
+                    <textarea id="dashGoalDesc" class="form-control" placeholder="Describe what this goal is for..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Target Amount *</label>
+                    <input type="number" id="dashGoalTarget" step="0.01" class="form-control" placeholder="10000" required>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Current Amount</label>
+                    <input type="number" id="dashGoalCurrent" step="0.01" class="form-control" placeholder="0">
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Monthly Contribution</label>
+                    <input type="number" id="dashGoalContribution" step="0.01" class="form-control" placeholder="500">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Target Date *</label>
+                    <input type="date" id="dashGoalDate" class="form-control" required>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Priority</label>
+                    <select id="dashGoalPriority" class="form-control">
+                        <option value="high">High</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px;">
+                <p id="dashGoalStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;">Created!</p>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('dashboardGoalModal').classList.remove('active')">Cancel</button>
+                <button type="submit" id="dashSubmitGoalBtn" class="btn-submit-goal"><i class="fa-regular fa-floppy-disk"></i> Create Goal</button>
+            </div>
+        </form>
+    </div>
+</div>
     <div class="dashboard">
         <div class="dashboard_header">
             <div class="menu">
@@ -1486,6 +1612,103 @@
 
     // Run immediately when page loads
     document.addEventListener('DOMContentLoaded', syncSidebar);
+</script>
+
+<script>
+    // --- Set Default Dates ---
+document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
+
+// --- Modal Toggle Logic ---
+document.getElementById('openExpenseModalBtn')?.addEventListener('click', () => {
+    document.getElementById('dashboardExpenseModal').classList.add('active');
+});
+
+document.getElementById('openGoalModalBtn')?.addEventListener('click', () => {
+    document.getElementById('dashboardGoalModal').classList.add('active');
+});
+
+// Close when clicking outside the modal box
+window.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('dashboardExpenseModal')) {
+        document.getElementById('dashboardExpenseModal').classList.remove('active');
+    }
+    if (e.target === document.getElementById('dashboardGoalModal')) {
+        document.getElementById('dashboardGoalModal').classList.remove('active');
+    }
+});
+
+// --- Expense Form Submission ---
+document.getElementById('dashExpenseForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('dashSubmitExpBtn');
+    const statusMsg = document.getElementById('dashExpStatus');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+    const payload = {
+        id: crypto.randomUUID(),
+        user_id: currentUser.id,
+        description: document.getElementById('dashExpDesc').value, 
+        amount: parseFloat(document.getElementById('dashExpAmount').value),
+        category: document.getElementById('dashExpCategory').value,
+        date: document.getElementById('dashExpDate').value,
+        payment_method: document.getElementById('dashExpPayment').value,
+        is_recurring: document.getElementById('dashExpRecurring').checked,
+        notes: document.getElementById('dashExpNotes').value
+    };
+
+    const { error } = await supabase.from('finance_app_expense').insert([payload]);
+
+    if (error) {
+        alert("Error saving expense: " + error.message);
+        btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
+    } else {
+        statusMsg.style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('dashboardExpenseModal').classList.remove('active');
+            document.getElementById('dashExpenseForm').reset();
+            document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
+            statusMsg.style.display = 'none';
+            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
+            // Call your dashboard data refresh function here if you have one
+        }, 1000);
+    }
+});
+
+// --- Goal Form Submission ---
+document.getElementById('dashGoalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('dashSubmitGoalBtn');
+    const statusMsg = document.getElementById('dashGoalStatus');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+    const payload = {
+        id: crypto.randomUUID(),
+        user_id: currentUser.id,
+        title: document.getElementById('dashGoalTitle').value,
+        description: document.getElementById('dashGoalDesc').value,
+        target_amount: parseFloat(document.getElementById('dashGoalTarget').value),
+        current_amount: parseFloat(document.getElementById('dashGoalCurrent').value || 0),
+        category: document.getElementById('dashGoalCategory').value,
+        deadline: document.getElementById('dashGoalDate').value 
+        // Note: Monthly contribution and Priority would require DB columns to save!
+    };
+
+    const { error } = await supabase.from('finance_app_goal').insert([payload]);
+
+    if (error) {
+        alert("Error saving goal: " + error.message);
+        btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
+    } else {
+        statusMsg.style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('dashboardGoalModal').classList.remove('active');
+            document.getElementById('dashGoalForm').reset();
+            statusMsg.style.display = 'none';
+            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
+            // Call your dashboard data refresh function here if you have one
+        }, 1000);
+    }
+});
 </script>
 
 </body>
