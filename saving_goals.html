@@ -199,7 +199,7 @@
                                 <h5>Total Goals</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>5</p>
+                                <p id="topTotalGoals">0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -209,7 +209,7 @@
                     <div class="info-box-sub-display">
                         <div class="info-box-dynamic-subtitle">
                             <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>5</p>
+                                <p id="topActiveGoals">0</p>
                             </div>
                             <div class="info-box-dynamic-subtitle-dynamic-text">
                                 <p>active</p>
@@ -224,7 +224,7 @@
                                 <h5>Overall Progress</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>46.4%</p>
+                                <p id="topOverallProgress">0%</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -249,7 +249,7 @@
                                 <h5>Total Saved</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>₹ 38,500</p>
+                                <p id="topTotalSaved">₹ 0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -262,7 +262,7 @@
                                 <p>of</p>
                             </div>
                             <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>₹ 83,000</p>
+                                <p id="topTotalTarget">₹ 0</p>
                             </div>
                         </div>
                     </div>
@@ -274,7 +274,7 @@
                                 <h5>Completed</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>0</p>
+                                <p id="topCompleted">0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -287,7 +287,7 @@
                                 <p>Goals</p>
                             </div>
                             <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>acheived</p>
+                                <p>achieved</p>
                             </div>
                         </div>
                     </div>
@@ -960,14 +960,15 @@
         const newGoal = {
             id: crypto.randomUUID(),
             user_id: currentUser.id, 
-            name: document.getElementById('goalTitle').value,
+            title: document.getElementById('goalTitle').value, // FIXED: changed 'name' to 'title'
             category: categorySelect?.value || 'general',
             description: document.getElementById('goalDesc').value,
             target_amount: parseFloat(document.getElementById('goalTarget').value),
             current_amount: parseFloat(document.getElementById('goalCurrent').value || 0),
-            monthly_contribution: parseFloat(document.getElementById('goalMonthly').value || 0),
-            deadline: document.getElementById('goalDeadline').value,
-            priority: document.getElementById('priority').value
+            deadline: document.getElementById('goalDeadline').value
+            // Uncomment these only if you added these columns in your Supabase table!
+            // monthly_contribution: parseFloat(document.getElementById('goalMonthly').value || 0),
+            // priority: document.getElementById('priority').value 
         };
 
         const { error } = await supabase.from('finance_app_goal').insert([newGoal]);
@@ -1000,13 +1001,58 @@
         }
     });
 
+    async function loadGoalMetrics() {
+        if (!currentUser) return;
+
+        const { data: goals, error } = await supabase
+            .from('finance_app_goal')
+            .select('*')
+            .eq('user_id', currentUser.id);
+
+        if (error) {
+            console.error("Error fetching goals:", error);
+            return;
+        }
+
+        const goalData = goals || [];
+        
+        let totalSaved = 0;
+        let totalTarget = 0;
+        let completedCount = 0;
+        let activeCount = 0;
+
+        goalData.forEach(g => {
+            totalSaved += (g.current_amount || 0);
+            totalTarget += (g.target_amount || 0);
+            
+            if ((g.current_amount || 0) >= (g.target_amount || 0) && (g.target_amount || 0) > 0) {
+                completedCount++;
+            } else {
+                activeCount++;
+            }
+        });
+
+        const overallProgress = totalTarget > 0 ? ((totalSaved / totalTarget) * 100) : 0;
+        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+        // Update the GUI IDs
+        document.getElementById('topTotalGoals').innerText = goalData.length;
+        document.getElementById('topActiveGoals').innerText = activeCount;
+        document.getElementById('topOverallProgress').innerText = overallProgress.toFixed(1) + '%';
+        document.getElementById('topTotalSaved').innerText = formatCurrency(totalSaved);
+        document.getElementById('topTotalTarget').innerText = formatCurrency(totalTarget);
+        document.getElementById('topCompleted').innerText = completedCount;
+    }
+
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
-    async function initPage() { // (or init() in groups)
+    // ==========================================
+    // BOOTSTRAP INITIALIZER
+    // ==========================================
+    async function initPage() { 
         const { data: { session } } = await supabase.auth.getSession();
         
-        // THE FIX: Active Security Bouncer
         if (!session) {
             window.location.href = 'login.html';
             return;
@@ -1015,7 +1061,7 @@
         currentUser = session.user;
         
         syncSidebar();
-        // ...
+        await loadGoalMetrics(); // <-- ADDED THIS LINE
         
         if (currentUser) {
             loadCustomCategories(currentUser.id);
