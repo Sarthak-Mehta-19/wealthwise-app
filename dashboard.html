@@ -326,119 +326,119 @@
                 </div>
             </div>
             <div class="dashboard-main-info">
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Total Savings</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>₹ 38,500</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-piggy-bank"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>+12%</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Total Savings</h5>
                 </div>
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Monthly Expenses</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>₹ 734.15</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-dollar-sign"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>-3.2%</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Active Goals</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>4</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-bullseye"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>+1</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box-display">
-                        <div class="info-box-text">
-                            <div class="info-box-title">
-                                <h5>Savings Rate</h5>
-                            </div>
-                            <div class="info-box-dynamic-number">
-                                <p>46.4%</p>
-                            </div>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa-solid fa-chart-line"></i>
-                        </div>
-                    </div>
-                    <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                        <div class="info-box-dynamic-subtitle">
-                            <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>+5.1%</p>
-                            </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashTotalSavings">₹ 0</p>
                 </div>
             </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-piggy-bank"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo" id="dashTotalSavingsIcon">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p id="dashTotalSavingsTrend">Active</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>tracking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Monthly Expenses</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashMonthlyExpenses">₹ 0</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo" id="dashMonthlyExpensesIcon">
+                <i class="fa-solid fa-minus"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p id="dashMonthlyExpensesTrend">0%</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>vs last month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Active Goals</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashActiveGoals">0</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p>Live</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>status</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Savings Rate</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashSavingsRate">0%</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p>Lifetime</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>average</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
             <div class="dashboard_main_content">
                 <div class="dasboard_main_content_right">
                     <div class="fp-dashboard-card">
@@ -1220,8 +1220,93 @@
         });
     }
 
+    async function loadDashboardMetrics() {
+        if (!currentUser) return;
+
+        // 1. Fetch Data
+        const { data: expenses } = await supabase.from('finance_app_expense').select('*').eq('user_id', currentUser.id);
+        const { data: goals } = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id);
+
+        const expData = expenses || [];
+        const goalData = goals || [];
+
+        // 2. Calculate Total Savings & Active Goals
+        let totalSavings = 0;
+        let activeGoalsCount = 0;
+        
+        goalData.forEach(g => {
+            totalSavings += (g.current_amount || 0);
+            if ((g.current_amount || 0) < (g.target_amount || 0)) {
+                activeGoalsCount++;
+            }
+        });
+
+        // 3. Calculate Monthly Expenses & Trend
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+        
+        let lastMonth = currentMonth - 1;
+        let lastMonthYear = currentYear;
+        if (lastMonth < 0) { lastMonth = 11; lastMonthYear--; }
+
+        let thisMonthExp = 0;
+        let lastMonthExp = 0;
+        let lifetimeExp = 0;
+
+        expData.forEach(e => {
+            const d = new Date(e.date);
+            lifetimeExp += e.amount;
+            if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+                thisMonthExp += e.amount;
+            } else if (d.getMonth() === lastMonth && d.getFullYear() === lastMonthYear) {
+                lastMonthExp += e.amount;
+            }
+        });
+
+        // Calculate Expense Trend (Up is bad, Down is good)
+        const expTrend = lastMonthExp > 0 ? (((thisMonthExp - lastMonthExp) / lastMonthExp) * 100) : 0;
+
+        // 4. Calculate Lifetime Savings Rate
+        const savingsRate = (totalSavings + lifetimeExp) > 0 
+            ? ((totalSavings / (totalSavings + lifetimeExp)) * 100) 
+            : 0;
+
+        // 5. Inject Data into UI
+        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        
+        document.getElementById('dashTotalSavings').innerText = formatCurrency(totalSavings);
+        document.getElementById('dashActiveGoals').innerText = activeGoalsCount;
+        document.getElementById('dashSavingsRate').innerText = savingsRate.toFixed(1) + '%';
+        document.getElementById('dashMonthlyExpenses').innerText = formatCurrency(thisMonthExp);
+
+        // Handle Trend Coloring & Icons
+        const trendTextEl = document.getElementById('dashMonthlyExpensesTrend');
+        const trendIconEl = document.getElementById('dashMonthlyExpensesIcon');
+        
+        if (expTrend > 0) {
+            trendTextEl.innerText = '+' + expTrend.toFixed(1) + '%';
+            trendTextEl.style.color = '#ef4444'; // Red for increased expenses
+            trendIconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-up"></i>';
+            trendIconEl.style.color = '#ef4444';
+        } else if (expTrend < 0) {
+            trendTextEl.innerText = expTrend.toFixed(1) + '%';
+            trendTextEl.style.color = '#059669'; // Green for decreased expenses
+            trendIconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-down"></i>';
+            trendIconEl.style.color = '#059669';
+        } else {
+            trendTextEl.innerText = '0%';
+            trendTextEl.style.color = '#64748B'; // Grey for no change
+            trendIconEl.innerHTML = '<i class="fa-solid fa-minus"></i>';
+            trendIconEl.style.color = '#64748B';
+        }
+    }
+
     // Run immediately when page loads
-    document.addEventListener('DOMContentLoaded', syncSidebar);
+    document.addEventListener('DOMContentLoaded', async () => {
+        await syncSidebar();
+        await loadDashboardMetrics();
+    });
 
     // --- Set Default Dates ---
     document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
