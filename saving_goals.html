@@ -303,7 +303,7 @@
                                 <polyline points="18 15 12 9 6 15"></polyline>
                               </svg>
                             </button>
-                            <input type="text" class="search-input" placeholder="Search anything...">
+                            <input type="text" id="goalSearchInput" class="search-input" placeholder="e.g. Emergency Fund">
                             <button class="search-button">
                               <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="11" cy="11" r="8"></circle>
@@ -408,334 +408,35 @@
         </div>
     </div>
 </div>
-            <div class="goal_cards">
-                <div class="goal_card">
-                    <div class="goal_card_main_heading">
-                        <div class="goal_card_main_title">
-                            <h4>Emergency Fund</h4>
-                        </div>
-                        <div class="goal_card_dynamic_progress_indicator"></div>
-                        <div class="goal_card_main_subtitle">
-                            <p>6 months of living expenses for financial security</p>
-                        </div>
-                        <div class="goal_card_main_dynamic_tag">
-                            <h6>emergency fund</h6>
-                        </div>
-                    </div>
-                    <div class="goal_card_main_content">
-                        <div class="goal_card_progress_bar_status">
-                            <div class="goal_card_progress_bar_status_indicative_text">
-                                <p>Progress</p>
-                            </div>
-                            <div class="goal_card_progress_bar_percentage">
-                                <h6>74.0%</h6>
-                            </div>
-                        </div>
-                        <div class="goal_card_progress_bar">
-                            <progress id="completion_in_percetange" value="74.0" max="100"></progress>
-                        </div>
-                        <div class="goal_card_descriptive_details">
-                            <div class="goal_card_progress_amount">
-                                <h6>₹18,500</h6>
-                            </div>
-                            <div class="goal_card_total_amount_display">
-                                <div class="goal_card_amount_supporting_text">
-                                    <p>of</p>
-                                </div>
-                                <div class="goal_card_progress_amount">
-                                    <h6>₹25,000</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_display">
-                            <div class="goal_card_deadline_display_icon_and_main_text">
-                                <div class="goal_card_deadline_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="goal_card_deadline_supporting_text">
-                                    <p>Target:</p>
-                                </div>
-                                <div class="goal_card_deadline_main_text">
-                                    <div class="goal_card_deadline_month">
-                                        <h6>Dec</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_date">
-                                        <h6>31,</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="goal_card_deadline_status_display">
-                                <div class="goal_card_deadline_status_dynamic_icon">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                </div>
-                                <div class="goal_card_deadline_status_dynamic_text">
-                                    <h6>Overdue</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_sub_display">
-                            <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
-                                <div class="goal_card_deadline_dynamic_logo">
-                                    <i class="fa-solid fa-arrow-up-right-dots"></i>
-                                </div>
-                                <div class="goal_card_dynamic_subtitle_dynamic_text">
-                                    <p>Monthly needed:</p>
-                                </div>
-                            </div>
-                            <div class="goal_card_dynamic_subtitle_dynamic_number">
-                                <p>₹1,000</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="goal_card">
-                    <div class="goal_card_main_heading">
-                        <div class="goal_card_main_title">
-                            <h4>Emergency Fund</h4>
-                        </div>
-                        <div class="goal_card_dynamic_progress_indicator"></div>
-                        <div class="goal_card_main_subtitle">
-                            <p>6 months of living expenses for financial security</p>
-                        </div>
-                        <div class="goal_card_main_dynamic_tag">
-                            <h6>emergency fund</h6>
-                        </div>
-                    </div>
-                    <div class="goal_card_main_content">
-                        <div class="goal_card_progress_bar_status">
-                            <div class="goal_card_progress_bar_status_indicative_text">
-                                <p>Progress</p>
-                            </div>
-                            <div class="goal_card_progress_bar_percentage">
-                                <h6>74.0%</h6>
-                            </div>
-                        </div>
-                        <div class="goal_card_progress_bar">
-                            <progress id="completion_in_percetange" value="74.0" max="100"></progress>
-                        </div>
-                        <div class="goal_card_descriptive_details">
-                            <div class="goal_card_progress_amount">
-                                <h6>₹18,500</h6>
-                            </div>
-                            <div class="goal_card_total_amount_display">
-                                <div class="goal_card_amount_supporting_text">
-                                    <p>of</p>
-                                </div>
-                                <div class="goal_card_progress_amount">
-                                    <h6>₹25,000</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_display">
-                            <div class="goal_card_deadline_display_icon_and_main_text">
-                                <div class="goal_card_deadline_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="goal_card_deadline_supporting_text">
-                                    <p>Target:</p>
-                                </div>
-                                <div class="goal_card_deadline_main_text">
-                                    <div class="goal_card_deadline_month">
-                                        <h6>Dec</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_date">
-                                        <h6>31,</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="goal_card_deadline_status_display">
-                                <div class="goal_card_deadline_status_dynamic_icon">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                </div>
-                                <div class="goal_card_deadline_status_dynamic_text">
-                                    <h6>Overdue</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_sub_display">
-                            <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
-                                <div class="goal_card_deadline_dynamic_logo">
-                                    <i class="fa-solid fa-arrow-up-right-dots"></i>
-                                </div>
-                                <div class="goal_card_dynamic_subtitle_dynamic_text">
-                                    <p>Monthly needed:</p>
-                                </div>
-                            </div>
-                            <div class="goal_card_dynamic_subtitle_dynamic_number">
-                                <p>₹1,000</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="goal_card">
-                    <div class="goal_card_main_heading">
-                        <div class="goal_card_main_title">
-                            <h4>Emergency Fund</h4>
-                        </div>
-                        <div class="goal_card_dynamic_progress_indicator"></div>
-                        <div class="goal_card_main_subtitle">
-                            <p>6 months of living expenses for financial security</p>
-                        </div>
-                        <div class="goal_card_main_dynamic_tag">
-                            <h6>emergency fund</h6>
-                        </div>
-                    </div>
-                    <div class="goal_card_main_content">
-                        <div class="goal_card_progress_bar_status">
-                            <div class="goal_card_progress_bar_status_indicative_text">
-                                <p>Progress</p>
-                            </div>
-                            <div class="goal_card_progress_bar_percentage">
-                                <h6>74.0%</h6>
-                            </div>
-                        </div>
-                        <div class="goal_card_progress_bar">
-                            <progress id="completion_in_percetange" value="74.0" max="100"></progress>
-                        </div>
-                        <div class="goal_card_descriptive_details">
-                            <div class="goal_card_progress_amount">
-                                <h6>₹18,500</h6>
-                            </div>
-                            <div class="goal_card_total_amount_display">
-                                <div class="goal_card_amount_supporting_text">
-                                    <p>of</p>
-                                </div>
-                                <div class="goal_card_progress_amount">
-                                    <h6>₹25,000</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_display">
-                            <div class="goal_card_deadline_display_icon_and_main_text">
-                                <div class="goal_card_deadline_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="goal_card_deadline_supporting_text">
-                                    <p>Target:</p>
-                                </div>
-                                <div class="goal_card_deadline_main_text">
-                                    <div class="goal_card_deadline_month">
-                                        <h6>Dec</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_date">
-                                        <h6>31,</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="goal_card_deadline_status_display">
-                                <div class="goal_card_deadline_status_dynamic_icon">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                </div>
-                                <div class="goal_card_deadline_status_dynamic_text">
-                                    <h6>Overdue</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_sub_display">
-                            <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
-                                <div class="goal_card_deadline_dynamic_logo">
-                                    <i class="fa-solid fa-arrow-up-right-dots"></i>
-                                </div>
-                                <div class="goal_card_dynamic_subtitle_dynamic_text">
-                                    <p>Monthly needed:</p>
-                                </div>
-                            </div>
-                            <div class="goal_card_dynamic_subtitle_dynamic_number">
-                                <p>₹1,000</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="goal_card">
-                    <div class="goal_card_main_heading">
-                        <div class="goal_card_main_title">
-                            <h4>Emergency Fund</h4>
-                        </div>
-                        <div class="goal_card_dynamic_progress_indicator"></div>
-                        <div class="goal_card_main_subtitle">
-                            <p>6 months of living expenses for financial security</p>
-                        </div>
-                        <div class="goal_card_main_dynamic_tag">
-                            <h6>emergency fund</h6>
-                        </div>
-                    </div>
-                    <div class="goal_card_main_content">
-                        <div class="goal_card_progress_bar_status">
-                            <div class="goal_card_progress_bar_status_indicative_text">
-                                <p>Progress</p>
-                            </div>
-                            <div class="goal_card_progress_bar_percentage">
-                                <h6>74.0%</h6>
-                            </div>
-                        </div>
-                        <div class="goal_card_progress_bar">
-                            <progress id="completion_in_percetange" value="74.0" max="100"></progress>
-                        </div>
-                        <div class="goal_card_descriptive_details">
-                            <div class="goal_card_progress_amount">
-                                <h6>₹18,500</h6>
-                            </div>
-                            <div class="goal_card_total_amount_display">
-                                <div class="goal_card_amount_supporting_text">
-                                    <p>of</p>
-                                </div>
-                                <div class="goal_card_progress_amount">
-                                    <h6>₹25,000</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_display">
-                            <div class="goal_card_deadline_display_icon_and_main_text">
-                                <div class="goal_card_deadline_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="goal_card_deadline_supporting_text">
-                                    <p>Target:</p>
-                                </div>
-                                <div class="goal_card_deadline_main_text">
-                                    <div class="goal_card_deadline_month">
-                                        <h6>Dec</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_date">
-                                        <h6>31,</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="goal_card_deadline_status_display">
-                                <div class="goal_card_deadline_status_dynamic_icon">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                </div>
-                                <div class="goal_card_deadline_status_dynamic_text">
-                                    <h6>Overdue</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="goal_card_deadline_sub_display">
-                            <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
-                                <div class="goal_card_deadline_dynamic_logo">
-                                    <i class="fa-solid fa-arrow-up-right-dots"></i>
-                                </div>
-                                <div class="goal_card_dynamic_subtitle_dynamic_text">
-                                    <p>Monthly needed:</p>
-                                </div>
-                            </div>
-                            <div class="goal_card_dynamic_subtitle_dynamic_number">
-                                <p>₹1,000</p>
-                            </div>
-                        </div>
-                    </div>
+
+<div class="goal-modal-backdrop-overlay" id="addFundModalOverlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:100; align-items:center; justify-content:center;">
+    <div style="background:white; width:100%; max-width:400px; border-radius:16px; padding:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="margin:0; display:flex; align-items:center; gap:8px;">
+                <i class="fa-solid fa-piggy-bank" style="color:#059669;"></i> Add Funds
+            </h3>
+            <button id="closeAddFundModalBtn" style="background:none; border:none; font-size:24px; color:#94a3b8; cursor:pointer;">&times;</button>
+        </div>
+        <form id="addFundForm">
+            <div style="margin-bottom:24px;">
+                <label style="display:block; font-size:13px; font-weight:600; color:#475569; margin-bottom:8px;">Amount to Add (₹) *</label>
+                <input type="number" id="addFundAmount" required step="0.01" placeholder="e.g. 500" style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px;">
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+                <p id="addFundStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;"></p>
+                <button type="button" id="cancelAddFundBtn" style="background:#f1f5f9; color:#475569; border:none; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer;">Cancel</button>
+                <button type="submit" id="submitAddFundBtn" style="background:#059669; color:white; border:none; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-plus"></i> Add
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+            <div class="goal_cards" id="goalCardsList">
+                <div style="padding: 40px; color: #64748B; font-size: 14px; text-align: center; width: 100%; grid-column: 1 / -1;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
+                    <p>Loading your goals...</p>
                 </div>
             </div>
         </div>
@@ -801,12 +502,20 @@
     // ==========================================
     // MODULE B: SEARCH BAR DROPDOWN UI
     // ==========================================
+    // ==========================================
+    // MODULE B: SEARCH BAR, FILTERS & RENDER LOGIC
+    // ==========================================
+    let allGoalsData = [];
+    let currentCategoryFilter = 'All Categories';
+    let currentSearchQuery = '';
+
     function initSearchBar() {
         const toggleBtn = document.getElementById('categoryToggle');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const categoryText = document.getElementById('categoryText');
         const chevronIcon = document.getElementById('chevronIcon');
         const dropdownItems = document.querySelectorAll('.dropdown-item');
+        const searchInput = document.getElementById('goalSearchInput');
         
         toggleBtn?.addEventListener('click', (e) => {
             e.stopPropagation(); 
@@ -816,12 +525,21 @@
         
         dropdownItems.forEach(item => {
             item.addEventListener('click', (e) => {
-                if (categoryText) categoryText.textContent = e.target.textContent;
+                if (categoryText) {
+                    categoryText.textContent = e.target.textContent;
+                    currentCategoryFilter = e.target.textContent;
+                    renderGoalsList(); // Re-filter when category changes
+                }
                 dropdownMenu?.classList.remove('show');
                 chevronIcon?.classList.add('closed');
             });
         });
         
+        searchInput?.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase();
+            renderGoalsList(); // Re-filter when typing
+        });
+
         document.addEventListener('click', (e) => {
             if (toggleBtn && dropdownMenu && !toggleBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
                 dropdownMenu.classList.remove('show');
@@ -829,6 +547,131 @@
             }
         });
     }
+
+    async function fetchAndRenderGoals() {
+        if (!currentUser) return;
+        const { data, error } = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id).order('deadline', { ascending: true });
+        if (!error) {
+            allGoalsData = data || [];
+            renderGoalsList();
+            loadGoalMetrics(); // Update top widgets too
+        }
+    }
+
+    function renderGoalsList() {
+        const container = document.getElementById('goalCardsList');
+        if (!container) return;
+
+        let filtered = allGoalsData.filter(g => {
+            const matchesSearch = (g.title || '').toLowerCase().includes(currentSearchQuery) || (g.description || '').toLowerCase().includes(currentSearchQuery);
+            const matchesCat = currentCategoryFilter === 'All Categories' || (g.category || '').toLowerCase() === currentCategoryFilter.toLowerCase().replace(/\s+/g, '-');
+            return matchesSearch && matchesCat;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748B;">
+                    <i class="fa-solid fa-bullseye" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i>
+                    <h4>No goals match your search.</h4>
+                </div>`;
+            return;
+        }
+
+        const formatCurrency = (val) => '₹' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+        let html = '';
+        filtered.forEach(g => {
+            const target = parseFloat(g.target_amount) || 1;
+            const current = parseFloat(g.current_amount) || 0;
+            const percentage = Math.min(100, (current / target) * 100).toFixed(1);
+            
+            const deadline = new Date(g.deadline || new Date());
+            const month = deadline.toLocaleString('default', { month: 'short' });
+            const date = deadline.getDate();
+            const year = deadline.getFullYear();
+            
+            const isOverdue = deadline < new Date() && current < target;
+            const statusText = current >= target ? 'Completed' : (isOverdue ? 'Overdue' : 'On Track');
+            const statusIconColor = current >= target ? '#10b981' : (isOverdue ? '#ef4444' : '#f59e0b');
+            const statusIcon = current >= target ? 'fa-check-circle' : (isOverdue ? 'fa-triangle-exclamation' : 'fa-clock');
+
+            // Determine category icon based on category tag
+            const cat = g.category || 'other';
+            const catIcon = cat.includes('emergency') ? 'fa-truck-medical' : (cat.includes('vacation') ? 'fa-plane' : (cat.includes('home') ? 'fa-house' : (cat.includes('car') ? 'fa-car' : 'fa-vault')));
+
+            html += `
+                <div class="goal_card">
+                    <div class="goal_card_main_heading">
+                        <div class="goal_card_main_title">
+                            <h4>${g.title}</h4>
+                        </div>
+                        <div class="goal_card_dynamic_progress_indicator" style="background: ${statusIconColor}20; color: ${statusIconColor}; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: auto;">
+                            <i class="fa-solid ${catIcon}"></i>
+                        </div>
+                        <div class="goal_card_main_subtitle">
+                            <p>${g.description || 'Savings milestone'}</p>
+                        </div>
+                        <div class="goal_card_main_dynamic_tag">
+                            <h6>${(g.category || 'General').replace('-', ' ')}</h6>
+                        </div>
+                    </div>
+                    <div class="goal_card_main_content">
+                        <div class="goal_card_progress_bar_status">
+                            <div class="goal_card_progress_bar_status_indicative_text">
+                                <p>Progress</p>
+                            </div>
+                            <div class="goal_card_progress_bar_percentage">
+                                <h6>${percentage}%</h6>
+                            </div>
+                        </div>
+                        <div class="goal_card_progress_bar">
+                            <progress value="${percentage}" max="100"></progress>
+                        </div>
+                        <div class="goal_card_descriptive_details" style="display: flex; align-items: center;">
+                            <div class="goal_card_progress_amount">
+                                <h6>${formatCurrency(current)}</h6>
+                            </div>
+                            <div class="goal_card_total_amount_display" style="margin-left: 8px;">
+                                <div class="goal_card_amount_supporting_text">
+                                    <p>of</p>
+                                </div>
+                                <div class="goal_card_progress_amount">
+                                    <h6>${formatCurrency(target)}</h6>
+                                </div>
+                            </div>
+                            <button onclick="window.openAddFundModal('${g.id}')" style="background:#10b981; color:white; border:none; padding:6px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:12px; margin-left:auto; transition: 0.2s;">
+                                + Add Fund
+                            </button>
+                        </div>
+                        <div class="goal_card_deadline_display">
+                            <div class="goal_card_deadline_display_icon_and_main_text">
+                                <div class="goal_card_deadline_icon">
+                                    <i class="fa-regular fa-calendar"></i>
+                                </div>
+                                <div class="goal_card_deadline_supporting_text">
+                                    <p>Target:</p>
+                                </div>
+                                <div class="goal_card_deadline_main_text">
+                                    <div class="goal_card_deadline_month"><h6>${month}</h6></div>
+                                    <div class="goal_card_deadline_date"><h6>${date},</h6></div>
+                                    <div class="goal_card_deadline_year"><h6>${year}</h6></div>
+                                </div>
+                            </div>
+                            <div class="goal_card_deadline_status_display">
+                                <div class="goal_card_deadline_status_dynamic_icon">
+                                    <i class="fa-solid ${statusIcon}" style="color: ${statusIconColor};"></i>
+                                </div>
+                                <div class="goal_card_deadline_status_dynamic_text">
+                                    <h6 style="color: ${statusIconColor};">${statusText}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+        container.innerHTML = html;
+    }
+
 
     // ==========================================
     // MODULE C: GOAL CREATOR MODAL & DATABASE
@@ -863,8 +706,9 @@
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && overlay?.classList.contains('is-active')) {
-            closeGoalModal();
+        if (event.key === 'Escape') {
+            if (overlay?.classList.contains('is-active')) closeGoalModal();
+            if (addFundModalOverlay.style.display === 'flex') closeAddFundModal();
         }
     });
 
@@ -872,12 +716,7 @@
         const categorySelect = document.getElementById('select_category');
         if (!categorySelect) return;
 
-        const { data: customTags, error } = await supabase
-            .from('finance_app_customtag')
-            .select('*')
-            .eq('user_id', userId)
-            .eq('tag_type', 'goal_category');
-
+        const { data: customTags, error } = await supabase.from('finance_app_customtag').select('*').eq('user_id', userId).eq('tag_type', 'goal_category');
         if (error) return;
 
         Array.from(categorySelect.options).forEach(opt => {
@@ -904,14 +743,9 @@
             categorySelect.addEventListener('change', async function() {
                 if (this.value === '__add_new__') {
                     const newTagName = prompt("Enter a new goal category:");
-                    
                     if (newTagName && newTagName.trim() !== '') {
-                        // THE FIX: Added crypto.randomUUID()
                         const { error: insertError } = await supabase.from('finance_app_customtag').insert([{
-                            id: crypto.randomUUID(),
-                            user_id: currentUser.id,
-                            name: newTagName.trim(),
-                            tag_type: 'goal_category'
+                            id: crypto.randomUUID(), user_id: currentUser.id, name: newTagName.trim(), tag_type: 'goal_category'
                         }]);
 
                         if (!insertError) {
@@ -922,7 +756,6 @@
                             this.insertBefore(newOption, this.lastElementChild);
                             this.value = newOption.value;
                         } else {
-                            console.error("Database Error:", insertError);
                             alert("Failed to save tag: " + insertError.message);
                             this.selectedIndex = 0;
                         }
@@ -940,41 +773,25 @@
 
         const submitBtn = document.querySelector('.create_goal_form_button');
         const statusMsg = document.getElementById('goalFormStatus');
-        
         submitBtn.disabled = true;
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <p>Saving...</p>';
         if (statusMsg) statusMsg.style.display = 'none';
 
-        if (!currentUser) {
-            if (statusMsg) {
-                statusMsg.style.display = 'block';
-                statusMsg.innerText = "Error: Authentication expired. Please re-login.";
-                statusMsg.style.color = "#ef4444";
-            }
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            return;
-        }
-
         const newGoal = {
             id: crypto.randomUUID(),
             user_id: currentUser.id, 
-            title: document.getElementById('goalTitle').value, // FIXED: changed 'name' to 'title'
+            title: document.getElementById('goalTitle').value,
             category: categorySelect?.value || 'general',
             description: document.getElementById('goalDesc').value,
             target_amount: parseFloat(document.getElementById('goalTarget').value),
             current_amount: parseFloat(document.getElementById('goalCurrent').value || 0),
             deadline: document.getElementById('goalDeadline').value
-            // Uncomment these only if you added these columns in your Supabase table!
-            // monthly_contribution: parseFloat(document.getElementById('goalMonthly').value || 0),
-            // priority: document.getElementById('priority').value 
         };
 
         const { error } = await supabase.from('finance_app_goal').insert([newGoal]);
 
         if (error) {
-            console.error('Database Error:', error);
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = `Error: ${error.message}`;
@@ -988,40 +805,101 @@
                 statusMsg.innerText = "✨ Goal tracking active!";
                 statusMsg.style.color = "#059669"; 
             }
-
             setTimeout(() => {
                 closeGoalModal();
                 form.reset();
                 if (statusMsg) statusMsg.style.display = 'none';
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
-                
-                if (typeof loadGoalsList === 'function') loadGoalsList(currentUser.id);
+                fetchAndRenderGoals(); // Reload the list
             }, 1000);
         }
     });
 
+    // ==========================================
+    // MODULE D: ADD FUND LOGIC
+    // ==========================================
+    let activeGoalIdForFund = null;
+    const addFundModalOverlay = document.getElementById('addFundModalOverlay');
+    const addFundForm = document.getElementById('addFundForm');
+    const addFundStatus = document.getElementById('addFundStatus');
+
+    window.openAddFundModal = (goalId) => {
+        activeGoalIdForFund = goalId;
+        addFundModalOverlay.style.display = 'flex';
+        if (addFundStatus) addFundStatus.style.display = 'none';
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeAddFundModal = () => {
+        addFundModalOverlay.style.display = 'none';
+        addFundForm.reset();
+        activeGoalIdForFund = null;
+        document.body.style.overflow = '';
+    };
+
+    document.getElementById('closeAddFundModalBtn').addEventListener('click', closeAddFundModal);
+    document.getElementById('cancelAddFundBtn').addEventListener('click', closeAddFundModal);
+
+    addFundModalOverlay.addEventListener('click', (e) => {
+        if (e.target === addFundModalOverlay) closeAddFundModal();
+    });
+
+    addFundForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitAddFundBtn');
+        const amountToAdd = parseFloat(document.getElementById('addFundAmount').value);
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding...';
+        if (addFundStatus) addFundStatus.style.display = 'none';
+
+        try {
+            // Find current goal state
+            const targetGoal = allGoalsData.find(g => g.id === activeGoalIdForFund);
+            if (!targetGoal) throw new Error("Goal not found");
+
+            const newAmount = (parseFloat(targetGoal.current_amount) || 0) + amountToAdd;
+
+            // Update DB
+            const { error } = await supabase.from('finance_app_goal').update({ current_amount: newAmount }).eq('id', activeGoalIdForFund);
+            if (error) throw error;
+
+            if (addFundStatus) {
+                addFundStatus.style.display = 'block';
+                addFundStatus.innerText = "✨ Funds added successfully!";
+            }
+
+            setTimeout(() => {
+                closeAddFundModal();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
+                fetchAndRenderGoals(); // Re-render everything
+            }, 1000);
+
+        } catch(err) {
+            if (addFundStatus) {
+                addFundStatus.style.display = 'block';
+                addFundStatus.innerText = "Error: " + err.message;
+                addFundStatus.style.color = "#ef4444";
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
+        }
+    });
+
+    // ==========================================
+    // MODULE E: TOP WIDGETS CALCULATION
+    // ==========================================
     async function loadGoalMetrics() {
         if (!currentUser) return;
-
-        const { data: goals, error } = await supabase
-            .from('finance_app_goal')
-            .select('*')
-            .eq('user_id', currentUser.id);
-
-        if (error) {
-            console.error("Error fetching goals:", error);
-            return;
-        }
-
-        const goalData = goals || [];
         
         let totalSaved = 0;
         let totalTarget = 0;
         let completedCount = 0;
         let activeCount = 0;
 
-        goalData.forEach(g => {
+        allGoalsData.forEach(g => {
             totalSaved += (g.current_amount || 0);
             totalTarget += (g.target_amount || 0);
             
@@ -1035,8 +913,7 @@
         const overallProgress = totalTarget > 0 ? ((totalSaved / totalTarget) * 100) : 0;
         const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
 
-        // Update the GUI IDs
-        document.getElementById('topTotalGoals').innerText = goalData.length;
+        document.getElementById('topTotalGoals').innerText = allGoalsData.length;
         document.getElementById('topActiveGoals').innerText = activeCount;
         document.getElementById('topOverallProgress').innerText = overallProgress.toFixed(1) + '%';
         document.getElementById('topTotalSaved').innerText = formatCurrency(totalSaved);
@@ -1044,9 +921,6 @@
         document.getElementById('topCompleted').innerText = completedCount;
     }
 
-    // ==========================================
-    // BOOTSTRAP INITIALIZER
-    // ==========================================
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
@@ -1061,14 +935,14 @@
         currentUser = session.user;
         
         syncSidebar();
-        await loadGoalMetrics(); // <-- ADDED THIS LINE
+        initSearchBar();
+        fetchAndRenderGoals(); // Triggers the render loop
         
         if (currentUser) {
             loadCustomCategories(currentUser.id);
         }
     }
 
-    // Wait for the HTML tree to fully render before executing logic
     document.addEventListener('DOMContentLoaded', initPage);
 </script>
 
