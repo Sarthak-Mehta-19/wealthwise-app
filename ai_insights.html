@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="ai_insights.css">
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--Deep Inights-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -299,19 +301,19 @@
                     <div class="dashboard-panel-surface-wrapper">
                         <div class="dashboard-panel-header-row">
                             <h2 class="dashboard-panel-primary-heading">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>
-                                AI Recommendations
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                <span id="spendingAnalysisTitle">Spending Analysis</span>
                             </h2>
-                            <button class="dashboard-panel-action-button" id="smallRefreshBtn" style="cursor: pointer;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
-                                Refresh
+                            <button id="thisMonthSpendingBtn" class="dashboard-panel-action-button" style="background-color: var(--dashboard-bg-color); border-color: var(--dashboard-border-color); color: var(--dashboard-text-primary); font-weight: 600;">
+                                ₹0 this month
                             </button>
                         </div>
-                        <div id="aiRecommendationsList">
-                            <div style="padding: 40px; color: #64748B; text-align: center;">
-                                <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
-                                <p>Generating personalized recommendations...</p>
+                        
+                        <div class="spending-analysis-empty-state-wrapper" id="spendingAnalysisContainer" style="height: 250px; position: relative;">
+                            <div class="spending-analysis-empty-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="14"/><line x1="12" y1="20" x2="12" y2="10"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
                             </div>
+                            <p style="margin:0; color: #64748B; font-size: 14px;">Keep tracking expenses to unlock deep category analytics.</p>
                         </div>
                     </div>
                     <div class="dashboard-panel-surface-wrapper">
@@ -402,7 +404,6 @@
     <!--Notifications System-->
 <script src="notifications.js"></script>
 
-<!-- Global Sidebar Sync & AI Insights Logic -->
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
@@ -410,6 +411,7 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let currentUser = null;
+    let dynamicChartInst = null; // Holds the dynamic chart
 
     async function syncSidebar() {
         if (!currentUser) return;
@@ -432,6 +434,93 @@
         });
     }
 
+    // ==========================================
+    // THE "AI" DYNAMIC CHART ENGINE
+    // ==========================================
+    function generateDynamicChart(expenses) {
+        const container = document.getElementById('spendingAnalysisContainer');
+        const titleEl = document.getElementById('spendingAnalysisTitle');
+        
+        if (expenses.length === 0) {
+            container.innerHTML = `
+                <div class="spending-analysis-empty-icon"><i class="fa-solid fa-chart-bar" style="font-size: 24px; color: #cbd5e1;"></i></div>
+                <p style="margin:0; color:#64748B; font-size: 14px;">Keep tracking expenses to unlock deep category analytics.</p>
+            `;
+            titleEl.innerText = "Spending Analysis";
+            return;
+        }
+
+        container.innerHTML = '<canvas id="dynamicSpendingChart"></canvas>';
+        const ctx = document.getElementById('dynamicSpendingChart').getContext('2d');
+
+        if (dynamicChartInst) dynamicChartInst.destroy();
+
+        // 1. Analyze Data Patterns
+        const uniqueDates = [...new Set(expenses.map(e => e.date))].sort();
+        let type, data, options, titleText;
+
+        // Pattern A: High volume of transactions over multiple days -> SCATTER PLOT
+        if (expenses.length >= 8 && uniqueDates.length > 3) {
+            type = 'scatter';
+            titleText = "AI Analysis: Transaction Clustering";
+            
+            const scatterData = expenses.map(e => ({ x: new Date(e.date).getTime(), y: parseFloat(e.amount), name: e.description }));
+
+            data = {
+                datasets: [{
+                    label: 'Transactions',
+                    data: scatterData,
+                    backgroundColor: '#8b5cf6',
+                    pointRadius: 6, pointHoverRadius: 8
+                }]
+            };
+            options = {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    x: { type: 'linear', ticks: { callback: val => new Date(val).toLocaleDateString('en-GB', {day:'2-digit', month:'short'}) }, grid: { display: false } },
+                    y: { beginAtZero: true, grid: { borderDash: [5,5] } }
+                },
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.raw.name}: ₹${ctx.raw.y.toLocaleString('en-IN')}` } } }
+            };
+        } 
+        // Pattern B: Steady transactions over multiple days -> LINE CHART
+        else if (uniqueDates.length >= 4) {
+            type = 'line';
+            titleText = "AI Analysis: Spending Velocity";
+            
+            const dateTotals = {};
+            expenses.forEach(e => { dateTotals[e.date] = (dateTotals[e.date] || 0) + parseFloat(e.amount); });
+            const sortedDates = Object.keys(dateTotals).sort();
+            const amounts = sortedDates.map(d => dateTotals[d]);
+            const labels = sortedDates.map(d => new Date(d).toLocaleDateString('en-GB', {day:'2-digit', month:'short'}));
+
+            data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily Spend', data: amounts, borderColor: '#0ea5e9', backgroundColor: 'rgba(14, 165, 233, 0.1)', fill: true, tension: 0.4, borderWidth: 2, pointBackgroundColor: '#ffffff', pointBorderColor: '#0ea5e9', pointRadius: 4
+                }]
+            };
+            options = { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { borderDash: [5,5] } } }, plugins: { legend: { display: false } } };
+        } 
+        // Pattern C: Concentrated transactions (few days) -> COLUMN CHART
+        else {
+            type = 'bar';
+            titleText = "AI Analysis: Category Distribution";
+            
+            const catTotals = {};
+            expenses.forEach(e => { catTotals[e.category] = (catTotals[e.category] || 0) + parseFloat(e.amount); });
+            
+            data = {
+                labels: Object.keys(catTotals),
+                datasets: [{ label: 'Amount', data: Object.values(catTotals), backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'], borderRadius: 6 }]
+            };
+            options = { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { borderDash: [5,5] } } }, plugins: { legend: { display: false } } };
+        }
+
+        titleEl.innerText = titleText;
+        dynamicChartInst = new Chart(ctx, { type, data, options });
+    }
+
     async function loadAllAILogic() {
         if (!currentUser) return;
 
@@ -451,6 +540,9 @@
         const expData = expenses || [];
         const goalData = goals || [];
         const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+        // Generate Chart using fetched expenses!
+        generateDynamicChart(expData);
 
         // --- 2. CALCULATE MASTER METRICS ---
         let totalSaved = 0;
@@ -490,7 +582,6 @@
         document.getElementById('aiMonthlySpending').innerText = formatCurrency(thisMonthExp);
 
         // --- 4. FINANCIAL HEALTH SCORE ALGORITHM ---
-        // Score out of 100. Base: 40. +30 for good savings rate, +15 for active goals, +15 for total pooled savings
         let score = 40; 
         score += Math.min(30, (savingsRate / 20) * 30); 
         score += Math.min(15, activeGoals * 5); 
@@ -502,13 +593,11 @@
         else if (score > 60) { healthStatus = 'Good'; healthColor = '#3b82f6'; }
         else if (score > 40) { healthStatus = 'Fair'; healthColor = '#f59e0b'; }
 
-        // Populate Health UI
         document.getElementById('healthScoreNumber').innerText = score;
         const statusEl = document.getElementById('healthScoreStatus');
         statusEl.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> ${healthStatus}`;
         statusEl.style.color = healthColor;
         
-        // Gauge Math (Max dash array is 190 for the semi-circle)
         const gaugeValue = (score / 100) * 190;
         const gaugePath = document.getElementById('healthScoreGaugeValue');
         gaugePath.setAttribute('stroke-dasharray', `${gaugeValue} 283`);
@@ -522,7 +611,6 @@
         const recList = document.getElementById('aiRecommendationsList');
         let recHtml = '';
 
-        // Insight 1: Highest Spend Category
         const sortedCats = Object.keys(catTotals).sort((a,b) => catTotals[b] - catTotals[a]);
         const highestCat = sortedCats[0];
         
@@ -549,7 +637,6 @@
             </div>`;
         }
 
-        // Insight 2: Positive reinforcement for Savings Rate
         if (savingsRate > 25) {
             recHtml += `
             <div class="ai-insight-recommendation-card-item border-theme-green">
@@ -573,7 +660,6 @@
             </div>`;
         }
 
-        // Insight 3: Goal lagging behind
         let lowestGoal = goalData.filter(g => (g.current_amount || 0) < (g.target_amount || 1)).sort((a,b) => ((a.current_amount || 0)/(a.target_amount || 1)) - ((b.current_amount || 0)/(b.target_amount || 1)))[0];
         if (lowestGoal) {
             const pct = (((lowestGoal.current_amount || 0) / (lowestGoal.target_amount || 1)) * 100).toFixed(1);
@@ -602,7 +688,6 @@
         if(recHtml === '') { recHtml = `<p style="padding: 20px; color:#64748b; text-align:center;">Keep tracking expenses and goals to generate personalized AI insights!</p>`; }
         recList.innerHTML = recHtml;
 
-        // Fix the Spending button logic
         const spendingButton = document.getElementById('thisMonthSpendingBtn');
         if (spendingButton) spendingButton.innerText = `${formatCurrency(thisMonthExp)} this month`;
 
@@ -652,14 +737,12 @@
         }
         advList.innerHTML = advHtml || '<p style="padding: 20px; color:#64748b; text-align:center;">All goals completed! Great job.</p>';
 
-        // Restore Buttons
         setTimeout(() => {
             if(bigRefresh) { bigRefresh.innerHTML = bigOriginal; bigRefresh.disabled = false; }
             if(smallRefresh) { smallRefresh.innerHTML = smallOriginal; smallRefresh.disabled = false; }
         }, 800); 
     }
 
-    // --- INITIALIZER ---
     async function initPage() {
         const { data: { session } } = await supabase.auth.getSession();
         
@@ -670,7 +753,6 @@
         syncSidebar();
         await loadAllAILogic();
 
-        // Bind Refresh buttons
         document.getElementById('refreshInsightsBtn')?.addEventListener('click', loadAllAILogic);
         document.getElementById('smallRefreshBtn')?.addEventListener('click', loadAllAILogic);
     }
