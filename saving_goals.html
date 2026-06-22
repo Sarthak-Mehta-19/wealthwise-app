@@ -594,20 +594,18 @@
             const statusText = current >= target ? 'Completed' : (isOverdue ? 'Overdue' : 'On Track');
             const statusIconColor = current >= target ? '#10b981' : (isOverdue ? '#ef4444' : '#f59e0b');
             const statusIcon = current >= target ? 'fa-check-circle' : (isOverdue ? 'fa-triangle-exclamation' : 'fa-clock');
+            
+            // Dummy calculation for the "monthly needed" field from your original UI
+            const monthlyNeeded = target > current ? Math.ceil((target - current) / 12) : 0;
 
-            // Determine category icon based on category tag
-            const cat = g.category || 'other';
-            const catIcon = cat.includes('emergency') ? 'fa-truck-medical' : (cat.includes('vacation') ? 'fa-plane' : (cat.includes('home') ? 'fa-house' : (cat.includes('car') ? 'fa-car' : 'fa-vault')));
-
+            // Restored EXACT original HTML structure
             html += `
                 <div class="goal_card">
                     <div class="goal_card_main_heading">
                         <div class="goal_card_main_title">
                             <h4>${g.title}</h4>
                         </div>
-                        <div class="goal_card_dynamic_progress_indicator" style="background: ${statusIconColor}20; color: ${statusIconColor}; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: auto;">
-                            <i class="fa-solid ${catIcon}"></i>
-                        </div>
+                        <div class="goal_card_dynamic_progress_indicator"></div>
                         <div class="goal_card_main_subtitle">
                             <p>${g.description || 'Savings milestone'}</p>
                         </div>
@@ -627,11 +625,11 @@
                         <div class="goal_card_progress_bar">
                             <progress value="${percentage}" max="100"></progress>
                         </div>
-                        <div class="goal_card_descriptive_details" style="display: flex; align-items: center;">
+                        <div class="goal_card_descriptive_details">
                             <div class="goal_card_progress_amount">
                                 <h6>${formatCurrency(current)}</h6>
                             </div>
-                            <div class="goal_card_total_amount_display" style="margin-left: 8px;">
+                            <div class="goal_card_total_amount_display">
                                 <div class="goal_card_amount_supporting_text">
                                     <p>of</p>
                                 </div>
@@ -639,9 +637,6 @@
                                     <h6>${formatCurrency(target)}</h6>
                                 </div>
                             </div>
-                            <button onclick="window.openAddFundModal('${g.id}')" style="background:#10b981; color:white; border:none; padding:6px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:12px; margin-left:auto; transition: 0.2s;">
-                                + Add Fund
-                            </button>
                         </div>
                         <div class="goal_card_deadline_display">
                             <div class="goal_card_deadline_display_icon_and_main_text">
@@ -652,9 +647,15 @@
                                     <p>Target:</p>
                                 </div>
                                 <div class="goal_card_deadline_main_text">
-                                    <div class="goal_card_deadline_month"><h6>${month}</h6></div>
-                                    <div class="goal_card_deadline_date"><h6>${date},</h6></div>
-                                    <div class="goal_card_deadline_year"><h6>${year}</h6></div>
+                                    <div class="goal_card_deadline_month">
+                                        <h6>${month}</h6>
+                                    </div>
+                                    <div class="goal_card_deadline_date">
+                                        <h6>${date},</h6>
+                                    </div>
+                                    <div class="goal_card_deadline_year">
+                                        <h6>${year}</h6>
+                                    </div>
                                 </div>
                             </div>
                             <div class="goal_card_deadline_status_display">
@@ -665,6 +666,26 @@
                                     <h6 style="color: ${statusIconColor};">${statusText}</h6>
                                 </div>
                             </div>
+                        </div>
+                        <div class="goal_card_deadline_sub_display">
+                            <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
+                                <div class="goal_card_deadline_dynamic_logo">
+                                    <i class="fa-solid fa-arrow-up-right-dots"></i>
+                                </div>
+                                <div class="goal_card_dynamic_subtitle_dynamic_text">
+                                    <p>Monthly needed:</p>
+                                </div>
+                            </div>
+                            <div class="goal_card_dynamic_subtitle_dynamic_number">
+                                <p>₹${monthlyNeeded.toLocaleString('en-IN')}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- NEW ADD FUND BUTTON: Appended safely below your layout so it won't break the CSS -->
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+                            <button onclick="window.openAddFundModal('${g.id}')" style="background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s;">
+                                <i class="fa-solid fa-plus" style="margin-right: 6px;"></i> Add Funds
+                            </button>
                         </div>
                     </div>
                 </div>`;
