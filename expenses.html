@@ -286,24 +286,22 @@
                     <div class="search-bar-wrapper">
                         <div class="search-bar-container">
                             <div class="dropdown-wrapper">
-                                <button class="category-toggle js-dropdown-toggle">
-                                    <span class="category-text">All Categories</span>
-                                    <svg class="chevron-icon closed js-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <button class="category-toggle js-dropdown-toggle" id="expCatToggle">
+                                    <span class="category-text" id="expCatText">All Categories</span>
+                                    <svg class="chevron-icon closed js-chevron-icon" id="expCatIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                 </button>
-                                <ul class="dropdown-menu js-dropdown-menu">
-                                    <li class="dropdown-item">All Categories</li>
-                                    <li class="dropdown-item">Emergency Fund</li>
-                                    <li class="dropdown-item">Vacation</li>
-                                    <li class="dropdown-item">Home</li>
-                                    <li class="dropdown-item">Car</li>
-                                    <li class="dropdown-item">Education</li>
-                                    <li class="dropdown-item">Retirement</li>
-                                    <li class="dropdown-item">Other</li>
+                                <ul class="dropdown-menu js-dropdown-menu" id="expCatMenu">
+                                    <li class="dropdown-item" data-val="all">All Categories</li>
+                                    <li class="dropdown-item" data-val="food">Food & Dining</li>
+                                    <li class="dropdown-item" data-val="transportation">Transportation</li>
+                                    <li class="dropdown-item" data-val="utilities">Utilities</li>
+                                    <li class="dropdown-item" data-val="shopping">Shopping</li>
+                                    <li class="dropdown-item" data-val="other">Other</li>
                                 </ul>
                             </div>
-                            <input name="search" type="text" class="search-input" placeholder="Search anything...">
+                            <input id="expSearchInput" name="search" type="text" class="search-input" placeholder="Search anything...">
                             <button class="search-button">
                                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="11" cy="11" r="8"></circle>
@@ -311,18 +309,18 @@
                                 </svg>
                             </button>
                             <div class="dropdown-wrapper">
-                                <button class="category-toggle js-dropdown-toggle" style="border-radius: 0 0.75rem 0.75rem 0;">
-                                    <span class="category-text">All Time</span>
-                                    <svg class="chevron-icon closed js-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <button class="category-toggle js-dropdown-toggle" id="expTimeToggle" style="border-radius: 0 0.75rem 0.75rem 0;">
+                                    <span class="category-text" id="expTimeText">All Time</span>
+                                    <svg class="chevron-icon closed js-chevron-icon" id="expTimeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                 </button>
-                                <ul class="dropdown-menu align-right js-dropdown-menu">
-                                    <li class="dropdown-item">All Time</li>
-                                    <li class="dropdown-item">Today</li>
-                                    <li class="dropdown-item">This Week</li>
-                                    <li class="dropdown-item">This Month</li>
-                                    <li class="dropdown-item">This Year</li>
+                                <ul class="dropdown-menu align-right js-dropdown-menu" id="expTimeMenu">
+                                    <li class="dropdown-item" data-val="all">All Time</li>
+                                    <li class="dropdown-item" data-val="today">Today</li>
+                                    <li class="dropdown-item" data-val="week">This Week</li>
+                                    <li class="dropdown-item" data-val="month">This Month</li>
+                                    <li class="dropdown-item" data-val="year">This Year</li>
                                 </ul>
                             </div>
                         </div>
@@ -426,284 +424,15 @@
                             <h4>Recent Expenses</h4>
                         </div>
                         <div class="expenses_number">
-                            <h6>8</h6>
+                            <h6 id="expenseListCount">0</h6>
                             <p>expenses</p>
                         </div>
                     </div>
-                    <div class="expenses_container">
-                        <div class="expense_box">
-                            <div class="expense_logo">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div class="expenses_head">
-                                <div class="expense_title">
-                                    <h5>Grocery shopping at Whole Foods</h5>
-                                </div>
-                                <div class="expense_cat">
-                                    <div class="expense_category">
-                                        <h6>food</h6>
-                                    </div>
-                                <div class="expense_text">
-                                    <p>Weekly groceries and holiday ingredients</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="expense_description">
-                            <div class="expense_data">
-                                <div class="expense_amount">
-                                    <h6>₹ 156.78</h6>
-                                </div>
-                                <div class="expense_date">
-                                    <div class="date_icon">
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </div>
-                                    <div class="expense_date_and_month">
-                                        <h6>Dec 20,</h6>
-                                    </div>
-                                    <div class="expense_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                                <div class="expense_mode">
-                                    <div class="mode_icon">
-                                        <i class="fa-regular fa-credit-card"></i>
-                                    </div>
-                                    <div class="mode_text">
-                                        <h6>Card</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="expenses_container">
-                        <div class="expense_box">
-                            <div class="expense_logo">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div class="expenses_head">
-                                <div class="expense_title">
-                                    <h5>Grocery shopping at Whole Foods</h5>
-                                </div>
-                                <div class="expense_cat">
-                                    <div class="expense_category">
-                                        <h6>food</h6>
-                                    </div>
-                                <div class="expense_text">
-                                    <p>Weekly groceries and holiday ingredients</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="expense_description">
-                            <div class="expense_data">
-                                <div class="expense_amount">
-                                    <h6>₹ 156.78</h6>
-                                </div>
-                                <div class="expense_date">
-                                    <div class="date_icon">
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </div>
-                                    <div class="expense_date_and_month">
-                                        <h6>Dec 20,</h6>
-                                    </div>
-                                    <div class="expense_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                                <div class="expense_mode">
-                                    <div class="mode_icon">
-                                        <i class="fa-regular fa-credit-card"></i>
-                                    </div>
-                                    <div class="mode_text">
-                                        <h6>Card</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="expenses_container">
-                        <div class="expense_box">
-                            <div class="expense_logo">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div class="expenses_head">
-                                <div class="expense_title">
-                                    <h5>Grocery shopping at Whole Foods</h5>
-                                </div>
-                                <div class="expense_cat">
-                                    <div class="expense_category">
-                                        <h6>food</h6>
-                                    </div>
-                                <div class="expense_text">
-                                    <p>Weekly groceries and holiday ingredients</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="expense_description">
-                            <div class="expense_data">
-                                <div class="expense_amount">
-                                    <h6>₹ 156.78</h6>
-                                </div>
-                                <div class="expense_date">
-                                    <div class="date_icon">
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </div>
-                                    <div class="expense_date_and_month">
-                                        <h6>Dec 20,</h6>
-                                    </div>
-                                    <div class="expense_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                                <div class="expense_mode">
-                                    <div class="mode_icon">
-                                        <i class="fa-regular fa-credit-card"></i>
-                                    </div>
-                                    <div class="mode_text">
-                                        <h6>Card</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="expenses_container">
-                        <div class="expense_box">
-                            <div class="expense_logo">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div class="expenses_head">
-                                <div class="expense_title">
-                                    <h5>Grocery shopping at Whole Foods</h5>
-                                </div>
-                                <div class="expense_cat">
-                                    <div class="expense_category">
-                                        <h6>food</h6>
-                                    </div>
-                                <div class="expense_text">
-                                    <p>Weekly groceries and holiday ingredients</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="expense_description">
-                            <div class="expense_data">
-                                <div class="expense_amount">
-                                    <h6>₹ 156.78</h6>
-                                </div>
-                                <div class="expense_date">
-                                    <div class="date_icon">
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </div>
-                                    <div class="expense_date_and_month">
-                                        <h6>Dec 20,</h6>
-                                    </div>
-                                    <div class="expense_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                                <div class="expense_mode">
-                                    <div class="mode_icon">
-                                        <i class="fa-regular fa-credit-card"></i>
-                                    </div>
-                                    <div class="mode_text">
-                                        <h6>Card</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="expenses_container">
-                        <div class="expense_box">
-                            <div class="expense_logo">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div class="expenses_head">
-                                <div class="expense_title">
-                                    <h5>Grocery shopping at Whole Foods</h5>
-                                </div>
-                                <div class="expense_cat">
-                                    <div class="expense_category">
-                                        <h6>food</h6>
-                                    </div>
-                                <div class="expense_text">
-                                    <p>Weekly groceries and holiday ingredients</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="expense_description">
-                            <div class="expense_data">
-                                <div class="expense_amount">
-                                    <h6>₹ 156.78</h6>
-                                </div>
-                                <div class="expense_date">
-                                    <div class="date_icon">
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </div>
-                                    <div class="expense_date_and_month">
-                                        <h6>Dec 20,</h6>
-                                    </div>
-                                    <div class="expense_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                                <div class="expense_mode">
-                                    <div class="mode_icon">
-                                        <i class="fa-regular fa-credit-card"></i>
-                                    </div>
-                                    <div class="mode_text">
-                                        <h6>Card</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="expenses_container">
-                        <div class="expense_box">
-                            <div class="expense_logo">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div class="expenses_head">
-                                <div class="expense_title">
-                                    <h5>Grocery shopping at Whole Foods</h5>
-                                </div>
-                                <div class="expense_cat">
-                                    <div class="expense_category">
-                                        <h6>food</h6>
-                                    </div>
-                                <div class="expense_text">
-                                    <p>Weekly groceries and holiday ingredients</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="expense_description">
-                            <div class="expense_data">
-                                <div class="expense_amount">
-                                    <h6>₹ 156.78</h6>
-                                </div>
-                                <div class="expense_date">
-                                    <div class="date_icon">
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </div>
-                                    <div class="expense_date_and_month">
-                                        <h6>Dec 20,</h6>
-                                    </div>
-                                    <div class="expense_year">
-                                        <h6>2025</h6>
-                                    </div>
-                                </div>
-                                <div class="expense_mode">
-                                    <div class="mode_icon">
-                                        <i class="fa-regular fa-credit-card"></i>
-                                    </div>
-                                    <div class="mode_text">
-                                        <h6>Card</h6>
-                                    </div>
-                                </div>
-                            </div>
+                    
+                    <div id="expensesListWrapper">
+                        <div style="padding: 40px; color: #64748B; font-size: 14px; text-align: center; width: 100%;">
+                            <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
+                            <p>Loading your expenses...</p>
                         </div>
                     </div>
                 </div>
@@ -744,7 +473,7 @@
         </div>
     </div>
 
-    <script type="module">
+<script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
     // --- 1. INITIALIZE SUPABASE ---
@@ -753,19 +482,14 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let currentUser = null;
-
-    // --- 2. DOM ELEMENTS (EXPENSE ADDER) ---
-    const existingOpenBtn = document.querySelector('.expense-adder');
-    const overlay = document.getElementById('expenseModalOverlay');
-    const closeIconBtn = document.getElementById('closeModalIconBtn');
-    const cancelBtn = document.getElementById('cancelModalBtn');
-    const form = document.getElementById('newExpenseForm');
-    const dateInput = document.getElementById('expDate');
-    const categorySelect = document.getElementById('expCategory');
-    const paymentSelect = document.getElementById('expPayment');
-
-    const today = new Date().toISOString().split('T')[0];
-    if (dateInput) dateInput.value = today;
+    let allExpensesData = [];
+    let currentSearchQuery = '';
+    let currentCatFilter = 'all';
+    let currentTimeFilter = 'all';
+    
+    // Chart instances
+    let pieChartInst = null;
+    let barChartInst = null;
 
     // ==========================================
     // MODULE A: GLOBAL SIDEBAR SYNC
@@ -773,40 +497,19 @@
     async function syncSidebar() {
         if (!currentUser) return;
         
-        // Pull the names saved during Sign-Up
         const firstName = currentUser.user_metadata?.first_name || '';
         const lastName = currentUser.user_metadata?.last_name || '';
-        let fullName = `${firstName} ${lastName}`.trim();
-        
-        // Failsafe: Use first part of email if no name exists
-        if (!fullName) {
-            fullName = currentUser.email.split('@')[0];
-            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
-        }
+        let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
 
-        // 1. Inject into the Sidebar Text
         const nameEl = document.getElementById('sidebar-user-name');
         const emailEl = document.getElementById('sidebar-user-email');
-        
         if (nameEl) nameEl.innerText = fullName;
         if (emailEl) emailEl.innerText = currentUser.email;
 
-        // 2. Dynamic Initials Avatar Generation
-        let initials = "";
-        if (firstName && lastName) {
-            initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
-        } else if (firstName) {
-            initials = firstName.substring(0, 2).toUpperCase();
-        } else {
-            initials = currentUser.email.substring(0, 2).toUpperCase();
-        }
+        let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
 
-        // 3. Inject Initials into EVERY .avatar-circle on the page
-        const avatarCircles = document.querySelectorAll('.avatar-circle');
-        avatarCircles.forEach(circle => {
-            // Remove any old generic icons and inject the styled initials
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
             circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            // Apply the soft green premium styling dynamically
             circle.style.backgroundColor = '#ecfdf5'; 
             circle.style.display = 'flex';
             circle.style.alignItems = 'center';
@@ -815,468 +518,331 @@
     }
 
     // ==========================================
-    // MODULE B: EXPENSE MODAL & DATA SUBMISSION
+    // MODULE B: FILTER & SEARCH LOGIC
     // ==========================================
-    const openModal = () => {
-        if (overlay) {
-            overlay.classList.add('is-active');
-            document.body.style.overflow = 'hidden';
-        }
-    };
-
-    const closeModal = () => {
-        if (overlay) {
-            overlay.classList.remove('is-active');
-            document.body.style.overflow = '';
-        }
-    };
-
-    existingOpenBtn?.addEventListener('click', openModal);
-    closeIconBtn?.addEventListener('click', closeModal);
-    cancelBtn?.addEventListener('click', closeModal);
-
-    overlay?.addEventListener('click', (event) => {
-        if (event.target === overlay) closeModal();
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && overlay?.classList.contains('is-active')) {
-            closeModal();
-        }
-    });
-
-    async function loadUserCustomTags(userId) {
-        const { data: customTags, error } = await supabase
-            .from('finance_app_customtag')
-            .select('*')
-            .eq('user_id', userId);
-
-        if (error) return;
-
-        const setupDropdown = (selectElement, typeFilter) => {
-            if (!selectElement) return;
-            
-            // Clear any previously injected custom tags
-            Array.from(selectElement.options).forEach(opt => {
-                if (opt.classList.contains('custom-injected')) opt.remove();
-            });
-
-            // Add Custom Tags from DB
-            customTags.filter(t => t.tag_type === typeFilter).forEach(tag => {
-                const option = document.createElement('option');
-                option.value = tag.name.toLowerCase().replace(/\s+/g, '-');
-                option.innerText = tag.name;
-                option.classList.add('custom-injected');
-                selectElement.appendChild(option);
-            });
-
-            // Add the "Create New" option
-            const createNewOption = document.createElement('option');
-            createNewOption.value = "__add_new__";
-            createNewOption.innerHTML = "+ Add New Tag...";
-            createNewOption.style.fontWeight = "bold";
-            createNewOption.style.color = "#059669";
-            createNewOption.classList.add('custom-injected');
-            selectElement.appendChild(createNewOption);
-
-            // Attach listener exactly ONCE
-            if (!selectElement.dataset.tagListener) {
-                selectElement.addEventListener('change', async function() {
-                    if (this.value === '__add_new__') {
-                        const newTagName = prompt("Enter a name for your new tag:");
-                        
-                        if (newTagName && newTagName.trim() !== '') {
-                            // THE FIX: Added crypto.randomUUID()
-                            const { error: insertError } = await supabase.from('finance_app_customtag').insert([{
-                                id: crypto.randomUUID(), 
-                                user_id: currentUser.id,
-                                name: newTagName.trim(),
-                                tag_type: typeFilter
-                            }]);
-
-                            if (!insertError) {
-                                // Add it visually above the "Add New" button
-                                const newOption = document.createElement('option');
-                                newOption.value = newTagName.toLowerCase().replace(/\s+/g, '-');
-                                newOption.innerText = newTagName.trim();
-                                newOption.classList.add('custom-injected');
-                                this.insertBefore(newOption, this.lastElementChild);
-                                this.value = newOption.value; 
-                            } else {
-                                console.error("Database Error:", insertError);
-                                alert("Failed to save tag: " + insertError.message);
-                                this.selectedIndex = 0;
-                            }
-                        } else {
-                            this.selectedIndex = 0; 
-                        }
-                    }
-                });
-                selectElement.dataset.tagListener = "true";
-            }
-        };
-
-        setupDropdown(document.getElementById('expCategory'), 'category');
-        setupDropdown(document.getElementById('expPayment'), 'payment_method');
-    }
-
-    form?.addEventListener('submit', async (event) => {
-        event.preventDefault();
+    function initFilters() {
+        const searchInput = document.getElementById('expSearchInput');
         
-        const submitBtn = form.querySelector('.expense-modal-btn-submit');
-        const statusMsg = document.getElementById('expenseFormStatus');
-        const originalText = submitBtn.innerHTML;
-        
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Saving...";
-        if (statusMsg) statusMsg.style.display = 'none';
-
-        if (!currentUser) {
-            if (statusMsg) {
-                statusMsg.style.display = 'block';
-                statusMsg.innerText = "Security Error: Session expired. Please log in.";
-                statusMsg.style.color = "#ef4444";
-            }
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            return;
-        }
-
-        const newExpense = {
-            id: crypto.randomUUID(),
-            user_id: currentUser.id,
-            title: document.getElementById('expDesc').value,
-            amount: parseFloat(document.getElementById('expAmount').value),
-            category: categorySelect.value,
-            date: dateInput.value,
-            payment_method: paymentSelect.value,
-            notes: document.getElementById('expNotes').value,
-            is_recurring: document.getElementById('expRecurring').checked
-        };
-
-        const { error } = await supabase.from('finance_app_expense').insert([newExpense]);
-
-        if (error) {
-            console.error('Database Error:', error);
-            if (statusMsg) {
-                statusMsg.style.display = 'block';
-                statusMsg.innerText = `Error: ${error.message}`;
-                statusMsg.style.color = "#ef4444"; 
-            }
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-        } else {
-            if (statusMsg) {
-                statusMsg.style.display = 'block';
-                statusMsg.innerText = "Expense successfully added!";
-                statusMsg.style.color = "#22c55e"; 
-            }
-
-            setTimeout(() => {
-                closeModal();
-                form.reset();
-                if (dateInput) dateInput.value = today;
-                if (statusMsg) statusMsg.style.display = 'none';
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-                
-                if (typeof loadExpensesList === 'function') loadExpensesList(currentUser.id);
-            }, 1000);
-        }
-    });
-
-    // ==========================================
-    // MODULE C: DATA VISUALIZATION (CHART.JS)
-    // ==========================================
-    function initCharts() {
-        // 1. Donut Chart Setup
-        const pieCanvas = document.getElementById('spendingChart');
-        if (pieCanvas) {
-            const pieCtx = pieCanvas.getContext('2d');
-            const spendingData = [
-                { label: 'Utilities', value: 235.19, color: '#26C6DA' },
-                { label: 'Shopping', value: 189.99, color: '#FFA726' },
-                { label: 'Food', value: 165.53, color: '#66BB6A' },
-                { label: 'Personal Care', value: 65.00, color: '#EC407A' },
-                { label: 'Transportation', value: 62.45, color: '#AB47BC' },
-                { label: 'Entertainment', value: 15.99, color: '#D81B60' }
-            ];
+        const setupDropdown = (toggleId, menuId, textId, iconId, stateKey) => {
+            const toggle = document.getElementById(toggleId);
+            const menu = document.getElementById(menuId);
+            const text = document.getElementById(textId);
+            const icon = document.getElementById(iconId);
             
-            new Chart(pieCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: spendingData.map(d => d.label),
-                    datasets: [{
-                        data: spendingData.map(d => d.value),
-                        backgroundColor: spendingData.map(d => d.color),
-                        borderWidth: 4,
-                        borderColor: '#ffffff',
-                        hoverOffset: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                            titleColor: '#4b5563',
-                            titleFont: { size: 14, weight: '500' },
-                            bodyColor: '#1a73e8',
-                            bodyFont: { size: 18, weight: 'bold' },
-                            borderColor: 'rgba(0,0,0,0.08)',
-                            borderWidth: 1,
-                            padding: 12,
-                            cornerRadius: 8,
-                            displayColors: false,
-                            callbacks: {
-                                title: (context) => context[0].label,
-                                label: (context) => {
-                                    let val = context.raw;
-                                    let formattedVal = val % 1 === 0 ? val : val.toFixed(2);
-                                    return '$' + formattedVal;
-                                }
-                            }
-                        }
-                    }
+            toggle?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close other menus
+                document.querySelectorAll('.js-dropdown-menu').forEach(m => { if (m !== menu) m.classList.remove('show'); });
+                menu?.classList.toggle('show');
+                icon?.classList.toggle('closed');
+            });
+            
+            menu?.addEventListener('click', (e) => {
+                const item = e.target.closest('.dropdown-item');
+                if (item) {
+                    text.textContent = item.textContent;
+                    const val = item.getAttribute('data-val');
+                    if (stateKey === 'category') currentCatFilter = val;
+                    if (stateKey === 'time') currentTimeFilter = val;
+                    
+                    menu.classList.remove('show');
+                    icon?.classList.add('closed');
+                    renderExpensesUI(); // Re-render on change
                 }
             });
+        };
 
-            // Generate Custom Legend
-            const legendContainer = document.getElementById('legend');
-            if (legendContainer) {
-                spendingData.forEach(item => {
-                    const displayValue = item.value % 1 === 0 ? item.value : item.value.toFixed(2);
-                    const row = document.createElement('div');
-                    row.className = 'legend-item';
-                    row.innerHTML = `
-                        <div class="legend-left">
-                            <div class="dot" style="background-color: ${item.color}"></div>
-                            <span>${item.label}</span>
-                        </div>
-                        <div class="legend-right">$${displayValue}</div>
-                    `;
-                    legendContainer.appendChild(row);
-                });
-            }
-        }
+        setupDropdown('expCatToggle', 'expCatMenu', 'expCatText', 'expCatIcon', 'category');
+        setupDropdown('expTimeToggle', 'expTimeMenu', 'expTimeText', 'expTimeIcon', 'time');
 
-        // 2. Bar Chart Setup
-        const trendCanvas = document.getElementById('mtw-trendChart');
-        if (trendCanvas) {
-            const mtwHoverBackgroundPlugin = {
-                id: 'mtwHoverBackground',
-                beforeDatasetsDraw(chart) {
-                    const activeElements = chart.getActiveElements();
-                    if (activeElements.length > 0) {
-                        const { ctx, chartArea: { top, bottom } } = chart;
-                        const activeEl = activeElements[0];
-                        const meta = chart.getDatasetMeta(activeEl.datasetIndex);
-                        const bar = meta.data[activeEl.index];
-                        
-                        ctx.save();
-                        ctx.fillStyle = '#e5e7eb';
-                        const backgroundWidth = bar.width + 24; 
-                        ctx.fillRect(bar.x - (backgroundWidth / 2), top, backgroundWidth, bottom - top);
-                        ctx.restore();
-                    }
-                }
-            };
-
-            const trendCtx = trendCanvas.getContext('2d');
-            new Chart(trendCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Dec 24'],
-                    datasets: [{
-                        data: [734.15],
-                        backgroundColor: '#8b5cf6',
-                        borderRadius: 4,
-                        borderSkipped: false,
-                        barThickness: 85
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 800,
-                            ticks: {
-                                stepSize: 200,
-                                callback: (value) => '$' + value,
-                                color: '#6b7280',
-                                font: { size: 15, weight: '500' },
-                                padding: 12
-                            },
-                            border: { display: false },
-                            grid: { color: '#f3f4f6', drawTicks: false, borderDash: [4, 4] }
-                        },
-                        x: {
-                            ticks: { color: '#6b7280', font: { size: 15, weight: '500' }, padding: 12 },
-                            border: { display: false },
-                            grid: { display: false }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            enabled: true,
-                            backgroundColor: '#ffffff',
-                            titleColor: '#000000',
-                            bodyColor: '#1a73e8',
-                            bodyFont: { size: 22, weight: 'bold' },
-                            borderColor: 'rgba(0,0,0,0.08)',
-                            borderWidth: 1,
-                            padding: { top: 12, right: 16, bottom: 12, left: 16 },
-                            cornerRadius: 12,
-                            displayColors: false,
-                            caretSize: 0,
-                            callbacks: {
-                                title: () => null,
-                                label: (context) => '$' + context.raw.toFixed(2)
-                            }
-                        }
-                    },
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    }
-                },
-                plugins: [mtwHoverBackgroundPlugin]
-            });
-        }
-    }
-
-    async function loadExpenseMetrics() {
-        if (!currentUser) return;
-
-        const { data: expenses, error } = await supabase
-            .from('finance_app_expense')
-            .select('amount, date')
-            .eq('user_id', currentUser.id);
-
-        if (error) {
-            console.error("Error fetching expenses:", error);
-            return;
-        }
-
-        const expData = expenses || [];
-        
-        let thisMonthTotal = 0;
-        let lastMonthTotal = 0;
-        let thisWeekTotal = 0;
-        let lastWeekTotal = 0;
-        let todayTotal = 0;
-        
-        // --- Date Logic ---
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const currentYear = now.getFullYear();
-        
-        let lastMonth = currentMonth - 1;
-        let lastMonthYear = currentYear;
-        if (lastMonth < 0) { lastMonth = 11; lastMonthYear--; }
-        
-        const startOfThisWeek = new Date(now);
-        startOfThisWeek.setDate(now.getDate() - now.getDay());
-        startOfThisWeek.setHours(0,0,0,0);
-        
-        const startOfLastWeek = new Date(startOfThisWeek);
-        startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
-        
-        const todayString = now.toISOString().split('T')[0];
-
-        // --- Calculate Sums ---
-        expData.forEach(e => {
-            const expDate = new Date(e.date);
-            const amount = parseFloat(e.amount) || 0;
-
-            // Monthly
-            if (expDate.getMonth() === currentMonth && expDate.getFullYear() === currentYear) {
-                thisMonthTotal += amount;
-            } else if (expDate.getMonth() === lastMonth && expDate.getFullYear() === lastMonthYear) {
-                lastMonthTotal += amount;
-            }
-
-            // Weekly
-            if (expDate >= startOfThisWeek) {
-                thisWeekTotal += amount;
-            } else if (expDate >= startOfLastWeek && expDate < startOfThisWeek) {
-                lastWeekTotal += amount;
-            }
-
-            // Today
-            if (e.date.startsWith(todayString) || expDate.toISOString().split('T')[0] === todayString) {
-                todayTotal += amount;
-            }
+        searchInput?.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase();
+            renderExpensesUI(); // Re-render on type
         });
 
-        // --- Calculate Trends ---
+        document.addEventListener('click', (e) => {
+            document.querySelectorAll('.js-dropdown-menu').forEach(menu => {
+                const toggleBtn = menu.previousElementSibling;
+                if (!toggleBtn.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.remove('show');
+                    toggleBtn.querySelector('.chevron-icon')?.classList.add('closed');
+                }
+            });
+        });
+    }
+
+    // ==========================================
+    // MODULE C: FETCH & RENDER ENGINE
+    // ==========================================
+    const isSameDay = (d1, d2) => d1.toDateString() === d2.toDateString();
+    const isSameMonth = (d1, d2) => d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
+    const isThisWeek = (dateObj) => {
+        const today = new Date(); const firstDay = new Date(today.setDate(today.getDate() - today.getDay()));
+        firstDay.setHours(0,0,0,0); return dateObj >= firstDay;
+    };
+
+    async function fetchExpensesData() {
+        if (!currentUser) return;
+        const { data, error } = await supabase.from('finance_app_expense').select('*').eq('user_id', currentUser.id).order('date', { ascending: false });
+        if (!error) {
+            allExpensesData = data || [];
+            updateTopWidgets();
+            renderExpensesUI();
+        }
+    }
+
+    function updateTopWidgets() {
+        let thisMonthTotal = 0, lastMonthTotal = 0, thisWeekTotal = 0, lastWeekTotal = 0, todayTotal = 0;
+        
+        const now = new Date();
+        let lastMonth = now.getMonth() - 1; let lastMonthYear = now.getFullYear();
+        if (lastMonth < 0) { lastMonth = 11; lastMonthYear--; }
+        
+        const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - now.getDay()); startOfThisWeek.setHours(0,0,0,0);
+        const startOfLastWeek = new Date(startOfThisWeek); startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
+        const todayStr = now.toISOString().split('T')[0];
+
+        allExpensesData.forEach(e => {
+            const expDate = new Date(e.date);
+            const amt = parseFloat(e.amount) || 0;
+
+            if (expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear()) thisMonthTotal += amt;
+            else if (expDate.getMonth() === lastMonth && expDate.getFullYear() === lastMonthYear) lastMonthTotal += amt;
+
+            if (expDate >= startOfThisWeek) thisWeekTotal += amt;
+            else if (expDate >= startOfLastWeek && expDate < startOfThisWeek) lastWeekTotal += amt;
+
+            if (e.date.startsWith(todayStr)) todayTotal += amt;
+        });
+
         const monthTrend = lastMonthTotal > 0 ? (((thisMonthTotal - lastMonthTotal) / lastMonthTotal) * 100) : 0;
         const weekTrend = lastWeekTotal > 0 ? (((thisWeekTotal - lastWeekTotal) / lastWeekTotal) * 100) : 0;
 
-        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const fmt = (val) => '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-        // --- Inject Numbers ---
-        document.getElementById('expThisMonth').innerText = formatCurrency(thisMonthTotal);
-        document.getElementById('expThisWeek').innerText = formatCurrency(thisWeekTotal);
-        document.getElementById('expToday').innerText = formatCurrency(todayTotal);
-        document.getElementById('expTotalTx').innerText = expData.length;
+        document.getElementById('expThisMonth').innerText = fmt(thisMonthTotal);
+        document.getElementById('expThisWeek').innerText = fmt(thisWeekTotal);
+        document.getElementById('expToday').innerText = fmt(todayTotal);
+        document.getElementById('expTotalTx').innerText = allExpensesData.length;
 
-        // --- Handle Trend Colors & Icons (Note: for expenses, UP is red/bad, DOWN is green/good) ---
-        const applyTrendStyle = (trendValue, textElId, iconElId) => {
-            const textEl = document.getElementById(textElId);
-            const iconEl = document.getElementById(iconElId);
+        const applyTrend = (trendValue, textId, iconId) => {
+            const tEl = document.getElementById(textId), iEl = document.getElementById(iconId);
+            if(trendValue > 0) { tEl.innerText = '+'+trendValue.toFixed(1)+'%'; tEl.style.color = '#ef4444'; iEl.innerHTML = '<i class="fa-solid fa-arrow-trend-up"></i>'; iEl.style.color = '#ef4444'; }
+            else if(trendValue < 0) { tEl.innerText = trendValue.toFixed(1)+'%'; tEl.style.color = '#059669'; iEl.innerHTML = '<i class="fa-solid fa-arrow-trend-down"></i>'; iEl.style.color = '#059669'; }
+            else { tEl.innerText = '0%'; tEl.style.color = '#64748B'; iEl.innerHTML = '<i class="fa-solid fa-minus"></i>'; iEl.style.color = '#64748B'; }
+        };
+        applyTrend(monthTrend, 'expMonthTrend', 'expMonthTrendIcon');
+        applyTrend(weekTrend, 'expWeekTrend', 'expWeekTrendIcon');
+    }
+
+    function renderExpensesUI() {
+        const wrapper = document.getElementById('expensesListWrapper');
+        const countEl = document.getElementById('expenseListCount');
+        const now = new Date();
+
+        let filtered = allExpensesData.filter(e => {
+            const matchesSearch = (e.description || '').toLowerCase().includes(currentSearchQuery) || (e.notes || '').toLowerCase().includes(currentSearchQuery);
+            const matchesCat = currentCatFilter === 'all' || (e.category || '').toLowerCase().includes(currentCatFilter);
             
-            if (trendValue > 0) {
-                textEl.innerText = '+' + trendValue.toFixed(1) + '%';
-                textEl.style.color = '#ef4444'; // Red (Bad)
-                iconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-up"></i>';
-                iconEl.style.color = '#ef4444';
-            } else if (trendValue < 0) {
-                textEl.innerText = trendValue.toFixed(1) + '%';
-                textEl.style.color = '#059669'; // Green (Good)
-                iconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-down"></i>';
-                iconEl.style.color = '#059669';
-            } else {
-                textEl.innerText = '0%';
-                textEl.style.color = '#64748B'; // Grey (Neutral)
-                iconEl.innerHTML = '<i class="fa-solid fa-minus"></i>';
-                iconEl.style.color = '#64748B';
+            let matchesTime = true;
+            const ed = new Date(e.date);
+            if (currentTimeFilter === 'today') matchesTime = isSameDay(ed, now);
+            else if (currentTimeFilter === 'week') matchesTime = isThisWeek(ed);
+            else if (currentTimeFilter === 'month') matchesTime = isSameMonth(ed, now);
+            else if (currentTimeFilter === 'year') matchesTime = ed.getFullYear() === now.getFullYear();
+
+            return matchesSearch && matchesCat && matchesTime;
+        });
+
+        if (countEl) countEl.innerText = filtered.length;
+
+        if (filtered.length === 0) {
+            wrapper.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #64748B;">
+                    <i class="fa-solid fa-receipt" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i>
+                    <h4>No expenses found.</h4>
+                </div>`;
+        } else {
+            let html = '';
+            filtered.forEach(e => {
+                const d = new Date(e.date);
+                const isCard = (e.payment_method || '').toLowerCase() === 'card';
+                const payIcon = isCard ? 'fa-credit-card' : (e.payment_method === 'bank' ? 'fa-building-columns' : 'fa-money-bill');
+                
+                html += `
+                    <div class="expenses_container">
+                        <div class="expense_box">
+                            <div class="expense_logo"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                            <div class="expenses_head">
+                                <div class="expense_title"><h5>${e.description}</h5></div>
+                                <div class="expense_cat">
+                                    <div class="expense_category"><h6>${e.category}</h6></div>
+                                    <div class="expense_text"><p>${e.notes || 'Expense record'}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="expense_description">
+                            <div class="expense_data">
+                                <div class="expense_amount"><h6>₹ ${parseFloat(e.amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2})}</h6></div>
+                                <div class="expense_date">
+                                    <div class="date_icon"><i class="fa-regular fa-calendar"></i></div>
+                                    <div class="expense_date_and_month"><h6>${d.toLocaleString('default', {month:'short'})} ${d.getDate()},</h6></div>
+                                    <div class="expense_year"><h6>${d.getFullYear()}</h6></div>
+                                </div>
+                                <div class="expense_mode">
+                                    <div class="mode_icon"><i class="fa-regular ${payIcon}"></i></div>
+                                    <div class="mode_text"><h6>${(e.payment_method || 'Cash').charAt(0).toUpperCase() + (e.payment_method || 'Cash').slice(1)}</h6></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            wrapper.innerHTML = html;
+        }
+
+        renderCharts(filtered, allExpensesData); // Update charts dynamically
+    }
+
+    function renderCharts(filteredData, globalData) {
+        // 1. Donut Chart (Based on FILTERED data)
+        const catColors = { 'food': '#66BB6A', 'transportation': '#AB47BC', 'utilities': '#26C6DA', 'shopping': '#FFA726', 'other': '#EC407A' };
+        let catTotals = {};
+        filteredData.forEach(e => {
+            const cat = (e.category || 'other').toLowerCase();
+            const key = cat.includes('food') ? 'food' : cat.includes('transport') ? 'transportation' : cat.includes('util') ? 'utilities' : cat.includes('shop') ? 'shopping' : 'other';
+            catTotals[key] = (catTotals[key] || 0) + parseFloat(e.amount);
+        });
+
+        const pieLabels = Object.keys(catTotals);
+        const pieData = Object.values(catTotals);
+        const pieBgColors = pieLabels.map(l => catColors[l]);
+
+        const pieCanvas = document.getElementById('spendingChart');
+        if (pieCanvas) {
+            if (pieChartInst) pieChartInst.destroy();
+            pieChartInst = new Chart(pieCanvas.getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: pieLabels, datasets: [{ data: pieData, backgroundColor: pieBgColors, borderWidth: 4, borderColor: '#ffffff', hoverOffset: 0 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false, cutout: '65%',
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { backgroundColor: 'rgba(255, 255, 255, 0.98)', titleColor: '#4b5563', titleFont: { size: 14, weight: '500' }, bodyColor: '#1a73e8', bodyFont: { size: 18, weight: 'bold' }, borderColor: 'rgba(0,0,0,0.08)', borderWidth: 1, padding: 12, cornerRadius: 8, displayColors: false,
+                            callbacks: { label: (ctx) => '₹ ' + ctx.raw.toLocaleString('en-IN', {maximumFractionDigits:2}) }
+                        }
+                    }
+                }
+            });
+
+            // Update Custom Legend HTML
+            const legendContainer = document.getElementById('legend');
+            if (legendContainer) {
+                legendContainer.innerHTML = '';
+                pieLabels.forEach((label, i) => {
+                    legendContainer.innerHTML += `
+                        <div class="legend-item" style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; font-weight:600; color:#475569;">
+                            <div class="legend-left" style="display:flex; align-items:center; gap:8px;">
+                                <div class="dot" style="width:10px; height:10px; border-radius:50%; background-color: ${pieBgColors[i]}"></div>
+                                <span style="text-transform:capitalize;">${label}</span>
+                            </div>
+                            <div class="legend-right" style="color:#0f172a;">₹${pieData[i].toLocaleString('en-IN', {maximumFractionDigits:2})}</div>
+                        </div>`;
+                });
             }
+        }
+
+        // 2. Bar Chart (Based on GLOBAL data for the last 6 months)
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const now = new Date();
+        const barLabels = [];
+        const barData = [0, 0, 0, 0, 0, 0];
+        
+        for (let i = 5; i >= 0; i--) {
+            let d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            barLabels.push(monthNames[d.getMonth()]);
+        }
+
+        globalData.forEach(e => {
+            const d = new Date(e.date);
+            const diffMonths = (now.getFullYear() - d.getFullYear()) * 12 + now.getMonth() - d.getMonth();
+            if (diffMonths >= 0 && diffMonths < 6) {
+                barData[5 - diffMonths] += parseFloat(e.amount);
+            }
+        });
+
+        const trendCanvas = document.getElementById('mtw-trendChart');
+        if (trendCanvas) {
+            if (barChartInst) barChartInst.destroy();
+            barChartInst = new Chart(trendCanvas.getContext('2d'), {
+                type: 'bar',
+                data: { labels: barLabels, datasets: [{ data: barData, backgroundColor: '#8b5cf6', borderRadius: 4, barThickness: 35 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, ticks: { color: '#6b7280', font: { size: 12 }, callback: (val) => '₹' + val }, border: { display: false }, grid: { color: '#f3f4f6', borderDash: [4, 4] } }, x: { ticks: { color: '#6b7280', font: { size: 12 } }, border: { display: false }, grid: { display: false } } },
+                    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#ffffff', titleColor: '#000', bodyColor: '#1a73e8', bodyFont: { size: 18, weight: 'bold' }, padding: 12, cornerRadius: 8, displayColors: false, callbacks: { label: (ctx) => '₹ ' + ctx.raw.toLocaleString('en-IN', {maximumFractionDigits:2}) } } }
+                }
+            });
+        }
+    }
+
+
+    // ==========================================
+    // MODULE D: MODAL LOGIC
+    // ==========================================
+    const overlay = document.getElementById('dashboardExpenseModal');
+    const form = document.getElementById('dashExpenseForm');
+    const dateInput = document.getElementById('dashExpDate');
+    if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+
+    document.querySelector('.expense-adder')?.addEventListener('click', () => { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
+    document.getElementById('closeModalIconBtn')?.addEventListener('click', () => { overlay.classList.remove('active'); document.body.style.overflow = ''; });
+    document.getElementById('cancelModalBtn')?.addEventListener('click', () => { overlay.classList.remove('active'); document.body.style.overflow = ''; });
+    overlay?.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; }});
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('dashSubmitExpBtn');
+        const statusMsg = document.getElementById('dashExpStatus');
+        const origText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+        const payload = {
+            id: crypto.randomUUID(), user_id: currentUser.id,
+            description: document.getElementById('dashExpDesc').value, amount: parseFloat(document.getElementById('dashExpAmount').value),
+            category: document.getElementById('dashExpCategory').value, date: document.getElementById('dashExpDate').value,
+            payment_method: document.getElementById('dashExpPayment').value, is_recurring: document.getElementById('dashExpRecurring').checked,
+            notes: document.getElementById('dashExpNotes').value
         };
 
-        applyTrendStyle(monthTrend, 'expMonthTrend', 'expMonthTrendIcon');
-        applyTrendStyle(weekTrend, 'expWeekTrend', 'expWeekTrendIcon');
-    }
+        const { error } = await supabase.from('finance_app_expense').insert([payload]);
+        if (error) {
+            alert("Error: " + error.message);
+            btn.innerHTML = origText; btn.disabled = false;
+        } else {
+            statusMsg.style.display = 'block';
+            setTimeout(() => {
+                overlay.classList.remove('active'); document.body.style.overflow = '';
+                form.reset(); if(dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+                statusMsg.style.display = 'none'; btn.innerHTML = origText; btn.disabled = false;
+                fetchExpensesData(); // Refresh UI dynamically!
+            }, 1000);
+        }
+    });
 
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
     async function initPage() { 
         const { data: { session } } = await supabase.auth.getSession();
-        
-        if (!session) {
-            window.location.href = 'login.html';
-            return;
-        }
+        if (!session) { window.location.href = 'login.html'; return; }
         
         currentUser = session.user;
         
         syncSidebar();
-        await loadExpenseMetrics(); // <-- ADDED THIS LINE
-        initCharts();
-
-        if (currentUser) {
-            loadUserCustomTags(currentUser.id);
-        }
+        initFilters();
+        fetchExpensesData();
     }
 
-    // Wait for HTML to parse so Canvas elements exist before drawing charts
     document.addEventListener('DOMContentLoaded', initPage);
 
 </script>
