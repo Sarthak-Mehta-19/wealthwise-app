@@ -327,8 +327,13 @@
                             <div class="info-box-dynamic-subtitle-dynamic-number">
                                 <p>Collective</p>
                             </div>
-                            <div class="info-box-dynamic-subtitle-
-            
+                            <div class="info-box-dynamic-subtitle-dynamic-text">
+                                <p>savings</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="dasboard-main_main-content">
                 <div class="left">
                     
@@ -916,7 +921,7 @@
     // ==========================================
     // MODULE E: DYNAMIC UI RENDER ENGINE & PAGINATION
     // ==========================================
-    const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+    const formatCurrency = (amount) => '₹' + amount.toLocaleString('en-IN', { maximumFractionDigits: 0 });
     
     const getRankIcon = (index) => {
         if (index === 0) return '🏆';
@@ -982,66 +987,59 @@
         activeChallengesContainer.innerHTML = '';
 
         if (!currentUser) {
-            activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">Please log in to view your active challenges.</p>';
+            activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px; grid-column: 1 / -1; text-align: center;">Please log in to view your active challenges.</p>';
             return;
         }
 
         const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
 
         if (myChallenges.length === 0) {
-            activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px;">You have not joined any challenges yet.</p>';
+            activeChallengesContainer.innerHTML = '<p style="color: #64748b; font-size: 14px; padding: 12px; grid-column: 1 / -1; text-align: center;">You have not joined any challenges yet.</p>';
             return;
         }
 
         myChallenges.forEach(challenge => {
-            const isEnded = challenge.end_date ? new Date(challenge.end_date) < new Date() : false;
             const targetAmount = challenge.amount || 0;
             const currentAmount = challenge.current_amount || 0;
             const percentage = Math.min((currentAmount / targetAmount) * 100, 100).toFixed(1);
+            
+            const deadline = new Date(challenge.end_date || new Date());
+            const dateString = deadline.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
             const card = document.createElement('div');
-            card.className = 'collaborative_challenge';
+            card.className = 'challenge_container'; // Restored original class name
             card.innerHTML = `
-                <div class="collaborative_heading">
-                    <div class="heading_left">
-                        <div class="heading_title">
-                            <h5>${challenge.name}</h5>
-                        </div>
-                        <div class="heading_subtitle">
-                            <div class="heading_tag"><p>${challenge.type}</p></div>
-                            <div class="member_count">
-                                <div class="members_icon"><i class="fa-solid fa-user-group"></i></div>
-                                <div class="members_number">
-                                    <h6>${challenge.members}</h6><p>members</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="challenge_container_main_heading">
+                    <div class="challenge_container_main_icon">
+                        <i class="fa-solid fa-certificate"></i>
                     </div>
-                    <div class="heading_right" style="text-align: right;">
-                        <div class="heading_amount">
-                            <div class="current_amount"><h6>${formatCurrency(currentAmount)}</h6></div>
-                            <div class="total_amount">
-                                <p>of</p><h6>${formatCurrency(targetAmount)}</h6>
-                            </div>
-                        </div>
-                        ${!isEnded ? `<button class="card-add-savings-btn" onclick="window.openAddSavingsModal('${challenge.id}')">+ Add</button>` : ''}
+                    <div class="challenge_container_main_title">
+                        <h6>${challenge.name}</h6>
                     </div>
                 </div>
-                <div class="collaborative_body">
-                    <div class="progress_bar">
-                        <progress value="${percentage}" max="100"></progress>
+                <div class="challenge_container_progress_bar">
+                    <div class="challenge_container_total_amount">
+                        <h6>${formatCurrency(targetAmount)}</h6>
                     </div>
-                    <div class="lower_body">
-                        <div class="completion_percentage">
-                            <h6>${percentage}%</h6><p>complete</p>
+                    <label>Progress</label>
+                    <progress value="${percentage}" max="100"></progress>
+                </div>
+                <div class="challenge_container_descriptive_details">
+                    <div class="challenge_container_challenge_participation">
+                        <h6>${challenge.members || 1}</h6>
+                        <p>participants</p>
+                    </div>
+                    <div class="challenge_container_progress_bar_deadline">
+                        <div class="challenge_container_progress_bar_deadline_calendar_icon">
+                            <i class="fa-regular fa-calendar"></i>
                         </div>
-                        <div class="completion_status">
-                            <div class="calendar_icon"><i class="fa-regular fa-calendar"></i></div>
-                            <div class="completion_point">
-                                <h6 style="color: ${isEnded ? '#DC2626' : '#10b981'}">${isEnded ? 'Ended' : 'Active'}</h6>
-                            </div>
+                        <div class="challenge_container_progress_bar_deadline_date">
+                            <h6>${dateString}</h6>
                         </div>
                     </div>
+                </div>
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+                    <button class="card-add-savings-btn" onclick="window.openAddSavingsModal('${challenge.id}')" style="width: 100%;"><i class="fa-solid fa-plus" style="margin-right: 6px;"></i> Add Funds</button>
                 </div>
             `;
             activeChallengesContainer.appendChild(card);
@@ -1058,7 +1056,7 @@
         renderPagination();
         renderActiveChallenges();
         
-        // --- ADDED: Update Top Widgets ---
+        // --- Update Top Widgets ---
         let activeC = 0;
         let completedC = 0;
         let totalRaised = 0;
@@ -1088,25 +1086,21 @@
     async function syncSidebar() {
         if (!currentUser) return;
         
-        // Pull the names saved during Sign-Up
         const firstName = currentUser.user_metadata?.first_name || '';
         const lastName = currentUser.user_metadata?.last_name || '';
         let fullName = `${firstName} ${lastName}`.trim();
         
-        // Failsafe: Use first part of email if no name exists
         if (!fullName) {
             fullName = currentUser.email.split('@')[0];
             fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
         }
 
-        // 1. Inject into the Sidebar Text
         const nameEl = document.getElementById('sidebar-user-name');
         const emailEl = document.getElementById('sidebar-user-email');
         
         if (nameEl) nameEl.innerText = fullName;
         if (emailEl) emailEl.innerText = currentUser.email;
 
-        // 2. Dynamic Initials Avatar Generation
         let initials = "";
         if (firstName && lastName) {
             initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
@@ -1116,12 +1110,9 @@
             initials = currentUser.email.substring(0, 2).toUpperCase();
         }
 
-        // 3. Inject Initials into EVERY .avatar-circle on the page
         const avatarCircles = document.querySelectorAll('.avatar-circle');
         avatarCircles.forEach(circle => {
-            // Remove any old generic icons and inject the styled initials
             circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            // Apply the soft green premium styling dynamically
             circle.style.backgroundColor = '#ecfdf5'; 
             circle.style.display = 'flex';
             circle.style.alignItems = 'center';
@@ -1130,7 +1121,7 @@
     }
 
     // ==========================================
-    // MODULE G: CUSTOM TAG INJECTION (GROUPS)
+    // MODULE G: CUSTOM TAG INJECTION
     // ==========================================
     async function loadGroupCustomTags() {
         const typeSelect = document.getElementById('chalType');
@@ -1169,7 +1160,6 @@
                 if (this.value === '__add_new__') {
                     const newTagName = prompt("Enter a new challenge type:");
                     if (newTagName && newTagName.trim() !== '') {
-                        // THE FIX: Added crypto.randomUUID()
                         const { error: insertError } = await supabase.from('finance_app_customtag').insert([{
                             id: crypto.randomUUID(),
                             user_id: currentUser.id,
@@ -1185,7 +1175,6 @@
                             this.insertBefore(newOption, this.lastElementChild);
                             this.value = newOption.value; 
                         } else {
-                            console.error("Database Error:", insertError);
                             alert("Failed to save tag: " + insertError.message);
                             this.selectedIndex = 0;
                         }
@@ -1239,8 +1228,7 @@
         checkForInvitation();
     }
 
-    document.addEventListener('DOMContentLoaded', initPage); // <--- FIXED: Changed from init() to the correct listener
-
+    document.addEventListener('DOMContentLoaded', initPage); 
 </script>
 
 </body>
