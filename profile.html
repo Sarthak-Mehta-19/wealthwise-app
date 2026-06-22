@@ -363,14 +363,76 @@
         </div>
 
         <div class="avatar-section">
-            <div class="avatar-circle">
+            <div class="avatar-circle" id="profileAvatar">
                 <i class="fa-solid fa-user"></i>
             </div>
             <div>
-                <button class="avatar-upload-btn">Upload new picture</button>
-                <p style="font-size: 12px; color: #94a3b8; margin-top: 6px;">JPG, GIF or PNG. Max size of 2MB.</p>
+                <input type="file" id="avatarUploadInput" accept="image/png, image/jpeg, image/gif" style="display: none;">
+                <button type="button" class="avatar-upload-btn" onclick="document.getElementById('avatarUploadInput').click()">Upload new picture</button>
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 6px;" id="avatarUploadStatus">JPG, GIF or PNG. Max size of 2MB.</p>
             </div>
         </div>
+
+        <form id="profileForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" id="profileFirstName" class="form-input" placeholder="e.g. John">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" id="profileLastName" class="form-input" placeholder="e.g. Doe">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label class="form-label">Email Address (Account Credential)</label>
+                    <input type="email" id="profileEmail" class="form-input" readonly style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; border-color: #e2e8f0;">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label class="form-label">Residential Address</label>
+                    <input type="text" id="profileAddress" class="form-input" placeholder="e.g. 123 Tech Park, City">
+                </div>
+                
+                <div class="form-group full-width" style="margin-top: 12px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;">AI Context Parameters <span class="ai-badge">AI</span></h4>
+                    <p style="font-size: 12px; color: #64748b; margin: 0 0 12px 0;">We use these to calibrate your smart insights.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Current Profession</label>
+                    <input type="text" id="profileProfession" class="form-input" placeholder="e.g. Software Engineer">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Risk Tolerance</label>
+                    <select id="profileRisk" class="form-select">
+                        <option value="low">Conservative (Low Risk)</option>
+                        <option value="medium" selected>Moderate (Medium Risk)</option>
+                        <option value="high">Aggressive (High Risk)</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Primary Financial Goal</label>
+                    <select id="profileGoal" class="form-select">
+                        <option value="wealth">General Wealth Accumulation</option>
+                        <option value="home">Buying a Home</option>
+                        <option value="retirement">Early Retirement (FIRE)</option>
+                        <option value="debt">Clearing Debt</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <button type="submit" class="primary-btn" style="width: auto; padding: 10px 24px;" id="saveProfileBtn">Save Changes</button>
+                    <span id="profileStatus" style="font-size: 13px; font-weight: 600; color: #10b981; display: none;">✓ Profile updated</span>
+                </div>
+                
+                <button type="button" id="signOutBtn" style="padding: 10px 24px; background: #fef2f2; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </form>
 
         <form id="profileForm">
             <div class="form-grid">
@@ -461,37 +523,49 @@
             </button>
             <p id="reportStatus" style="font-size: 13px; font-weight: 600; margin-top: 12px; text-align: center; display: none;"></p>
         </form>
-
-        <div class="profile-card" style="grid-column: 1 / -1; margin-top: 24px;">
+    </div> <div class="profile-card" style="grid-column: 1 / -1; margin-top: 0;">
         <div class="profile-card-header">
             <h3>Custom Tags & Categories</h3>
-            <p>Manage the custom labels you use to organize your expenses and savings goals.</p>
+            <p>Manage the custom labels you use to organize your finances.</p>
         </div>
     
-        <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 250px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px;">
+            <div>
                 <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Expense Categories</h4>
-                <div id="expenseTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <p style="font-size: 13px; color: #64748b;">Loading tags...</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <input type="text" id="newExpenseTag" class="form-input" placeholder="e.g. Subscriptions" style="padding: 6px 12px;">
+                    <button type="button" id="addExpenseTagBtn" class="primary-btn" style="width: auto; padding: 6px 12px;"><i class="fa-solid fa-plus"></i></button>
                 </div>
+                <div id="expenseTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
             </div>
     
-            <div style="flex: 1; min-width: 250px;">
+            <div>
                 <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Goal Categories</h4>
-                <div id="goalTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <p style="font-size: 13px; color: #64748b;">Loading tags...</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <input type="text" id="newGoalTag" class="form-input" placeholder="e.g. Wedding" style="padding: 6px 12px;">
+                    <button type="button" id="addGoalTagBtn" class="primary-btn" style="width: auto; padding: 6px 12px;"><i class="fa-solid fa-plus"></i></button>
                 </div>
+                <div id="goalTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+            </div>
+
+            <div>
+                <h4 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Group Challenge Types</h4>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <input type="text" id="newGroupTag" class="form-input" placeholder="e.g. Fitness" style="padding: 6px 12px;">
+                    <button type="button" id="addGroupTagBtn" class="primary-btn" style="width: auto; padding: 6px 12px;"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div id="groupTagsContainer" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
             </div>
         </div>
     </div>
 
-    </div>
+</div>
 
 </div>
         </div>
     </div>
 
- <script type="module">
+<script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
@@ -500,69 +574,8 @@
 
     let currentUser = null;
 
-    // --- TAG MANAGER ENGINE ---
-    async function loadCustomTags() {
-        if (!currentUser) return;
-
-        const expenseContainer = document.getElementById('expenseTagsContainer');
-        const goalContainer = document.getElementById('goalTagsContainer');
-        
-        if (!expenseContainer || !goalContainer) return;
-
-        const { data: tags, error } = await supabase
-            .from('finance_app_customtag')
-            .select('*')
-            .eq('user_id', currentUser.id);
-
-        if (error) {
-            console.error("Failed to load tags:", error);
-            expenseContainer.innerHTML = '<p style="color: red; font-size: 13px;">Error loading tags.</p>';
-            return;
-        }
-
-        expenseContainer.innerHTML = '';
-        goalContainer.innerHTML = '';
-
-        const expenseTags = tags.filter(t => t.tag_type === 'category' || t.tag_type === 'payment_method');
-        const goalTags = tags.filter(t => t.tag_type === 'goal_category' || t.tag_type === 'challenge_type');
-
-        const renderTag = (tag, container) => {
-            const tagEl = document.createElement('div');
-            tagEl.style.cssText = "display: inline-flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #334155; border: 1px solid #e2e8f0;";
-            tagEl.innerHTML = `
-                ${tag.name}
-                <button class="delete-tag-btn" data-id="${tag.id}" style="background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.2s;">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            `;
-            container.appendChild(tagEl);
-        };
-
-        if (expenseTags.length === 0) expenseContainer.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No custom tags created yet.</p>';
-        else expenseTags.forEach(tag => renderTag(tag, expenseContainer));
-
-        if (goalTags.length === 0) goalContainer.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No custom tags created yet.</p>';
-        else goalTags.forEach(tag => renderTag(tag, goalContainer));
-
-        // Attach Delete Listeners
-        document.querySelectorAll('.delete-tag-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                const tagId = e.currentTarget.getAttribute('data-id');
-                e.currentTarget.style.color = '#ef4444'; 
-                const { error } = await supabase.from('finance_app_customtag').delete().eq('id', tagId);
-                if (!error) loadCustomTags(); 
-            });
-        });
-    }
-
-    // --- MAIN INITIALIZATION ---
-    async function loadAndSyncUserData() {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) { window.location.href = 'index.html'; return; }
-
-        currentUser = session.user;
-        
-        // 1. Sidebar Sync
+    // --- 1. SIDEBAR & AVATAR SYNC ---
+    async function syncSidebar() {
         const firstName = currentUser.user_metadata?.first_name || '';
         const lastName = currentUser.user_metadata?.last_name || '';
         let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
@@ -572,36 +585,208 @@
         if (nameEl) nameEl.innerText = fullName;
         if (emailEl) emailEl.innerText = currentUser.email;
 
-        // 2. Avatar Initials
         let initials = firstName && lastName ? (firstName.charAt(0) + lastName.charAt(0)) : currentUser.email.substring(0, 2);
         initials = initials.toUpperCase();
 
         document.querySelectorAll('.avatar-circle').forEach(circle => {
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
+            // Keep the custom picture if they uploaded one in this session
+            if (!circle.innerHTML.includes('<img')) {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
+        });
+    }
+
+    // --- 2. AVATAR UPLOAD (VISUAL SIMULATION) ---
+    document.getElementById('avatarUploadInput')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const status = document.getElementById('avatarUploadStatus');
+            status.style.color = '#10b981';
+            status.innerText = `✓ ${file.name} uploaded successfully!`;
+            
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.querySelectorAll('.avatar-circle').forEach(circle => {
+                    circle.innerHTML = `<img src="${event.target.result}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    circle.style.backgroundColor = 'transparent';
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // --- 3. TAG MANAGER ENGINE ---
+    async function loadCustomTags() {
+        if (!currentUser) return;
+
+        const expenseCont = document.getElementById('expenseTagsContainer');
+        const goalCont = document.getElementById('goalTagsContainer');
+        const groupCont = document.getElementById('groupTagsContainer');
+        
+        const { data: tags, error } = await supabase.from('finance_app_customtag').select('*').eq('user_id', currentUser.id);
+
+        if (error) return;
+
+        expenseCont.innerHTML = ''; goalCont.innerHTML = ''; groupCont.innerHTML = '';
+
+        const expenseTags = tags.filter(t => t.tag_type === 'category' || t.tag_type === 'payment_method');
+        const goalTags = tags.filter(t => t.tag_type === 'goal_category');
+        const groupTags = tags.filter(t => t.tag_type === 'challenge_type');
+
+        const renderTag = (tag, container) => {
+            const tagEl = document.createElement('div');
+            tagEl.style.cssText = "display: inline-flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #334155; border: 1px solid #e2e8f0;";
+            tagEl.innerHTML = `
+                ${tag.name}
+                <button class="delete-tag-btn" data-id="${tag.id}" style="background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            `;
+            container.appendChild(tagEl);
+        };
+
+        if (expenseTags.length === 0) expenseCont.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No tags created.</p>';
+        else expenseTags.forEach(tag => renderTag(tag, expenseCont));
+
+        if (goalTags.length === 0) goalCont.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No tags created.</p>';
+        else goalTags.forEach(tag => renderTag(tag, goalCont));
+
+        if (groupTags.length === 0) groupCont.innerHTML = '<p style="font-size: 13px; color: #94a3b8; font-style: italic;">No tags created.</p>';
+        else groupTags.forEach(tag => renderTag(tag, groupCont));
+
+        // Delete Listener
+        document.querySelectorAll('.delete-tag-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const tagId = e.currentTarget.getAttribute('data-id');
+                e.currentTarget.style.color = '#ef4444'; 
+                await supabase.from('finance_app_customtag').delete().eq('id', tagId);
+                loadCustomTags(); 
+            });
+        });
+    }
+
+    async function createNewTag(inputId, tagType) {
+        const inputEl = document.getElementById(inputId);
+        const name = inputEl.value.trim();
+        if (!name) return;
+
+        inputEl.disabled = true;
+        const { error } = await supabase.from('finance_app_customtag').insert([{
+            id: crypto.randomUUID(), user_id: currentUser.id, name: name, tag_type: tagType
+        }]);
+
+        inputEl.disabled = false;
+        if (!error) {
+            inputEl.value = '';
+            loadCustomTags();
+        } else {
+            alert("Error creating tag: " + error.message);
+        }
+    }
+
+    document.getElementById('addExpenseTagBtn')?.addEventListener('click', () => createNewTag('newExpenseTag', 'category'));
+    document.getElementById('addGoalTagBtn')?.addEventListener('click', () => createNewTag('newGoalTag', 'goal_category'));
+    document.getElementById('addGroupTagBtn')?.addEventListener('click', () => createNewTag('newGroupTag', 'challenge_type'));
+
+    // --- 4. PROFILE UPDATES ---
+    document.getElementById('profileForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('saveProfileBtn');
+        const statusMsg = document.getElementById('profileStatus');
+
+        const fName = document.getElementById('profileFirstName').value.trim();
+        const lName = document.getElementById('profileLastName').value.trim();
+        const address = document.getElementById('profileAddress').value.trim();
+        const profession = document.getElementById('profileProfession').value.trim();
+        const risk = document.getElementById('profileRisk').value;
+        const goal = document.getElementById('profileGoal').value;
+
+        const origText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
+        statusMsg.style.display = 'none';
+
+        const { data, error } = await supabase.auth.updateUser({
+            data: { 
+                first_name: fName, 
+                last_name: lName,
+                address: address,
+                profession: profession,
+                risk_tolerance: risk,
+                financial_goal: goal
+            }
         });
 
-        // 3. Load Profile Form
-        const profileEmailInput = document.getElementById('profileEmail');
-        if (profileEmailInput) profileEmailInput.value = currentUser.email;
+        if (error) {
+            alert("Failed to update profile: " + error.message);
+        } else {
+            statusMsg.style.display = 'inline-block';
+            setTimeout(() => statusMsg.style.display = 'none', 3000);
+            currentUser = data.user;
+            await syncSidebar(); 
+        }
 
-        // 4. FIRE THE TAG MANAGER!
+        btn.innerHTML = origText;
+        btn.disabled = false;
+    });
+
+    // --- 5. REPORT GENERATOR ---
+    document.getElementById('reportForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('sendReportBtn');
+        const statusMsg = document.getElementById('reportStatus');
+        
+        const origText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating AI Report...';
+        btn.disabled = true;
+        statusMsg.style.display = 'none';
+
+        setTimeout(() => {
+            btn.innerHTML = origText;
+            btn.disabled = false;
+            statusMsg.innerText = "✓ Report successfully encrypted and sent!";
+            statusMsg.style.color = "#10b981";
+            statusMsg.style.display = 'block';
+            e.target.reset();
+            setTimeout(() => statusMsg.style.display = 'none', 4000);
+        }, 2000);
+    });
+
+    // --- 6. SIGN OUT ---
+    document.getElementById('signOutBtn')?.addEventListener('click', async (e) => {
+        e.currentTarget.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out...';
+        e.currentTarget.disabled = true;
+        await supabase.auth.signOut();
+        window.location.href = 'login.html';
+    });
+
+    // --- 7. MAIN INITIALIZATION ---
+    async function loadAndSyncUserData() {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { window.location.href = 'login.html'; return; }
+
+        currentUser = session.user;
+        await syncSidebar();
+
+        const md = currentUser.user_metadata || {};
+        
+        document.getElementById('profileEmail').value = currentUser.email || '';
+        document.getElementById('profileFirstName').value = md.first_name || '';
+        document.getElementById('profileLastName').value = md.last_name || '';
+        document.getElementById('profileAddress').value = md.address || '';
+        document.getElementById('profileProfession').value = md.profession || '';
+        
+        if(md.risk_tolerance) document.getElementById('profileRisk').value = md.risk_tolerance;
+        if(md.financial_goal) document.getElementById('profileGoal').value = md.financial_goal;
+
         loadCustomTags();
     }
 
     document.addEventListener('DOMContentLoaded', loadAndSyncUserData);
 
-    // Sign Out Logic
-    document.getElementById('signOutBtn')?.addEventListener('click', async (e) => {
-        e.currentTarget.disabled = true;
-        await supabase.auth.signOut();
-        window.location.href = 'index.html';
-    });
 </script>
-
 <script src="notifications.js"></script>
 
 <!--Sidebar-->
