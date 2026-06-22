@@ -201,7 +201,7 @@
                                 <h5>This Month</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>0</p>
+                                <p id="expThisMonth">₹ 0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -209,12 +209,12 @@
                         </div>
                     </div>
                     <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        <div class="info-box-sub-display-dynamic-logo" id="expMonthTrendIcon">
+                            <i class="fa-solid fa-minus"></i>
                         </div>
                         <div class="info-box-dynamic-subtitle">
                             <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>-8.2%</p>
+                                <p id="expMonthTrend">0%</p>
                             </div>
                             <div class="info-box-dynamic-subtitle-dynamic-text">
                                 <p>vs last month</p>
@@ -229,7 +229,7 @@
                                 <h5>This Week</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>0</p>
+                                <p id="expThisWeek">₹ 0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -237,15 +237,15 @@
                         </div>
                     </div>
                     <div class="info-box-sub-display">
-                        <div class="info-box-sub-display-dynamic-logo">
-                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        <div class="info-box-sub-display-dynamic-logo" id="expWeekTrendIcon">
+                            <i class="fa-solid fa-minus"></i>
                         </div>
                         <div class="info-box-dynamic-subtitle">
                             <div class="info-box-dynamic-subtitle-dynamic-number">
-                                <p>-15.1%</p>
+                                <p id="expWeekTrend">0%</p>
                             </div>
                             <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>vs last month</p>
+                                <p>vs last week</p>
                             </div>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                                 <h5>Today</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>0</p>
+                                <p id="expToday">₹ 0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -272,7 +272,7 @@
                                 <h5>Total transactions</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>8</p>
+                                <p id="expTotalTx">0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -1151,13 +1151,115 @@
         }
     }
 
+    async function loadExpenseMetrics() {
+        if (!currentUser) return;
+
+        const { data: expenses, error } = await supabase
+            .from('finance_app_expense')
+            .select('amount, date')
+            .eq('user_id', currentUser.id);
+
+        if (error) {
+            console.error("Error fetching expenses:", error);
+            return;
+        }
+
+        const expData = expenses || [];
+        
+        let thisMonthTotal = 0;
+        let lastMonthTotal = 0;
+        let thisWeekTotal = 0;
+        let lastWeekTotal = 0;
+        let todayTotal = 0;
+        
+        // --- Date Logic ---
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+        
+        let lastMonth = currentMonth - 1;
+        let lastMonthYear = currentYear;
+        if (lastMonth < 0) { lastMonth = 11; lastMonthYear--; }
+        
+        const startOfThisWeek = new Date(now);
+        startOfThisWeek.setDate(now.getDate() - now.getDay());
+        startOfThisWeek.setHours(0,0,0,0);
+        
+        const startOfLastWeek = new Date(startOfThisWeek);
+        startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
+        
+        const todayString = now.toISOString().split('T')[0];
+
+        // --- Calculate Sums ---
+        expData.forEach(e => {
+            const expDate = new Date(e.date);
+            const amount = parseFloat(e.amount) || 0;
+
+            // Monthly
+            if (expDate.getMonth() === currentMonth && expDate.getFullYear() === currentYear) {
+                thisMonthTotal += amount;
+            } else if (expDate.getMonth() === lastMonth && expDate.getFullYear() === lastMonthYear) {
+                lastMonthTotal += amount;
+            }
+
+            // Weekly
+            if (expDate >= startOfThisWeek) {
+                thisWeekTotal += amount;
+            } else if (expDate >= startOfLastWeek && expDate < startOfThisWeek) {
+                lastWeekTotal += amount;
+            }
+
+            // Today
+            if (e.date.startsWith(todayString) || expDate.toISOString().split('T')[0] === todayString) {
+                todayTotal += amount;
+            }
+        });
+
+        // --- Calculate Trends ---
+        const monthTrend = lastMonthTotal > 0 ? (((thisMonthTotal - lastMonthTotal) / lastMonthTotal) * 100) : 0;
+        const weekTrend = lastWeekTotal > 0 ? (((thisWeekTotal - lastWeekTotal) / lastWeekTotal) * 100) : 0;
+
+        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // --- Inject Numbers ---
+        document.getElementById('expThisMonth').innerText = formatCurrency(thisMonthTotal);
+        document.getElementById('expThisWeek').innerText = formatCurrency(thisWeekTotal);
+        document.getElementById('expToday').innerText = formatCurrency(todayTotal);
+        document.getElementById('expTotalTx').innerText = expData.length;
+
+        // --- Handle Trend Colors & Icons (Note: for expenses, UP is red/bad, DOWN is green/good) ---
+        const applyTrendStyle = (trendValue, textElId, iconElId) => {
+            const textEl = document.getElementById(textElId);
+            const iconEl = document.getElementById(iconElId);
+            
+            if (trendValue > 0) {
+                textEl.innerText = '+' + trendValue.toFixed(1) + '%';
+                textEl.style.color = '#ef4444'; // Red (Bad)
+                iconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-up"></i>';
+                iconEl.style.color = '#ef4444';
+            } else if (trendValue < 0) {
+                textEl.innerText = trendValue.toFixed(1) + '%';
+                textEl.style.color = '#059669'; // Green (Good)
+                iconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-down"></i>';
+                iconEl.style.color = '#059669';
+            } else {
+                textEl.innerText = '0%';
+                textEl.style.color = '#64748B'; // Grey (Neutral)
+                iconEl.innerHTML = '<i class="fa-solid fa-minus"></i>';
+                iconEl.style.color = '#64748B';
+            }
+        };
+
+        applyTrendStyle(monthTrend, 'expMonthTrend', 'expMonthTrendIcon');
+        applyTrendStyle(weekTrend, 'expWeekTrend', 'expWeekTrendIcon');
+    }
+
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
-    async function initPage() { // (or init() in groups)
+    async function initPage() { 
         const { data: { session } } = await supabase.auth.getSession();
         
-        // THE FIX: Active Security Bouncer
         if (!session) {
             window.location.href = 'login.html';
             return;
@@ -1166,7 +1268,7 @@
         currentUser = session.user;
         
         syncSidebar();
-        // ...
+        await loadExpenseMetrics(); // <-- ADDED THIS LINE
         initCharts();
 
         if (currentUser) {
