@@ -292,7 +292,7 @@
                                         <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                 </button>
-                                <ul class="dropdown-menu js-dropdown-menu" id="expCatMenu">
+                                <ul class="dropdown-menu js-dropdown-menu" id="expCatMenu" style="max-height: 250px; overflow-y: auto; overflow-x: hidden;">
                                     <li class="dropdown-item" data-val="all">All Categories</li>
                                     <li class="dropdown-item" data-val="food">Food & Dining</li>
                                     <li class="dropdown-item" data-val="transportation">Transportation</li>
@@ -315,7 +315,7 @@
                                         <polyline points="18 15 12 9 6 15"></polyline>
                                     </svg>
                                 </button>
-                                <ul class="dropdown-menu align-right js-dropdown-menu" id="expTimeMenu">
+                                <ul class="dropdown-menu align-right js-dropdown-menu" id="expTimeMenu" style="max-height: 250px; overflow-y: auto; overflow-x: hidden;">
                                     <li class="dropdown-item" data-val="all">All Time</li>
                                     <li class="dropdown-item" data-val="today">Today</li>
                                     <li class="dropdown-item" data-val="week">This Week</li>
@@ -435,6 +435,9 @@
                             <p>Loading your expenses...</p>
                         </div>
                     </div>
+
+                    <!-- Pagination Navigation -->
+                    <div id="expensePagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f1f5f9;"></div>
                 </div>
             </div>
             <div class="right">
@@ -487,6 +490,10 @@
     let currentCatFilter = 'all';
     let currentTimeFilter = 'all';
     
+    // Pagination State
+    let currentPage = 1;
+    const itemsPerPage = 5;
+
     // Chart instances
     let pieChartInst = null;
     let barChartInst = null;
@@ -496,7 +503,6 @@
     // ==========================================
     async function syncSidebar() {
         if (!currentUser) return;
-        
         const firstName = currentUser.user_metadata?.first_name || '';
         const lastName = currentUser.user_metadata?.last_name || '';
         let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
@@ -507,7 +513,6 @@
         if (emailEl) emailEl.innerText = currentUser.email;
 
         let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
-
         document.querySelectorAll('.avatar-circle').forEach(circle => {
             circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
             circle.style.backgroundColor = '#ecfdf5'; 
@@ -531,7 +536,6 @@
             
             toggle?.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Close other menus
                 document.querySelectorAll('.js-dropdown-menu').forEach(m => { if (m !== menu) m.classList.remove('show'); });
                 menu?.classList.toggle('show');
                 icon?.classList.toggle('closed');
@@ -545,9 +549,10 @@
                     if (stateKey === 'category') currentCatFilter = val;
                     if (stateKey === 'time') currentTimeFilter = val;
                     
+                    currentPage = 1; // Reset to page 1 on filter
                     menu.classList.remove('show');
                     icon?.classList.add('closed');
-                    renderExpensesUI(); // Re-render on change
+                    renderExpensesUI(); 
                 }
             });
         };
@@ -557,7 +562,8 @@
 
         searchInput?.addEventListener('input', (e) => {
             currentSearchQuery = e.target.value.toLowerCase();
-            renderExpensesUI(); // Re-render on type
+            currentPage = 1; // Reset to page 1 on search
+            renderExpensesUI(); 
         });
 
         document.addEventListener('click', (e) => {
@@ -593,11 +599,9 @@
 
     function updateTopWidgets() {
         let thisMonthTotal = 0, lastMonthTotal = 0, thisWeekTotal = 0, lastWeekTotal = 0, todayTotal = 0;
-        
         const now = new Date();
         let lastMonth = now.getMonth() - 1; let lastMonthYear = now.getFullYear();
         if (lastMonth < 0) { lastMonth = 11; lastMonthYear--; }
-        
         const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - now.getDay()); startOfThisWeek.setHours(0,0,0,0);
         const startOfLastWeek = new Date(startOfThisWeek); startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
         const todayStr = now.toISOString().split('T')[0];
@@ -605,19 +609,15 @@
         allExpensesData.forEach(e => {
             const expDate = new Date(e.date);
             const amt = parseFloat(e.amount) || 0;
-
             if (expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear()) thisMonthTotal += amt;
             else if (expDate.getMonth() === lastMonth && expDate.getFullYear() === lastMonthYear) lastMonthTotal += amt;
-
             if (expDate >= startOfThisWeek) thisWeekTotal += amt;
             else if (expDate >= startOfLastWeek && expDate < startOfThisWeek) lastWeekTotal += amt;
-
             if (e.date.startsWith(todayStr)) todayTotal += amt;
         });
 
         const monthTrend = lastMonthTotal > 0 ? (((thisMonthTotal - lastMonthTotal) / lastMonthTotal) * 100) : 0;
         const weekTrend = lastWeekTotal > 0 ? (((thisWeekTotal - lastWeekTotal) / lastWeekTotal) * 100) : 0;
-
         const fmt = (val) => '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         document.getElementById('expThisMonth').innerText = fmt(thisMonthTotal);
@@ -638,10 +638,15 @@
     function renderExpensesUI() {
         const wrapper = document.getElementById('expensesListWrapper');
         const countEl = document.getElementById('expenseListCount');
+        const paginationContainer = document.getElementById('expensePagination');
         const now = new Date();
 
+        // Step 1: Filter
         let filtered = allExpensesData.filter(e => {
-            const matchesSearch = (e.description || '').toLowerCase().includes(currentSearchQuery) || (e.notes || '').toLowerCase().includes(currentSearchQuery);
+            const expTitle = (e.title || e.name || e.description || '').toLowerCase();
+            const expNotes = (e.notes || '').toLowerCase();
+            const matchesSearch = expTitle.includes(currentSearchQuery) || expNotes.includes(currentSearchQuery);
+            
             const matchesCat = currentCatFilter === 'all' || (e.category || '').toLowerCase().includes(currentCatFilter);
             
             let matchesTime = true;
@@ -662,21 +667,34 @@
                     <i class="fa-solid fa-receipt" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i>
                     <h4>No expenses found.</h4>
                 </div>`;
+            if (paginationContainer) paginationContainer.innerHTML = '';
         } else {
+            // Step 2: Paginate
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedData = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+            // Step 3: Render HTML
             let html = '';
-            filtered.forEach(e => {
+            paginatedData.forEach(e => {
                 const d = new Date(e.date);
                 const isCard = (e.payment_method || '').toLowerCase() === 'card';
                 const payIcon = isCard ? 'fa-credit-card' : (e.payment_method === 'bank' ? 'fa-building-columns' : 'fa-money-bill');
+                
+                // THE FIX: Pulls from title, name, OR description so names map correctly.
+                const displayTitle = e.title || e.name || e.description || 'Unnamed Expense';
                 
                 html += `
                     <div class="expenses_container">
                         <div class="expense_box">
                             <div class="expense_logo"><i class="fa-solid fa-indian-rupee-sign"></i></div>
                             <div class="expenses_head">
-                                <div class="expense_title"><h5>${e.description}</h5></div>
+                                <div class="expense_title"><h5>${displayTitle}</h5></div>
                                 <div class="expense_cat">
-                                    <div class="expense_category"><h6>${e.category}</h6></div>
+                                    <div class="expense_category"><h6>${e.category || 'Other'}</h6></div>
                                     <div class="expense_text"><p>${e.notes || 'Expense record'}</p></div>
                                 </div>
                             </div>
@@ -698,9 +716,31 @@
                     </div>`;
             });
             wrapper.innerHTML = html;
+
+            // Step 4: Render Pagination Buttons
+            if (paginationContainer) {
+                paginationContainer.innerHTML = '';
+                if (totalPages > 1) {
+                    for (let i = 1; i <= totalPages; i++) {
+                        const btn = document.createElement('button');
+                        btn.innerText = i;
+                        btn.style.cssText = `
+                            padding: 6px 12px; border: 1px solid #e2e8f0; 
+                            background: ${i === currentPage ? '#10b981' : '#fff'}; 
+                            color: ${i === currentPage ? 'white' : '#64748b'}; 
+                            border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+                        `;
+                        btn.addEventListener('click', () => {
+                            currentPage = i;
+                            renderExpensesUI(); 
+                        });
+                        paginationContainer.appendChild(btn);
+                    }
+                }
+            }
         }
 
-        renderCharts(filtered, allExpensesData); // Update charts dynamically
+        renderCharts(filtered, allExpensesData); 
     }
 
     function renderCharts(filteredData, globalData) {
@@ -734,7 +774,6 @@
                 }
             });
 
-            // Update Custom Legend HTML
             const legendContainer = document.getElementById('legend');
             if (legendContainer) {
                 legendContainer.innerHTML = '';
@@ -785,7 +824,6 @@
         }
     }
 
-
     // ==========================================
     // MODULE D: MODAL LOGIC
     // ==========================================
@@ -808,7 +846,10 @@
 
         const payload = {
             id: crypto.randomUUID(), user_id: currentUser.id,
-            description: document.getElementById('dashExpDesc').value, amount: parseFloat(document.getElementById('dashExpAmount').value),
+            // To ensure compatibility regardless of DB column name:
+            title: document.getElementById('dashExpDesc').value, 
+            description: document.getElementById('dashExpDesc').value, 
+            amount: parseFloat(document.getElementById('dashExpAmount').value),
             category: document.getElementById('dashExpCategory').value, date: document.getElementById('dashExpDate').value,
             payment_method: document.getElementById('dashExpPayment').value, is_recurring: document.getElementById('dashExpRecurring').checked,
             notes: document.getElementById('dashExpNotes').value
@@ -824,7 +865,7 @@
                 overlay.classList.remove('active'); document.body.style.overflow = '';
                 form.reset(); if(dateInput) dateInput.value = new Date().toISOString().split('T')[0];
                 statusMsg.style.display = 'none'; btn.innerHTML = origText; btn.disabled = false;
-                fetchExpensesData(); // Refresh UI dynamically!
+                fetchExpensesData(); 
             }, 1000);
         }
     });
