@@ -240,7 +240,7 @@
                                 <h5>Active Challenges</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>3</p>
+                                <p id="collabActiveCount">0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -265,7 +265,7 @@
                                 <h5>Total Participants</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>26</p>
+                                <p id="collabTotalParticipants">0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -290,7 +290,7 @@
                                 <h5>Completed Goals</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>3</p>
+                                <p id="collabCompletedCount">0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -315,7 +315,7 @@
                                 <h5>Total Raised</h5>
                             </div>
                             <div class="info-box-dynamic-number">
-                                <p>₹ 8,550</p>
+                                <p id="collabTotalRaised">₹ 0</p>
                             </div>
                         </div>
                         <div class="info-box-icon">
@@ -327,13 +327,7 @@
                             <div class="info-box-dynamic-subtitle-dynamic-number">
                                 <p>Collective</p>
                             </div>
-                            <div class="info-box-dynamic-subtitle-dynamic-text">
-                                <p>savings</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="info-box-dynamic-subtitle-
             
             <div class="dasboard-main_main-content">
                 <div class="left">
@@ -1063,6 +1057,29 @@
         renderLeaderboard();
         renderPagination();
         renderActiveChallenges();
+        
+        // --- ADDED: Update Top Widgets ---
+        let activeC = 0;
+        let completedC = 0;
+        let totalRaised = 0;
+        let totalParticipants = 0;
+
+        currentData.forEach(c => {
+            const prog = c.percentage || 0;
+            totalRaised += (c.current_amount || 0);
+            totalParticipants += (c.members || 0);
+            
+            if (prog >= 100) {
+                completedC++; 
+            } else {
+                activeC++;
+            }
+        });
+
+        document.getElementById('collabActiveCount').innerText = activeC;
+        document.getElementById('collabTotalParticipants').innerText = totalParticipants;
+        document.getElementById('collabCompletedCount').innerText = completedC;
+        document.getElementById('collabTotalRaised').innerText = formatCurrency(totalRaised);
     }
 
     // ==========================================
@@ -1184,10 +1201,9 @@
     // ==========================================
     // BOOTSTRAP INITIALIZER
     // ==========================================
-    async function initPage() { // (or init() in groups)
+    async function initPage() { 
         const { data: { session } } = await supabase.auth.getSession();
         
-        // THE FIX: Active Security Bouncer
         if (!session) {
             window.location.href = 'login.html';
             return;
@@ -1196,10 +1212,8 @@
         currentUser = session.user;
         
         syncSidebar();
-        // ...
         
         if (currentUser) {
-            // Load custom tags for the challenge type dropdown now that we have the user
             loadGroupCustomTags();
         }
 
@@ -1225,7 +1239,7 @@
         checkForInvitation();
     }
 
-    init();
+    document.addEventListener('DOMContentLoaded', initPage); // <--- FIXED: Changed from init() to the correct listener
 
 </script>
 
