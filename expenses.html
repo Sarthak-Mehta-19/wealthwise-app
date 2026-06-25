@@ -4,169 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenses | WealthWise</title>
-    <!--StyleSheet-->
     <link rel="stylesheet" href="expenses_style.css">
-    <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!--Charts-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="sidebar">
-    <a class="sidebar_header" href="dashboard.html">
-        <div class="logo">
-            <div class="icon">
-                <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
-            </div>
-            <div class="text">
-                <div class="main_text">
-                    <p>WealthWise</p>
+        <a class="sidebar_header" href="dashboard.html">
+            <div class="logo">
+                <div class="icon">
+                    <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
                 </div>
-                <div class="subtext">
-                    <p>AI-Powered Finance</p>
+                <div class="text">
+                    <div class="main_text">
+                        <p>WealthWise</p>
+                    </div>
+                    <div class="subtext">
+                        <p>AI-Powered Finance</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
 
-    <div class="sidebar_main">
-        <div class="navigation">
-            <div class="title">
-                <h2>NAVIGATION</h2>
+        <div class="sidebar_main">
+            <div class="navigation">
+                <div class="title">
+                    <h2>NAVIGATION</h2>
+                </div>
+                <div class="navigation_buttons">
+                    <a class="nav_btn" href="dashboard.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Dashboard</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Overview & insights</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="saving_goals.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Goals</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Savings targets</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn active" href="expenses.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Expenses</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Track spending</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="collaborativesavings.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Groups</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Collaborative savings</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="ai_insights.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>AI Insights</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Smart recommendations</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="security.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Security</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Privacy & encryption</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="navigation_buttons">
-                <a class="nav_btn active" href="dashboard.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-desktop"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Dashboard</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Overview & insights</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="saving_goals.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Goals</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Savings targets</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="expenses.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Expenses</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Track spending</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="collaborativesavings.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-user-group"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Groups</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Collaborative savings</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="ai_insights.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>AI Insights</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Smart recommendations</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="security.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Security</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Privacy & encryption</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
 
-        <div class="comparative_statistics">
-            <div class="title">
-                <h2>PERFORMANCE</h2>
-            </div>
-            <div class="dyanmic_statistics_box">
-                <div class="dyanmic_statistics_box_display">
-                    <div class="dynamic_statistics_box_logo">
-                        <i class="fa-solid fa-arrow-trend-up"></i>
-                    </div>
-                    <div class="dynamic_statistics_box_title">
-                        <h4>Savings Rate</h4>
-                    </div>
-                    <div class="dynamic_statistics_box_figure">
-                        <p>23%</p>
-                    </div>
+            <div class="comparative_statistics">
+                <div class="title">
+                    <h2>PERFORMANCE</h2>
                 </div>
-                <progress class="dynamic_statistics_box_progressbar" value="23" max="100"></progress>
-                <div class="dynamic_statistics_box_caption">
-                    <div class="dynamic_statistics_box_caption_figure">
-                        <p>+12%</p>
+                <div class="dyanmic_statistics_box">
+                    <div class="dyanmic_statistics_box_display">
+                        <div class="dynamic_statistics_box_logo">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                        <div class="dynamic_statistics_box_title">
+                            <h4>Savings Rate</h4>
+                        </div>
+                        <div class="dynamic_statistics_box_figure">
+                            <p>23%</p>
+                        </div>
                     </div>
-                    <div class="dynamic_statistics_box_caption_text">
-                        <p>vs community avg</p>
+                    <progress class="dynamic_statistics_box_progressbar" value="23" max="100"></progress>
+                    <div class="dynamic_statistics_box_caption">
+                        <div class="dynamic_statistics_box_caption_figure">
+                            <p>+12%</p>
+                        </div>
+                        <div class="dynamic_statistics_box_caption_text">
+                            <p>vs community avg</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
         
-    <a href="profile.html" class="sidebar_footer_link">
-        <div class="sidebar_footer">
-            <div class="user-profile">
-                <div class="user-profile_pic avatar-circle">
-                    <div class="user-default_pic">
+        <a href="profile.html" class="sidebar_footer_link">
+            <div class="sidebar_footer">
+                <div class="user-profile">
+                    <div class="user-profile_pic avatar-circle">
+                        <div class="user-default_pic"></div>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-profile-name">
+                            <h4 id="sidebar-user-name">Loading...</h4>
                         </div>
-                </div>
-                <div class="user-details">
-                    <div class="user-profile-name">
-                        <h4 id="sidebar-user-name">Loading...</h4>
-                    </div>
-                    <div class="user-profile-description">
-                        <p id="sidebar-user-email">Loading...</p>
+                        <div class="user-profile-description">
+                            <p id="sidebar-user-email">Loading...</p>
+                        </div>
                     </div>
                 </div>
+                <div class="user-activity-status">
+                    <div class="actvity-dot"></div>
+                </div>
             </div>
-            <div class="user-activity-status">
-                <div class="actvity-dot"></div>
-            </div>
-        </div>
-    </a>
-</div>
+        </a>
+    </div>
+
     <div class="dashboard">
         <div class="dashboard-main">
             <div class="dashboard-main-big-head">
@@ -185,6 +182,7 @@
                     </button>
                 </div>
             </div>
+            
             <div class="dashboard-main-info">
                 <div class="info-box">
                     <div class="info-box-display">
@@ -273,134 +271,128 @@
                     </div>
                 </div>
             </div>
-            <div class="search-bar_and_search-filter">
+
+            <div class="search-bar_and_search-filter" style="margin-top: 32px; margin-bottom: 24px;">
                 <div class="search_bar">
                     <div class="search-bar-wrapper">
-                        <div class="search-bar-container">
-                            <div class="dropdown-wrapper">
-                                <button class="category-toggle js-dropdown-toggle" id="expCatToggle" style="background: #10b981; color: white; border: none; cursor: pointer; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                        <div class="search-bar-container" style="display: flex; align-items: center; background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0;">
+                            
+                            <div class="dropdown-wrapper" style="position: relative; height: 100%;">
+                                <button class="category-toggle js-dropdown-toggle" id="expCatToggle" type="button" style="background: #10b981; color: white; border: none; padding: 10px 16px; border-radius: 8px 0 0 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s; height: 100%;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
                                     <span class="category-text" id="expCatText">All Categories</span>
-                                    <svg class="chevron-icon closed js-chevron-icon" id="expCatIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white;">
-                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    <svg class="chevron-icon closed js-chevron-icon" id="expCatIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; stroke: white; transition: transform 0.2s;">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
                                     </svg>
                                 </button>
-                                <ul class="dropdown-menu js-dropdown-menu" id="expCatMenu" style="max-height: 250px; overflow-y: auto;">
-                                    <li class="dropdown-item" data-val="all">All Categories</li>
-                                    <li class="dropdown-item" data-val="food">Food & Dining</li>
-                                    <li class="dropdown-item" data-val="transportation">Transportation</li>
-                                    <li class="dropdown-item" data-val="utilities">Utilities</li>
-                                    <li class="dropdown-item" data-val="shopping">Shopping</li>
-                                    <li class="dropdown-item" data-val="other">Other</li>
+                                <ul class="dropdown-menu js-dropdown-menu" id="expCatMenu" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); list-style: none; padding: 8px 0; margin-top: 4px; z-index: 50; min-width: 180px; max-height: 250px; overflow-y: auto;">
+                                    <li class="dropdown-item" data-val="all" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">All Categories</li>
+                                    <li class="dropdown-item" data-val="food" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Food & Dining</li>
+                                    <li class="dropdown-item" data-val="transportation" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Transportation</li>
+                                    <li class="dropdown-item" data-val="utilities" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Utilities</li>
+                                    <li class="dropdown-item" data-val="shopping" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Shopping</li>
+                                    <li class="dropdown-item" data-val="other" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Other</li>
                                 </ul>
                             </div>
-                            <input id="expSearchInput" name="search" type="text" class="search-input" placeholder="Search anything...">
-                            <div class="dropdown-wrapper">
-                                <button class="category-toggle js-dropdown-toggle" id="expTimeToggle" style="border-radius: 0 0.75rem 0.75rem 0; background: #10b981; color: white; border: none; cursor: pointer; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                            
+                            <input id="expSearchInput" name="search" type="text" class="search-input" placeholder="Search anything..." style="flex: 1; border: none; outline: none; padding: 10px 16px; font-size: 14px;">
+                            
+                            <div class="dropdown-wrapper" style="position: relative; height: 100%;">
+                                <button class="category-toggle js-dropdown-toggle" id="expTimeToggle" type="button" style="border-radius: 0 8px 8px 0; background: #10b981; color: white; border: none; padding: 10px 16px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s; height: 100%;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
                                     <span class="category-text" id="expTimeText">All Time</span>
-                                    <svg class="chevron-icon closed js-chevron-icon" id="expTimeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white;">
-                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    <svg class="chevron-icon closed js-chevron-icon" id="expTimeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; stroke: white; transition: transform 0.2s;">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
                                     </svg>
                                 </button>
-                                <ul class="dropdown-menu align-right js-dropdown-menu" id="expTimeMenu" style="max-height: 250px; overflow-y: auto;">
-                                    <li class="dropdown-item" data-val="all">All Time</li>
-                                    <li class="dropdown-item" data-val="today">Today</li>
-                                    <li class="dropdown-item" data-val="week">This Week</li>
-                                    <li class="dropdown-item" data-val="month">This Month</li>
-                                    <li class="dropdown-item" data-val="year">This Year</li>
+                                <ul class="dropdown-menu align-right js-dropdown-menu" id="expTimeMenu" style="display: none; position: absolute; top: 100%; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); list-style: none; padding: 8px 0; margin-top: 4px; z-index: 50; min-width: 150px; max-height: 250px; overflow-y: auto;">
+                                    <li class="dropdown-item" data-val="all" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">All Time</li>
+                                    <li class="dropdown-item" data-val="today" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Today</li>
+                                    <li class="dropdown-item" data-val="week" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">This Week</li>
+                                    <li class="dropdown-item" data-val="month" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">This Month</li>
+                                    <li class="dropdown-item" data-val="year" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">This Year</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="search_filter"></div>
             </div>
+
         <div class="dashboard_content">
             <div class="left">
-                <div id="expenseModalOverlay" class="expense-modal-backdrop-overlay">
-    <div class="expense-modal-surface-card">
-        
-        <div class="expense-modal-header-section">
-            <div class="expense-modal-title-group">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                <h2 class="expense-modal-title-text">Add New Expense</h2>
-            </div>
-            <button id="closeModalIconBtn" class="expense-modal-close-icon-btn" aria-label="Close modal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </div>
+                <div id="expenseModalOverlay" class="expense-modal-backdrop-overlay" style="z-index: 9999;">
+                    <div class="expense-modal-surface-card">
+                        <div class="expense-modal-header-section">
+                            <div class="expense-modal-title-group">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                <h2 class="expense-modal-title-text">Add New Expense</h2>
+                            </div>
+                            <button id="closeModalIconBtn" class="expense-modal-close-icon-btn" aria-label="Close modal">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
 
-        <form id="newExpenseForm" class="expense-form-grid-layout">
-            
-            <div class="expense-form-row-2-cols">
-                <div class="expense-form-input-group">
-                    <label for="expDesc" class="expense-form-label-text">Description *</label>
-                    <input type="text" id="expDesc" class="expense-form-base-input" placeholder="e.g., Lunch at restaurant" required>
+                        <form id="newExpenseForm" class="expense-form-grid-layout">
+                            <div class="expense-form-row-2-cols">
+                                <div class="expense-form-input-group">
+                                    <label for="expDesc" class="expense-form-label-text">Description *</label>
+                                    <input type="text" id="expDesc" class="expense-form-base-input" placeholder="e.g., Lunch at restaurant" required>
+                                </div>
+                                <div class="expense-form-input-group">
+                                    <label for="expAmount" class="expense-form-label-text">Amount *</label>
+                                    <input type="number" id="expAmount" class="expense-form-base-input" placeholder="25.50" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="expense-form-row-3-cols">
+                                <div class="expense-form-input-group">
+                                    <label for="expCategory" class="expense-form-label-text">Category *</label>
+                                    <select id="expCategory" class="expense-form-base-select" required>
+                                        <option value="other">Other</option>
+                                        <option value="food">Food & Dining</option>
+                                        <option value="transport">Transportation</option>
+                                        <option value="utilities">Utilities</option>
+                                    </select>
+                                </div>
+                                <div class="expense-form-input-group">
+                                    <label for="expDate" class="expense-form-label-text">Date *</label>
+                                    <input type="date" id="expDate" class="expense-form-base-input" required>
+                                </div>
+                                <div class="expense-form-input-group">
+                                    <label for="expPayment" class="expense-form-label-text">Payment Method</label>
+                                    <select id="expPayment" class="expense-form-base-select">
+                                        <option value="card">Card</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="bank">Bank Transfer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="expense-form-input-group">
+                                <label for="expNotes" class="expense-form-label-text">Notes</label>
+                                <textarea id="expNotes" class="expense-form-base-textarea" placeholder="Additional details about this expense..."></textarea>
+                            </div>
+                            <label class="expense-form-checkbox-wrapper">
+                                <input type="checkbox" id="expRecurring" class="expense-form-custom-checkbox">
+                                <span class="expense-form-checkbox-label">This is a recurring expense</span>
+                            </label>
+                            <div class="expense-modal-footer-actions">
+                                <p id="expenseFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; display: none;"></p>
+                                <button type="button" id="cancelModalBtn" class="expense-modal-btn-cancel">Cancel</button>
+                                <button type="submit" class="expense-modal-btn-submit">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                    Add Expense
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="expense-form-input-group">
-                    <label for="expAmount" class="expense-form-label-text">Amount *</label>
-                    <input type="number" id="expAmount" class="expense-form-base-input" placeholder="25.50" step="0.01" required>
-                </div>
-            </div>
 
-            <div class="expense-form-row-3-cols">
-                <div class="expense-form-input-group">
-                    <label for="expCategory" class="expense-form-label-text">Category *</label>
-                    <select id="expCategory" class="expense-form-base-select" required>
-                        <option value="other">Other</option>
-                        <option value="food">Food & Dining</option>
-                        <option value="transport">Transportation</option>
-                        <option value="utilities">Utilities</option>
-                    </select>
-                </div>
-                <div class="expense-form-input-group">
-                    <label for="expDate" class="expense-form-label-text">Date *</label>
-                    <input type="date" id="expDate" class="expense-form-base-input" required>
-                </div>
-                <div class="expense-form-input-group">
-                    <label for="expPayment" class="expense-form-label-text">Payment Method</label>
-                    <select id="expPayment" class="expense-form-base-select">
-                        <option value="card">Card</option>
-                        <option value="cash">Cash</option>
-                        <option value="bank">Bank Transfer</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="expense-form-input-group">
-                <label for="expNotes" class="expense-form-label-text">Notes</label>
-                <textarea id="expNotes" class="expense-form-base-textarea" placeholder="Additional details about this expense..."></textarea>
-            </div>
-
-            <label class="expense-form-checkbox-wrapper">
-                <input type="checkbox" id="expRecurring" class="expense-form-custom-checkbox">
-                <span class="expense-form-checkbox-label">This is a recurring expense</span>
-            </label>
-
-            <div class="expense-modal-footer-actions">
-                <p id="expenseFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; display: none;"></p>
-                <button type="button" id="cancelModalBtn" class="expense-modal-btn-cancel">Cancel</button>
-                <button type="submit" class="expense-modal-btn-submit">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                        <polyline points="7 3 7 8 15 8"></polyline>
-                    </svg>
-                    Add Expense
-                </button>
-            </div>
-        </form>
-
-    </div>
-</div>
                 <div class="expenses">
                     <div class="expenses_container_main_heading">
                         <div class="expenses_logo">
@@ -422,7 +414,6 @@
                         </div>
                     </div>
 
-                    <!-- Pagination Navigation -->
                     <div id="expensePagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f1f5f9;"></div>
                 </div>
             </div>
@@ -465,7 +456,6 @@
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-    // --- 1. INITIALIZE SUPABASE ---
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -476,11 +466,9 @@
     let currentCatFilter = 'all';
     let currentTimeFilter = 'all';
     
-    // Pagination State
     let currentPage = 1;
     const itemsPerPage = 5;
 
-    // Chart instances
     let pieChartInst = null;
     let barChartInst = null;
 
@@ -502,8 +490,9 @@
         document.querySelectorAll('.avatar-circle').forEach(circle => {
             const avatarUrl = currentUser.user_metadata?.avatar_url;
             if (avatarUrl) {
-                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.innerHTML = `<img src="${avatarUrl}" style="display: block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; border-radius: 50%;">`;
                 circle.style.backgroundColor = 'transparent';
+                circle.style.overflow = 'hidden';
             } else {
                 circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
                 circle.style.backgroundColor = '#ecfdf5'; 
@@ -523,26 +512,30 @@
             const text = document.getElementById(textId);
             const icon = document.getElementById(iconId);
             
+            if(menu) menu.style.display = 'none'; 
+            
             toggle?.addEventListener('click', (e) => {
                 e.stopPropagation();
-                document.querySelectorAll('.js-dropdown-menu').forEach(m => { if (m !== menu) m.classList.remove('show'); });
-                menu?.classList.toggle('show');
-                icon?.classList.toggle('closed');
+                document.querySelectorAll('.js-dropdown-menu').forEach(m => { 
+                    if (m !== menu) { m.style.display = 'none'; m.previousElementSibling?.querySelector('.chevron-icon')?.classList.add('closed'); }
+                });
+                const isShowing = menu.style.display === 'block';
+                menu.style.display = isShowing ? 'none' : 'block';
+                if(icon) icon.style.transform = isShowing ? 'rotate(0deg)' : 'rotate(180deg)';
             });
             
-            menu?.addEventListener('click', (e) => {
-                const item = e.target.closest('.dropdown-item');
-                if (item) {
-                    text.textContent = item.textContent;
-                    const val = item.getAttribute('data-val');
+            menu?.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    text.textContent = e.target.textContent;
+                    const val = e.target.getAttribute('data-val');
                     if (stateKey === 'category') currentCatFilter = val;
                     if (stateKey === 'time') currentTimeFilter = val;
                     
-                    currentPage = 1; // Reset to page 1 on filter
-                    menu.classList.remove('show');
-                    icon?.classList.add('closed');
+                    currentPage = 1; 
+                    menu.style.display = 'none';
+                    if(icon) icon.style.transform = 'rotate(0deg)';
                     renderExpensesUI(); 
-                }
+                });
             });
         };
 
@@ -551,16 +544,17 @@
 
         searchInput?.addEventListener('input', (e) => {
             currentSearchQuery = e.target.value.toLowerCase();
-            currentPage = 1; // Reset to page 1 on search
+            currentPage = 1; 
             renderExpensesUI(); 
         });
 
         document.addEventListener('click', (e) => {
             document.querySelectorAll('.js-dropdown-menu').forEach(menu => {
                 const toggleBtn = menu.previousElementSibling;
-                if (!toggleBtn.contains(e.target) && !menu.contains(e.target)) {
-                    menu.classList.remove('show');
-                    toggleBtn.querySelector('.chevron-icon')?.classList.add('closed');
+                if (toggleBtn && !toggleBtn.contains(e.target) && !menu.contains(e.target)) {
+                    menu.style.display = 'none';
+                    const icon = toggleBtn.querySelector('.chevron-icon');
+                    if(icon) icon.style.transform = 'rotate(0deg)';
                 }
             });
         });
@@ -630,12 +624,10 @@
         const paginationContainer = document.getElementById('expensePagination');
         const now = new Date();
 
-        // Step 1: Filter
         let filtered = allExpensesData.filter(e => {
             const expTitle = (e.title || e.name || e.description || '').toLowerCase();
             const expNotes = (e.notes || '').toLowerCase();
             const matchesSearch = expTitle.includes(currentSearchQuery) || expNotes.includes(currentSearchQuery);
-            
             const matchesCat = currentCatFilter === 'all' || (e.category || '').toLowerCase().includes(currentCatFilter);
             
             let matchesTime = true;
@@ -651,14 +643,9 @@
         if (countEl) countEl.innerText = filtered.length;
 
         if (filtered.length === 0) {
-            wrapper.innerHTML = `
-                <div style="text-align: center; padding: 40px; color: #64748B;">
-                    <i class="fa-solid fa-receipt" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                    <h4>No expenses found.</h4>
-                </div>`;
+            wrapper.innerHTML = `<div style="text-align: center; padding: 40px; color: #64748B;"><i class="fa-solid fa-receipt" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i><h4>No expenses found.</h4></div>`;
             if (paginationContainer) paginationContainer.innerHTML = '';
         } else {
-            // Step 2: Paginate
             const totalPages = Math.ceil(filtered.length / itemsPerPage);
             if (currentPage > totalPages) currentPage = totalPages;
             if (currentPage < 1) currentPage = 1;
@@ -666,14 +653,11 @@
             const startIndex = (currentPage - 1) * itemsPerPage;
             const paginatedData = filtered.slice(startIndex, startIndex + itemsPerPage);
 
-            // Step 3: Render HTML
             let html = '';
             paginatedData.forEach(e => {
                 const d = new Date(e.date);
                 const isCard = (e.payment_method || '').toLowerCase() === 'card';
                 const payIcon = isCard ? 'fa-credit-card' : (e.payment_method === 'bank' ? 'fa-building-columns' : 'fa-money-bill');
-                
-                // THE FIX: Pulls from title, name, OR description so names map correctly.
                 const displayTitle = e.title || e.name || e.description || 'Unnamed Expense';
                 
                 html += `
@@ -706,34 +690,23 @@
             });
             wrapper.innerHTML = html;
 
-            // Step 4: Render Pagination Buttons
             if (paginationContainer) {
                 paginationContainer.innerHTML = '';
                 if (totalPages > 1) {
                     for (let i = 1; i <= totalPages; i++) {
                         const btn = document.createElement('button');
                         btn.innerText = i;
-                        btn.style.cssText = `
-                            padding: 6px 12px; border: 1px solid #e2e8f0; 
-                            background: ${i === currentPage ? '#10b981' : '#fff'}; 
-                            color: ${i === currentPage ? 'white' : '#64748b'}; 
-                            border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-                        `;
-                        btn.addEventListener('click', () => {
-                            currentPage = i;
-                            renderExpensesUI(); 
-                        });
+                        btn.style.cssText = `padding: 6px 12px; border: 1px solid #e2e8f0; background: ${i === currentPage ? '#10b981' : '#fff'}; color: ${i === currentPage ? 'white' : '#64748b'}; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;`;
+                        btn.addEventListener('click', () => { currentPage = i; renderExpensesUI(); });
                         paginationContainer.appendChild(btn);
                     }
                 }
             }
         }
-
         renderCharts(filtered, allExpensesData); 
     }
 
     function renderCharts(filteredData, globalData) {
-        // 1. Donut Chart (Based on FILTERED data)
         const catColors = { 'food': '#66BB6A', 'transportation': '#AB47BC', 'utilities': '#26C6DA', 'shopping': '#FFA726', 'other': '#EC407A' };
         let catTotals = {};
         filteredData.forEach(e => {
@@ -744,7 +717,7 @@
 
         const pieLabels = Object.keys(catTotals);
         const pieData = Object.values(catTotals);
-        const pieBgColors = pieLabels.map(l => catColors[l]);
+        const pieBgColors = pieLabels.map(l => catColors[l] || '#cbd5e1');
 
         const pieCanvas = document.getElementById('spendingChart');
         if (pieCanvas) {
@@ -779,7 +752,6 @@
             }
         }
 
-        // 2. Bar Chart (Based on GLOBAL data for the last 6 months)
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const now = new Date();
         const barLabels = [];
@@ -814,34 +786,51 @@
     }
 
     // ==========================================
-    // MODULE D: MODAL LOGIC
+    // MODULE D: MODAL LOGIC (FIXED)
     // ==========================================
-    const overlay = document.getElementById('dashboardExpenseModal');
-    const form = document.getElementById('dashExpenseForm');
-    const dateInput = document.getElementById('dashExpDate');
+    const overlay = document.getElementById('expenseModalOverlay');
+    const form = document.getElementById('newExpenseForm');
+    const dateInput = document.getElementById('expDate');
     if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
 
-    document.querySelector('.expense-adder')?.addEventListener('click', () => { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
-    document.getElementById('closeModalIconBtn')?.addEventListener('click', () => { overlay.classList.remove('active'); document.body.style.overflow = ''; });
-    document.getElementById('cancelModalBtn')?.addEventListener('click', () => { overlay.classList.remove('active'); document.body.style.overflow = ''; });
-    overlay?.addEventListener('click', (e) => { if (e.target === overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; }});
+    document.getElementById('openExpenseModalBtn')?.addEventListener('click', () => { 
+        overlay.style.display = 'flex'; 
+        overlay.style.zIndex = '9999';
+        document.body.style.overflow = 'hidden'; 
+    });
+    
+    document.getElementById('closeModalIconBtn')?.addEventListener('click', () => { 
+        overlay.style.display = 'none'; 
+        document.body.style.overflow = ''; 
+    });
+    
+    document.getElementById('cancelModalBtn')?.addEventListener('click', () => { 
+        overlay.style.display = 'none'; 
+        document.body.style.overflow = ''; 
+    });
+    
+    overlay?.addEventListener('click', (e) => { 
+        if (e.target === overlay) { 
+            overlay.style.display = 'none'; 
+            document.body.style.overflow = ''; 
+        }
+    });
 
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = document.getElementById('dashSubmitExpBtn');
-        const statusMsg = document.getElementById('dashExpStatus');
+        const btn = document.querySelector('.expense-modal-btn-submit');
+        const statusMsg = document.getElementById('expenseFormStatus');
         const origText = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
 
         const payload = {
             id: crypto.randomUUID(), user_id: currentUser.id,
-            // To ensure compatibility regardless of DB column name:
-            title: document.getElementById('dashExpDesc').value, 
-            description: document.getElementById('dashExpDesc').value, 
-            amount: parseFloat(document.getElementById('dashExpAmount').value),
-            category: document.getElementById('dashExpCategory').value, date: document.getElementById('dashExpDate').value,
-            payment_method: document.getElementById('dashExpPayment').value, is_recurring: document.getElementById('dashExpRecurring').checked,
-            notes: document.getElementById('dashExpNotes').value
+            title: document.getElementById('expDesc').value, 
+            description: document.getElementById('expDesc').value, 
+            amount: parseFloat(document.getElementById('expAmount').value),
+            category: document.getElementById('expCategory').value, date: document.getElementById('expDate').value,
+            payment_method: document.getElementById('expPayment').value, is_recurring: document.getElementById('expRecurring').checked,
+            notes: document.getElementById('expNotes').value
         };
 
         const { error } = await supabase.from('finance_app_expense').insert([payload]);
@@ -851,7 +840,7 @@
         } else {
             statusMsg.style.display = 'block';
             setTimeout(() => {
-                overlay.classList.remove('active'); document.body.style.overflow = '';
+                overlay.style.display = 'none'; document.body.style.overflow = '';
                 form.reset(); if(dateInput) dateInput.value = new Date().toISOString().split('T')[0];
                 statusMsg.style.display = 'none'; btn.innerHTML = origText; btn.disabled = false;
                 fetchExpensesData(); 
@@ -867,30 +856,12 @@
         if (!session) { window.location.href = 'login.html'; return; }
         
         currentUser = session.user;
-        
         syncSidebar();
         initFilters();
         fetchExpensesData();
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initPage();
-        
-        // Ensure "Add Expense" button works
-        const addExpBtn = document.getElementById('openExpenseModalBtn');
-        if (addExpBtn) {
-            addExpBtn.addEventListener('click', () => {
-                document.getElementById('dashboardExpenseModal').classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-        }
-    });
-
     document.addEventListener('DOMContentLoaded', initPage);
-
 </script>
-
-<script src="script.js"></script>
-<script src="notifications.js"></script>
 </body>
 </html>

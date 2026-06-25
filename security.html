@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Security & Privacy | WealthWise</title>
-    <!--Stylesheet-->
     <link rel="stylesheet" href="security.css">
-    <!--External Stylesheet-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
-        
         body { margin: 0; padding: 0; font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; color: #0f172a; display: flex; height: 100vh; overflow: hidden; }
 
         /* --- SIDEBAR CSS (Reused from your sleek design) --- */
@@ -50,7 +47,6 @@
         .page-header p { font-size: 15px; color: #64748b; margin: 0; }
 
         .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; max-width: 1200px; }
-        
         .security-card { background: white; border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
         .security-card h3 { font-size: 16px; font-weight: 700; margin: 0 0 16px 0; color: #0f172a; display: flex; align-items: center; gap: 8px; }
         .security-card h3 i { color: #059669; }
@@ -76,166 +72,135 @@
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         input:checked + .slider { background-color: #059669; }
         input:checked + .slider:before { transform: translateX(20px); }
-
     </style>
 </head>
 <body>
-
     <div class="sidebar">
-    <a class="sidebar_header" href="dashboard.html">
-        <div class="logo">
-            <div class="icon">
-                <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
-            </div>
-            <div class="text">
-                <div class="main_text">
-                    <p>WealthWise</p>
+        <a class="sidebar_header" href="dashboard.html">
+            <div class="logo">
+                <div class="icon">
+                    <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
                 </div>
-                <div class="subtext">
-                    <p>AI-Powered Finance</p>
+                <div class="text">
+                    <div class="main_text">
+                        <p>WealthWise</p>
+                    </div>
+                    <div class="subtext">
+                        <p>AI-Powered Finance</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
 
-    <div class="sidebar_main">
-        <div class="navigation">
-            <div class="title">
-                <h2>NAVIGATION</h2>
-            </div>
-            <div class="navigation_buttons">
-                <a class="nav_btn active" href="dashboard.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-desktop"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Dashboard</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Overview & insights</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="saving_goals.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Goals</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Savings targets</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="expenses.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Expenses</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Track spending</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="collaborativesavings.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-user-group"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Groups</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Collaborative savings</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="ai_insights.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>AI Insights</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Smart recommendations</h5>
-                        </div>
-                    </div>
-                </a>
-                <a class="nav_btn" href="security.html">
-                    <div class="nav_btn_icon">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <div class="nav_btn_text_box">  
-                        <div class="nav_btn_title">
-                            <h4>Security</h4>
-                        </div>
-                        <div class="nav_btn_subtitle">
-                            <h5>Privacy & encryption</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="comparative_statistics">
-            <div class="title">
-                <h2>PERFORMANCE</h2>
-            </div>
-            <div class="dyanmic_statistics_box">
-                <div class="dyanmic_statistics_box_display">
-                    <div class="dynamic_statistics_box_logo">
-                        <i class="fa-solid fa-arrow-trend-up"></i>
-                    </div>
-                    <div class="dynamic_statistics_box_title">
-                        <h4>Savings Rate</h4>
-                    </div>
-                    <div class="dynamic_statistics_box_figure">
-                        <p>23%</p>
-                    </div>
+        <div class="sidebar_main">
+            <div class="navigation">
+                <div class="title">
+                    <h2>NAVIGATION</h2>
                 </div>
-                <progress class="dynamic_statistics_box_progressbar" value="23" max="100"></progress>
-                <div class="dynamic_statistics_box_caption">
-                    <div class="dynamic_statistics_box_caption_figure">
-                        <p>+12%</p>
-                    </div>
-                    <div class="dynamic_statistics_box_caption_text">
-                        <p>vs community avg</p>
-                    </div>
+                <div class="navigation_buttons">
+                    <a class="nav_btn" href="dashboard.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Dashboard</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Overview & insights</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="saving_goals.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Goals</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Savings targets</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="expenses.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Expenses</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Track spending</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="collaborativesavings.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Groups</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Collaborative savings</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn" href="ai_insights.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>AI Insights</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Smart recommendations</h5>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="nav_btn active" href="security.html">
+                        <div class="nav_btn_icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="nav_btn_text_box">  
+                            <div class="nav_btn_title">
+                                <h4>Security</h4>
+                            </div>
+                            <div class="nav_btn_subtitle">
+                                <h5>Privacy & encryption</h5>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
+            
+            <a href="profile.html" class="sidebar_footer_link" style="margin-top:auto;">
+                <div class="sidebar_footer">
+                    <div class="user-profile">
+                        <div class="user-profile_pic avatar-circle">
+                            <div class="user-default_pic"></div>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-profile-name">
+                                <h4 id="sidebar-user-name">Loading...</h4>
+                            </div>
+                            <div class="user-profile-description">
+                                <p id="sidebar-user-email">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-activity-status">
+                        <div class="actvity-dot"></div>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
-        
-    <a href="profile.html" class="sidebar_footer_link">
-        <div class="sidebar_footer">
-            <div class="user-profile">
-                <div class="user-profile_pic avatar-circle">
-                    <div class="user-default_pic">
-                        </div>
-                </div>
-                <div class="user-details">
-                    <div class="user-profile-name">
-                        <h4 id="sidebar-user-name">Loading...</h4>
-                    </div>
-                    <div class="user-profile-description">
-                        <p id="sidebar-user-email">Loading...</p>
-                    </div>
-                </div>
-            </div>
-            <div class="user-activity-status">
-                <div class="actvity-dot"></div>
-            </div>
-        </div>
-    </a>
-</div>
 
     <div class="main-content">
         <div class="page-header">
@@ -375,14 +340,14 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let currentUser = null;
-    let timeoutTimer; // Variable to hold the auto-logout timer
+    let timeoutTimer; 
 
     // ==========================================
     // MODULE A: AUTO-LOGOUT SESSION ENGINE
     // ==========================================
     function startSessionTimer(minutes) {
-        clearTimeout(timeoutTimer); // Clear existing timer
-        if (minutes === 'never') return; // Do not set a timer
+        clearTimeout(timeoutTimer); 
+        if (minutes === 'never') return; 
 
         const ms = parseInt(minutes) * 60 * 1000;
         timeoutTimer = setTimeout(async () => {
@@ -397,17 +362,14 @@
         if (timeoutSelect) startSessionTimer(timeoutSelect.value);
     }
 
-    // Listeners for user activity
     window.onload = resetTimerOnActivity;
     document.onmousemove = resetTimerOnActivity;
     document.onkeypress = resetTimerOnActivity;
-    document.ontouchstart = resetTimerOnActivity; // For mobile
+    document.ontouchstart = resetTimerOnActivity; 
 
-    // When the user changes the dropdown setting, update Supabase and restart timer
     document.getElementById('sessionTimeoutSelect')?.addEventListener('change', async (e) => {
         const newTimeout = e.target.value;
         startSessionTimer(newTimeout);
-        // Save preference securely
         await supabase.auth.updateUser({ data: { session_timeout: newTimeout } });
     });
 
@@ -454,19 +416,15 @@
     // ==========================================
     // MODULE C: PRIVACY, 2FA, & BIOMETRIC WIZARDS
     // ==========================================
-    
-    // Helper: Save preference to Supabase
     async function savePreference(key, isChecked) {
         const updateData = {};
         updateData[key] = isChecked;
         await supabase.auth.updateUser({ data: updateData });
     }
 
-    // Standard Toggles
     document.getElementById('toggleAnalytics')?.addEventListener('change', (e) => savePreference('analytics_enabled', e.target.checked));
     document.getElementById('toggleMarketing')?.addEventListener('change', (e) => savePreference('marketing_enabled', e.target.checked));
 
-    // --- BIOMETRIC LOGIN WIZARD (WebAuthn) ---
     const toggleBiometric = document.getElementById('toggleBiometric');
     toggleBiometric?.addEventListener('change', async (e) => {
         if (e.target.checked) {
@@ -500,12 +458,10 @@
         }
     });
 
-    // --- REAL 2FA SETUP WIZARD (TOTP BACKEND) ---
     const toggle2FA = document.getElementById('toggle2FA');
     const mfaModal = document.getElementById('mfaModalOverlay');
     let currentFactorId = null;
 
-    // Reset Modal State
     const resetMfaModal = () => {
         mfaModal.style.display = 'none';
         document.getElementById('mfaOtpInput').value = '';
@@ -513,27 +469,19 @@
         document.getElementById('qrCodeContainer').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: #059669;"></i>';
     };
 
-    // 1. Initiate Enrollment when Toggle is clicked
     toggle2FA?.addEventListener('change', async (e) => {
         if (e.target.checked) {
             mfaModal.style.display = 'flex';
             
             try {
-                const { data, error } = await supabase.auth.mfa.enroll({
-                    factorType: 'totp'
-                });
-
+                const { data, error } = await supabase.auth.mfa.enroll({ factorType: 'totp' });
                 if (error) throw error;
-
                 currentFactorId = data.id;
-
                 document.getElementById('qrCodeContainer').innerHTML = data.totp.qr_code;
                 document.getElementById('qrCodeContainer').querySelector('svg').style.width = '200px';
                 document.getElementById('qrCodeContainer').querySelector('svg').style.height = '200px';
 
             } catch (err) {
-                console.error("MFA Enrollment Error:", err);
-                // THE FIX: Print the exact Supabase error message
                 alert("Backend Error: " + err.message); 
                 e.target.checked = false;
                 resetMfaModal();
@@ -544,13 +492,11 @@
         }
     });
 
-    // Handle closing the modal (Cancels setup)
     document.getElementById('closeMfaBtn')?.addEventListener('click', () => {
         toggle2FA.checked = false; 
         resetMfaModal();
     });
 
-    // 2. Verify the Code against Supabase Backend
     document.getElementById('btnVerifyOtp')?.addEventListener('click', async () => {
         const code = document.getElementById('mfaOtpInput').value.replace(/\s/g, ''); 
         const btn = document.getElementById('btnVerifyOtp');
@@ -566,10 +512,7 @@
         errorMsg.style.display = 'none';
 
         try {
-            const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
-                factorId: currentFactorId
-            });
-
+            const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({ factorId: currentFactorId });
             if (challengeError) throw challengeError;
 
             const { data: verifyData, error: verifyError } = await supabase.auth.mfa.verify({
@@ -577,7 +520,6 @@
                 challengeId: challengeData.id,
                 code: code
             });
-
             if (verifyError) throw verifyError;
 
             await savePreference('twofa_enabled', true);
@@ -586,7 +528,6 @@
             btn.innerText = "Verify & Enable 2FA";
 
         } catch (err) {
-            console.error("Verification Error:", err);
             errorMsg.innerText = "Invalid or expired code. Please try again.";
             errorMsg.style.display = 'block';
             btn.innerText = "Verify & Enable 2FA";
@@ -604,9 +545,7 @@
         setTimeout(() => {
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Export Sent to Email';
             btn.style.color = "#059669";
-            setTimeout(() => { 
-                btn.innerHTML = originalText; 
-            }, 3000);
+            setTimeout(() => { btn.innerHTML = originalText; }, 3000);
         }, 1500);
     });
 
@@ -619,7 +558,9 @@
         }, 1000);
     });
 
-    // -- SIDEBAR & AVATAR SYNC ---
+    // ==========================================
+    // MODULE E: SIDEBAR SYNC (FIXED SIZING)
+    // ==========================================
     async function syncSidebar() {
         if (!currentUser) return;
         const firstName = currentUser.user_metadata?.first_name || '';
@@ -631,15 +572,13 @@
         if (nameEl) nameEl.innerText = fullName;
         if (emailEl) emailEl.innerText = currentUser.email;
 
-        const avatarUrl = currentUser.user_metadata?.avatar_url;
         let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
-
         document.querySelectorAll('.avatar-circle').forEach(circle => {
             const avatarUrl = currentUser.user_metadata?.avatar_url;
             if (avatarUrl) {
-                // The inline styles here force the image to stay perfectly inside the circle
-                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.innerHTML = `<img src="${avatarUrl}" style="display: block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; border-radius: 50%;">`;
                 circle.style.backgroundColor = 'transparent';
+                circle.style.overflow = 'hidden';
             } else {
                 circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
                 circle.style.backgroundColor = '#ecfdf5'; 
@@ -647,61 +586,27 @@
         });
     }
 
-    // ==========================================
-    // BOOTSTRAP INITIALIZATION
-    // ==========================================
     async function initPage() {
         const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (!session) {
-            window.location.href = 'index.html';
-            return;
-        }
+        if (!session) { window.location.href = 'index.html'; return; }
 
         currentUser = session.user;
-        
-        // 1. Sidebar Sync
-        const firstName = currentUser.user_metadata?.first_name || '';
-        const lastName = currentUser.user_metadata?.last_name || '';
-        let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
-        
-        const nameEl = document.getElementById('sidebar-user-name');
-        const emailEl = document.getElementById('sidebar-user-email');
-        if (nameEl) nameEl.innerText = fullName;
-        if (emailEl) emailEl.innerText = currentUser.email;
+        syncSidebar();
 
-        // 2. Avatar Initials
-        let initials = firstName && lastName ? (firstName.charAt(0) + lastName.charAt(0)) : currentUser.email.substring(0, 2);
-        initials = initials.toUpperCase();
-
-        document.querySelectorAll('.avatar-circle').forEach(circle => {
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
-        });
-
-        // 3. Load Saved Preferences into UI
         const meta = currentUser.user_metadata || {};
-        
         const timeoutSelect = document.getElementById('sessionTimeoutSelect');
-        if (timeoutSelect && meta.session_timeout) {
-            timeoutSelect.value = meta.session_timeout;
-        }
+        if (timeoutSelect && meta.session_timeout) timeoutSelect.value = meta.session_timeout;
 
         if (meta.analytics_enabled !== undefined) document.getElementById('toggleAnalytics').checked = meta.analytics_enabled;
         if (meta.marketing_enabled !== undefined) document.getElementById('toggleMarketing').checked = meta.marketing_enabled;
         if (meta.twofa_enabled !== undefined) document.getElementById('toggle2FA').checked = meta.twofa_enabled;
         if (meta.biometric_enabled !== undefined) document.getElementById('toggleBiometric').checked = meta.biometric_enabled;
 
-        // 4. Start the initial auto-logout timer
         resetTimerOnActivity();
     }
 
     document.addEventListener('DOMContentLoaded', initPage);
 
-</script>
-<script src="script.js"></script>
+    </script>
 </body>
 </html>
