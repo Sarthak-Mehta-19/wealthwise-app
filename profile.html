@@ -333,14 +333,6 @@
 </div>
 
     <div class="dashboard">
-        <div class="dashboard_header">
-            <div class="menu">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="dashboard_title">
-                <h1>WealthWise</h1>
-            </div>
-        </div>
         <div class="dashboard-main">
             <div class="dashboard-main-big-head">
                 <div class="main-text">
@@ -456,9 +448,8 @@
                         </button>
                         <p id="reportStatus" style="font-size: 13px; font-weight: 600; margin-top: 12px; text-align: center; display: none;"></p>
                     </form>
-                </div>
 
-                <div class="profile-card" style="height: fit-content; margin-top: 24px;">
+                    <div class="profile-card" style="height: fit-content; margin-top: 24px; grid-column: 1 / -1;">
         <div class="report-icon-wrapper" style="background: #e0f2fe; color: #3b82f6;">
             <i class="fa-solid fa-download"></i>
         </div>
@@ -469,46 +460,68 @@
 
         <form id="exportDataForm">
             <div class="form-group" style="margin-bottom: 16px;">
-                <label class="form-label" style="display:flex; align-items:center; gap:6px;"><i class="fa-regular fa-calendar"></i> Timeframe</label>
-                <select class="form-select" id="exportTimeframe">
+                <label class="form-label" style="display:flex; align-items:center; gap:6px;"><i class="fa-regular fa-calendar" style="color: #3b82f6;"></i> Timeframe</label>
+                <select class="form-select" id="exportTimeframe" style="max-width: 300px; margin-top: 6px;" onchange="document.getElementById('specificRangeBox').style.display = this.value === 'specific' ? 'block' : 'none'">
                     <option value="this_month" selected>This Month</option>
                     <option value="last_30">Last 30 Days</option>
                     <option value="all">All Time</option>
+                    <option value="specific">Specific Range...</option>
                 </select>
             </div>
 
+            <div id="specificRangeBox" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                <label class="form-label" style="display:flex; align-items:center; gap:6px; color: #3b82f6; margin-bottom: 16px;"><i class="fa-regular fa-calendar-days"></i> Specific Date Range</label>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <button type="button" style="background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3b82f6; cursor: pointer;">Today</button>
+                    <button type="button" style="background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3b82f6; cursor: pointer;">Last 7 Days</button>
+                    <button type="button" style="background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: #3b82f6; cursor: pointer;">Last 14 Days</button>
+                </div>
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: #64748b; margin-bottom: 4px; display: block;">From</label>
+                        <input type="date" class="form-input">
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: #64748b; margin-bottom: 4px; display: block;">To</label>
+                        <input type="date" class="form-input">
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group" style="margin-bottom: 24px;">
-                <label class="form-label" style="display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-filter"></i> Categories <span style="font-weight:400; color:#94a3b8;">(select one or more)</span></label>
+                <label class="form-label" style="display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-filter" style="color: #3b82f6;"></i> Categories <span style="font-weight:400; color:#94a3b8;">(select one or more)</span></label>
                 <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;">
-                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                        <input type="checkbox" checked value="expenses" style="accent-color: #2563eb;"> Expenses
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <input type="checkbox" checked value="expenses" style="accent-color: #2563eb; width: 16px; height: 16px;"> Expenses
                     </label>
-                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                        <input type="checkbox" value="goals" style="accent-color: #2563eb;"> Saving Goals
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; background: white; border: 1px solid #e2e8f0; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <input type="checkbox" value="goals" style="accent-color: #2563eb; width: 16px; height: 16px;"> Saving Goals
                     </label>
-                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                        <input type="checkbox" value="challenges" style="accent-color: #2563eb;"> Collaborative Saving Goals
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; background: white; border: 1px solid #e2e8f0; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <input type="checkbox" value="challenges" style="accent-color: #2563eb; width: 16px; height: 16px;"> Collaborative Saving Goals
                     </label>
                 </div>
             </div>
 
-            <label class="form-label" style="display:flex; align-items:center; gap:6px; margin-bottom:12px;"><i class="fa-solid fa-download"></i> Download As</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <button type="button" class="primary-btn" style="background: #fffbef; color: #d97706; border: 1px solid #fde68a;" onclick="alert('Downloading JSON...')">
-                    <i class="fa-solid fa-file-code"></i> JSON
+            <label class="form-label" style="display:flex; align-items:center; gap:6px; margin-bottom:12px; color: #3b82f6;"><i class="fa-solid fa-download"></i> Download As</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                <button type="button" style="background: #fffbef; color: #d97706; border: 1px solid #fde68a; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px;" onclick="alert('Downloading JSON...')">
+                    <i class="fa-solid fa-file-code" style="font-size: 20px;"></i> JSON
                 </button>
-                <button type="button" class="primary-btn" style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;" onclick="alert('Downloading Excel...')">
-                    <i class="fa-solid fa-file-excel"></i> Excel
+                <button type="button" style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px;" onclick="alert('Downloading Excel...')">
+                    <i class="fa-solid fa-file-excel" style="font-size: 20px;"></i> Excel
                 </button>
-                <button type="button" class="primary-btn" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;" onclick="alert('Generating Google Form...')">
-                    <i class="fa-brands fa-google"></i> Google Form
+                <button type="button" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px;" onclick="alert('Generating Google Form...')">
+                    <i class="fa-brands fa-google" style="font-size: 20px;"></i> Google Form
                 </button>
-                <button type="button" class="primary-btn" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;" onclick="alert('Downloading PDF...')">
-                    <i class="fa-solid fa-file-pdf"></i> PDF
+                <button type="button" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px;" onclick="alert('Downloading PDF...')">
+                    <i class="fa-solid fa-file-pdf" style="font-size: 20px;"></i> PDF
                 </button>
             </div>
         </form>
     </div>
+    
+                </div>
 
                 <div class="profile-card" style="grid-column: 1 / -1; margin-top: 0;">
                     <div class="profile-card-header">
@@ -563,22 +576,22 @@
 
     // --- 1. SIDEBAR & AVATAR SYNC ---
     async function syncSidebar() {
+        if (!currentUser) return;
         const firstName = currentUser.user_metadata?.first_name || '';
         const lastName = currentUser.user_metadata?.last_name || '';
         let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
-        const avatarUrl = currentUser.user_metadata?.avatar_url || null; // Pull saved image
-        
+
         const nameEl = document.getElementById('sidebar-user-name');
         const emailEl = document.getElementById('sidebar-user-email');
         if (nameEl) nameEl.innerText = fullName;
         if (emailEl) emailEl.innerText = currentUser.email;
 
-        let initials = firstName && lastName ? (firstName.charAt(0) + lastName.charAt(0)) : currentUser.email.substring(0, 2);
-        initials = initials.toUpperCase();
+        const avatarUrl = currentUser.user_metadata?.avatar_url;
+        let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
 
         document.querySelectorAll('.avatar-circle').forEach(circle => {
-            const avatarUrl = currentUser.user_metadata?.avatar_url;
             if (avatarUrl) {
+                // Forces the image to perfectly fit the circle without blowing up the layout
                 circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
                 circle.style.backgroundColor = 'transparent';
             } else {
