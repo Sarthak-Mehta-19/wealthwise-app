@@ -145,8 +145,7 @@
             <div class="sidebar_footer">
                 <div class="user-profile">
                     <div class="user-profile_pic avatar-circle">
-                        <div class="user-default_pic"></div>
-                    </div>
+                        </div>
                     <div class="user-details">
                         <div class="user-profile-name">
                             <h4 id="sidebar-user-name">Loading...</h4>
@@ -165,6 +164,7 @@
 
     <div class="dashboard">
         <div class="dashboard-main">
+            
             <div class="dashboard-main-big-head">
                 <div class="main-text">
                     <div class="dashboard-main-title">
@@ -179,13 +179,13 @@
                         <i class="fa-solid fa-piggy-bank" style="color: #10b981;"></i>
                         <p style="margin: 0;">Add Savings</p>
                     </button>
-                    <button class="goal-creator" onclick="window.openGoalModal()">
+                    <button class="goal-creator" onclick="window.openGoalModal()" style="background: #10b981; color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
                         <i class="fa-solid fa-bullseye"></i>
-                        <p>Create New Goal</p>
+                        <p style="margin: 0;">Create New Goal</p>
                     </button>
                 </div>
             </div>
-            
+
             <div class="dashboard-main-info">
                 <div class="info-box">
                     <div class="info-box-display">
@@ -289,7 +289,7 @@
                 </div>
             </div>
 
-            <div class="search-bar_and_search-filter" style="margin-top: 32px; margin-bottom: 24px; position: relative;">
+            <div class="search-bar_and_search-filter" style="margin-top: 32px; margin-bottom: 32px; position: relative; z-index: 50;">
                 <div class="search-bar-container" style="display: flex; align-items: center; background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0;">
                     <button class="category-toggle" id="categoryToggle" type="button" style="background: #10b981; color: white; border: none; padding: 10px 16px; border-radius: 8px 0 0 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s; height: 100%;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
                       <span id="categoryText">All Categories</span>
@@ -299,7 +299,7 @@
                     </button>
                     <input type="text" id="goalSearchInput" class="search-input" placeholder="Search your goals..." style="flex: 1; border: none; outline: none; padding: 10px 16px; font-size: 14px; border-radius: 0 8px 8px 0;">
                 </div>
-                <ul class="dropdown-menu" id="dropdownMenu" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); list-style: none; padding: 8px 0; margin-top: 4px; z-index: 50; min-width: 180px;"> 
+                <ul class="dropdown-menu" id="dropdownMenu" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); list-style: none; padding: 8px 0; margin-top: 4px; z-index: 51; min-width: 180px;"> 
                   <li class="dropdown-item" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">All Categories</li>
                   <li class="dropdown-item" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Emergency Fund</li>
                   <li class="dropdown-item" style="padding: 8px 16px; cursor: pointer; font-size: 14px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='white'">Vacation</li>
@@ -311,119 +311,109 @@
                 </ul>
             </div>
 
-            <div class="goal_cards" id="goalCardsList">
+            <div class="goal_cards" id="goalCardsList" style="margin-top: 16px; z-index: 10;">
                 <div style="padding: 40px; color: #64748B; font-size: 14px; text-align: center; width: 100%; grid-column: 1 / -1;">
                     <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
                     <p>Loading your goals...</p>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <div class="goal-modal-backdrop-overlay" id="goalModalOverlay" style="z-index: 9999;">
-        <div class="create_goal">
-            <div class="goal_creator_main_heading">
-                <div class="goal_creator_logo_and_title">
-                    <div class="goal_creator_logo">
+    <div class="goal-modal-backdrop-overlay" id="goalModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center;">
+        <div style="background: white; width: 100%; max-width: 600px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="height: 40px; width: 40px; background: #ecfdf5; color: #10b981; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
                         <i class="fa-solid fa-bullseye"></i>
                     </div>
-                    <div class="goal_creator_title">
-                        <h4>Create New Goal</h4>
-                    </div>
+                    <h4 id="modalTitleText" style="margin: 0; font-size: 18px; color: #0f172a; font-weight: 700;">Create New Goal</h4>
                 </div>
-                <div class="close" onclick="window.closeGoalModal()">
-                    <i class="fa-solid fa-xmark" style="cursor: pointer;"></i>
-                </div>
+                <button type="button" onclick="window.closeGoalModal()" style="background: none; border: none; font-size: 20px; color: #94a3b8; cursor: pointer; transition: 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#94a3b8'">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="goal_entry">
-                <form id="newGoalForm">
-                    <div class="goal_title span-3">
-                        <label for="goalTitle">Goal Title</label>
-                        <input type="text" id="goalTitle" required placeholder="e.g., Emergency Fund">
-                    </div>
-                    <div class="goal_category span-3">
-                        <label for="select_category">Category</label>
-                        <select name="category" id="select_category">
-                            <option value="emergency">Emergency Fund</option>
-                            <option value="vacation">Vacation</option>
-                            <option value="home">Home</option>
-                            <option value="car">Car</option>
-                            <option value="education">Education</option>
-                            <option value="retirement">Retirement</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="goal_description span-6">
-                        <label for="goalDesc">Description</label>
-                        <textarea id="goalDesc" class="span-6" placeholder="Describe your goal milestone..."></textarea>
-                    </div>
+            
+            <form id="newGoalForm" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="grid-column: span 1;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Goal Title *</label>
+                    <input type="text" id="goalTitle" required placeholder="e.g., Emergency Fund" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
+                <div style="grid-column: span 1;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Category</label>
+                    <select id="select_category" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box;">
+                        <option value="emergency">Emergency Fund</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="home">Home</option>
+                        <option value="car">Car</option>
+                        <option value="education">Education</option>
+                        <option value="retirement">Retirement</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div style="grid-column: span 2;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Description</label>
+                    <textarea id="goalDesc" placeholder="Describe your goal milestone..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; resize: vertical; min-height: 80px; box-sizing: border-box;"></textarea>
+                </div>
 
-                    <div class="gaol_target span-2">
-                        <label for="goalTarget">Target Amount</label>
-                        <input type="number" id="goalTarget" step="0.01" required>
-                    </div>
+                <div style="grid-column: span 1;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Target Amount *</label>
+                    <input type="number" id="goalTarget" step="0.01" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
 
-                    <div class="goal_current span-2">
-                        <label for="goalCurrent">Current Amount</label>
-                        <input type="number" id="goalCurrent" step="0.01" value="0">
-                    </div>
+                <div style="grid-column: span 1;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Current Amount</label>
+                    <input type="number" id="goalCurrent" step="0.01" value="0" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
 
-                    <div class="monthly_contribution span-2">
-                        <label for="goalMonthly">Monthly Contribution</label>
-                        <input type="number" id="goalMonthly" step="0.01" value="0">
-                    </div>
+                <div style="grid-column: span 1;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Target Date *</label>
+                    <input type="date" id="goalDeadline" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
 
-                    <div class="target_amount span-3">
-                        <label for="goalDeadline">Target Date</label>
-                        <input type="date" id="goalDeadline" required>
-                    </div>
+                <div style="grid-column: span 1;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px;">Priority</label>
+                    <select id="priority" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box;">
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
 
-                    <div class="priority_goal span-3">
-                        <label for="priority">Priority</label>
-                        <select name="priority" id="priority">
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                            <option value="low">Low</option>
-                        </select>
-                    </div>
-                </form>
-
-                <div class="create_buttons">
-                    <p id="goalFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; align-self: center; display: none;"></p>
-                    <button type="button" class="cancel_button" onclick="window.closeGoalModal()">
-                        <p>Cancel</p>
-                    </button>
-                    <button type="submit" form="newGoalForm" class="create_goal_form_button">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        <p>Save Goal</p>
+                <div style="grid-column: span 2; display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 16px;">
+                    <p id="goalFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; display: none;"></p>
+                    <button type="button" onclick="window.closeGoalModal()" style="background: #f1f5f9; color: #475569; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">Cancel</button>
+                    <button type="submit" id="submitGoalBtn" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                        <i class="fa-solid fa-floppy-disk"></i> <span id="submitGoalBtnText">Save Goal</span>
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
     <div class="goal-modal-backdrop-overlay" id="addFundModalOverlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:9999; align-items:center; justify-content:center;">
-        <div style="background:white; width:100%; max-width:400px; border-radius:16px; padding:24px;">
+        <div style="background:white; width:100%; max-width:400px; border-radius:16px; padding:24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3 style="margin:0; display:flex; align-items:center; gap:8px;">
-                    <i class="fa-solid fa-piggy-bank" style="color:#059669;"></i> Add Funds
+                <h3 style="margin:0; display:flex; align-items:center; gap:8px; font-size: 18px; color: #0f172a;">
+                    <i class="fa-solid fa-piggy-bank" style="color:#10b981;"></i> Add Funds
                 </h3>
-                <button type="button" onclick="window.closeAddFundModal()" style="background:none; border:none; font-size:24px; color:#94a3b8; cursor:pointer;">&times;</button>
+                <button type="button" onclick="window.closeAddFundModal()" style="background:none; border:none; font-size:24px; color:#94a3b8; cursor:pointer; transition: 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#94a3b8'">&times;</button>
             </div>
             <form id="addFundForm">
                 <div id="globalGoalSelectContainer" style="display:none; margin-bottom:16px;">
                     <label style="display:block; font-size:13px; font-weight:600; color:#475569; margin-bottom:8px;">Select Goal *</label>
-                    <select id="globalGoalSelect" style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px;"></select>
+                    <select id="globalGoalSelect" style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px; outline: none; font-size: 14px;"></select>
                 </div>
                 <div style="margin-bottom:24px;">
                     <label style="display:block; font-size:13px; font-weight:600; color:#475569; margin-bottom:8px;">Amount to Add (₹) *</label>
-                    <input type="number" id="addFundAmount" required step="0.01" placeholder="e.g. 500" style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px;">
+                    <input type="number" id="addFundAmount" required step="0.01" placeholder="e.g. 500" style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px; outline: none; font-size: 14px; box-sizing: border-box;">
                 </div>
                 <div style="display:flex; justify-content:flex-end; gap:12px;">
-                    <p id="addFundStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;"></p>
-                    <button type="button" id="cancelAddFundBtn" style="background:#f1f5f9; color:#475569; border:none; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer;">Cancel</button>
-                    <button type="submit" id="submitAddFundBtn" style="background:#059669; color:white; border:none; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <p id="addFundStatus" style="font-size:14px; font-weight:600; color:#10b981; margin-right:auto; display:none; align-self:center;"></p>
+                    <button type="button" onclick="window.closeAddFundModal()" style="background:#f1f5f9; color:#475569; border:none; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer; transition: 0.2s;">Cancel</button>
+                    <button type="submit" id="submitAddFundBtn" style="background:#10b981; color:white; border:none; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
                         <i class="fa-solid fa-plus"></i> Add
                     </button>
                 </div>
@@ -434,6 +424,7 @@
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
+    // --- 1. INITIALIZE SUPABASE ---
     const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -444,7 +435,7 @@
     let currentSearchQuery = '';
 
     // ==========================================
-    // MODULE A: GLOBAL SIDEBAR SYNC (FIXED SIZE)
+    // MODULE A: GLOBAL SIDEBAR SYNC
     // ==========================================
     async function syncSidebar() {
         if (!currentUser) return;
@@ -462,7 +453,7 @@
         document.querySelectorAll('.avatar-circle').forEach(circle => {
             const avatarUrl = currentUser.user_metadata?.avatar_url;
             if (avatarUrl) {
-                circle.innerHTML = `<img src="${avatarUrl}" style="display: block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.innerHTML = `<img src="${avatarUrl}" style="display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
                 circle.style.backgroundColor = 'transparent';
                 circle.style.overflow = 'hidden';
             } else {
@@ -546,8 +537,8 @@
         
         const form = document.getElementById('newGoalForm');
         form.dataset.editId = id;
-        document.querySelector('.goal_creator_title h4').innerText = "Edit Goal";
-        document.querySelector('.create_goal_form_button p').innerText = "Save Changes";
+        document.getElementById('modalTitleText').innerText = "Edit Goal";
+        document.getElementById('submitGoalBtnText').innerText = "Save Changes";
         window.openGoalModal();
     };
 
@@ -562,7 +553,7 @@
         });
 
         if (filtered.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748B;"><h4>No goals match your search.</h4></div>`;
+            container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748B;"><i class="fa-solid fa-bullseye" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i><h4>No goals match your search.</h4></div>`;
             return;
         }
 
@@ -573,24 +564,29 @@
             const target = parseFloat(g.target_amount) || 1;
             const current = parseFloat(g.current_amount) || 0;
             const percentage = Math.min(100, (current / target) * 100).toFixed(1);
-            const deadline = new Date(g.deadline || new Date());
-            const isOverdue = deadline < new Date() && current < target;
             
+            const deadline = new Date(g.deadline || new Date());
+            const month = deadline.toLocaleString('default', { month: 'short' });
+            const date = deadline.getDate();
+            const year = deadline.getFullYear();
+            
+            const isOverdue = deadline < new Date() && current < target;
             const statusText = current >= target ? 'Completed' : (isOverdue ? 'Overdue' : 'On Track');
             const statusIconColor = current >= target ? '#10b981' : (isOverdue ? '#ef4444' : '#f59e0b');
             const statusIcon = current >= target ? 'fa-check-circle' : (isOverdue ? 'fa-triangle-exclamation' : 'fa-clock');
+            
             const monthlyNeeded = target > current ? Math.ceil((target - current) / 12) : 0;
 
             html += `
-                <div class="goal_card" style="position: relative;" onmouseenter="this.querySelector('.goal-actions').style.display='flex'" onmouseleave="this.querySelector('.goal-actions').style.display='none'">
+                <div class="goal_card" style="position: relative; overflow: visible;" onmouseenter="this.querySelector('.goal-hover-actions').style.display='flex'" onmouseleave="this.querySelector('.goal-hover-actions').style.display='none'">
                     
-                    <div class="goal-actions" style="display: none; position: absolute; top: 12px; right: 12px; gap: 8px; z-index: 10;">
-                        <button type="button" onclick="window.editGoal('${g.id}')" style="background: #f1f5f9; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #3b82f6; transition: 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'"><i class="fa-solid fa-pen"></i></button>
-                        <button type="button" onclick="window.deleteGoal('${g.id}')" style="background: #fef2f2; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #ef4444; transition: 0.2s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'"><i class="fa-solid fa-trash"></i></button>
+                    <div class="goal-hover-actions" style="display: none; position: absolute; top: 12px; right: 12px; gap: 8px; z-index: 20;">
+                        <button onclick="window.editGoal('${g.id}')" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; cursor: pointer; color: #3b82f6; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="window.deleteGoal('${g.id}')" style="background: #fef2f2; border: 1px solid #fca5a5; border-radius: 6px; padding: 6px 10px; cursor: pointer; color: #ef4444; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'"><i class="fa-solid fa-trash"></i></button>
                     </div>
 
                     <div class="goal_card_main_heading">
-                        <div class="goal_card_main_title"><h4>${g.title}</h4></div>
+                        <div class="goal_card_main_title"><h4 style="padding-right: 70px;">${g.title}</h4></div>
                         <div class="goal_card_dynamic_progress_indicator"></div>
                         <div class="goal_card_main_subtitle"><p>${g.description || 'Savings milestone'}</p></div>
                         <div class="goal_card_main_dynamic_tag"><h6>${(g.category || 'General').replace('-', ' ')}</h6></div>
@@ -608,15 +604,31 @@
                                 <div class="goal_card_progress_amount"><h6>${formatCurrency(target)}</h6></div>
                             </div>
                         </div>
-                        <div class="goal_card_deadline_sub_display" style="margin-top:16px;">
+                        <div class="goal_card_deadline_display">
+                            <div class="goal_card_deadline_display_icon_and_main_text">
+                                <div class="goal_card_deadline_icon"><i class="fa-regular fa-calendar" style="color:${statusIconColor}"></i></div>
+                                <div class="goal_card_deadline_supporting_text"><p>Target:</p></div>
+                                <div class="goal_card_deadline_main_text">
+                                    <div class="goal_card_deadline_month"><h6>${month}</h6></div>
+                                    <div class="goal_card_deadline_date"><h6>${date},</h6></div>
+                                    <div class="goal_card_deadline_year"><h6>${year}</h6></div>
+                                </div>
+                            </div>
+                            <div class="goal_card_deadline_status_display">
+                                <div class="goal_card_deadline_status_dynamic_icon"><i class="fa-solid ${statusIcon}" style="color: ${statusIconColor};"></i></div>
+                                <div class="goal_card_deadline_status_dynamic_text"><h6 style="color: ${statusIconColor};">${statusText}</h6></div>
+                            </div>
+                        </div>
+                        <div class="goal_card_deadline_sub_display">
                             <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
                                 <div class="goal_card_deadline_dynamic_logo"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
                                 <div class="goal_card_dynamic_subtitle_dynamic_text"><p>Monthly needed:</p></div>
                             </div>
                             <div class="goal_card_dynamic_subtitle_dynamic_number"><p>₹${monthlyNeeded.toLocaleString('en-IN')}</p></div>
                         </div>
+                        
                         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
-                            <button type="button" onclick="window.openAddFundModal('${g.id}')" style="background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                            <button type="button" onclick="window.openAddFundModal('${g.id}')" style="background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
                                 <i class="fa-solid fa-plus" style="margin-right: 6px;"></i> Add Funds
                             </button>
                         </div>
@@ -626,30 +638,41 @@
         container.innerHTML = html;
     }
 
+
     // ==========================================
     // MODULE D: MODALS & FORM SUBMISSIONS
     // ==========================================
     
+    // --- Create/Edit Goal Modal ---
     window.openGoalModal = () => {
         const overlay = document.getElementById('goalModalOverlay');
-        if (overlay) { overlay.classList.add('is-active'); document.body.style.overflow = 'hidden'; }
+        if (overlay) { 
+            overlay.style.display = 'flex'; 
+            document.body.style.overflow = 'hidden'; 
+        }
     };
     window.closeGoalModal = () => {
         const overlay = document.getElementById('goalModalOverlay');
-        if (overlay) { overlay.classList.remove('is-active'); document.body.style.overflow = ''; }
+        if (overlay) { 
+            overlay.style.display = 'none'; 
+            document.body.style.overflow = ''; 
+        }
         const form = document.getElementById('newGoalForm');
         form.reset(); delete form.dataset.editId;
-        document.querySelector('.goal_creator_title h4').innerText = "Create New Goal";
-        document.querySelector('.create_goal_form_button p').innerText = "Save Goal";
+        document.getElementById('modalTitleText').innerText = "Create New Goal";
+        document.getElementById('submitGoalBtnText').innerText = "Save Goal";
     };
 
     document.getElementById('newGoalForm')?.addEventListener('submit', async (event) => {
         event.preventDefault();
         const form = event.target;
-        const submitBtn = document.querySelector('.create_goal_form_button');
-        submitBtn.disabled = true;
+        const submitBtn = document.getElementById('submitGoalBtn');
+        const statusMsg = document.getElementById('goalFormStatus');
+        
         const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <p>Saving...</p>';
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        if (statusMsg) statusMsg.style.display = 'none';
         
         const payload = {
             user_id: currentUser.id, 
@@ -661,75 +684,133 @@
             deadline: document.getElementById('goalDeadline').value
         };
 
+        let errorObj = null;
+
         if (form.dataset.editId) {
-            await supabase.from('finance_app_goal').update(payload).eq('id', form.dataset.editId);
+            const { error } = await supabase.from('finance_app_goal').update(payload).eq('id', form.dataset.editId);
+            errorObj = error;
             delete form.dataset.editId;
         } else {
             payload.id = crypto.randomUUID();
-            await supabase.from('finance_app_goal').insert([payload]);
+            const { error } = await supabase.from('finance_app_goal').insert([payload]);
+            errorObj = error;
         }
         
-        window.closeGoalModal();
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-        fetchAndRenderGoals(); 
+        if (errorObj) {
+            if(statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = '#ef4444';
+                statusMsg.innerText = errorObj.message;
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        } else {
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = "✨ Goal saved successfully!";
+                statusMsg.style.color = "#10b981"; 
+            }
+            setTimeout(() => {
+                window.closeGoalModal();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                if(statusMsg) statusMsg.style.display = 'none';
+                fetchAndRenderGoals(); 
+            }, 800);
+        }
     });
 
     // --- Add Funds Modal ---
     let activeGoalIdForFund = null;
     window.openGlobalAddFundModal = () => {
         activeGoalIdForFund = null;
-        document.getElementById('globalGoalSelectContainer').style.display = 'block';
-        document.getElementById('globalGoalSelect').innerHTML = '<option value="" disabled selected>-- Choose a Goal --</option>' + 
-            allGoalsData.map(g => `<option value="${g.id}">${g.title}</option>`).join('');
-        document.getElementById('addFundModalOverlay').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        const selectContainer = document.getElementById('globalGoalSelectContainer');
+        const selectBox = document.getElementById('globalGoalSelect');
+        
+        if (selectContainer && selectBox) {
+            selectContainer.style.display = 'block';
+            selectBox.innerHTML = '<option value="" disabled selected>-- Choose a Goal --</option>' + 
+                allGoalsData.map(g => `<option value="${g.id}">${g.title}</option>`).join('');
+        }
+        
+        const modal = document.getElementById('addFundModalOverlay');
+        if(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
     };
 
     window.openAddFundModal = (goalId) => {
         activeGoalIdForFund = goalId;
-        document.getElementById('globalGoalSelectContainer').style.display = 'none';
-        document.getElementById('addFundModalOverlay').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        const selectContainer = document.getElementById('globalGoalSelectContainer');
+        if (selectContainer) selectContainer.style.display = 'none';
+        
+        const modal = document.getElementById('addFundModalOverlay');
+        if(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
     };
 
     window.closeAddFundModal = () => {
-        document.getElementById('addFundModalOverlay').style.display = 'none';
+        const modal = document.getElementById('addFundModalOverlay');
+        if (modal) modal.style.display = 'none';
         document.getElementById('addFundForm').reset();
         activeGoalIdForFund = null;
         document.body.style.overflow = '';
     };
 
-    // Fix Freeze: Prevent Default on Cancel Button
-    document.getElementById('cancelAddFundBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        closeAddFundModal();
-    });
-
     document.getElementById('addFundForm').addEventListener('submit', async (e) => {
         e.preventDefault(); 
         const amountToAdd = parseFloat(document.getElementById('addFundAmount').value);
-        const targetId = activeGoalIdForFund || document.getElementById('globalGoalSelect').value;
+        const globalSelect = document.getElementById('globalGoalSelect');
+        const targetId = activeGoalIdForFund || (globalSelect ? globalSelect.value : null);
         
-        if (!targetId) return alert("Please select a goal first.");
+        if (!targetId) {
+            alert("Please select a goal first.");
+            return;
+        }
 
         const submitBtn = document.getElementById('submitAddFundBtn');
+        const statusMsg = document.getElementById('addFundStatus');
         const origText = submitBtn.innerHTML;
+        
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding...';
+        if(statusMsg) statusMsg.style.display = 'none';
 
         try {
             const targetGoal = allGoalsData.find(g => g.id === targetId);
+            if (!targetGoal) throw new Error("Goal not found in database.");
+
             const newAmount = (parseFloat(targetGoal.current_amount) || 0) + amountToAdd;
-            await supabase.from('finance_app_goal').update({ current_amount: newAmount }).eq('id', targetId);
+            const { error } = await supabase.from('finance_app_goal').update({ current_amount: newAmount }).eq('id', targetId);
             
-            window.closeAddFundModal();
-            fetchAndRenderGoals(); 
+            if (error) throw error;
+
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = '#10b981';
+                statusMsg.innerText = "✨ Funds added!";
+            }
+
+            setTimeout(() => {
+                window.closeAddFundModal();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origText;
+                if(statusMsg) statusMsg.style.display = 'none';
+                fetchAndRenderGoals(); 
+            }, 800);
+
         } catch (err) {
-            alert(err.message);
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = '#ef4444';
+                statusMsg.innerText = "Error: " + err.message;
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = origText;
         }
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = origText;
     });
 
     // ==========================================
