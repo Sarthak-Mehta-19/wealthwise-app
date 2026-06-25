@@ -915,7 +915,14 @@ body{
 
 .dashboard .dashboard-main .dashboard_main_content_left .goal_progress_tracker .goal_status_display .important_goal_status_display .lower .important_goal_status_display_progress_bar_descriptive_details .important_goal_status_display_progress_bar_percentage{
     display: flex;
+    align-items: center;
     gap: 5%;
+}
+
+.dashboard .dashboard-main .dashboard_main_content_left .goal_progress_tracker .goal_status_display .important_goal_status_display .lower .important_goal_status_display_progress_bar_descriptive_details .important_goal_status_display_progress_bar_percentage h6,
+.dashboard .dashboard-main .dashboard_main_content_left .goal_progress_tracker .goal_status_display .important_goal_status_display .lower .important_goal_status_display_progress_bar_descriptive_details .important_goal_status_display_progress_bar_percentage p{
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .dashboard .dashboard-main .dashboard_main_content_left .goal_progress_tracker .goal_status_display .important_goal_status_display .lower .important_goal_status_display_progress_bar_descriptive_details .important_goal_status_display_progress_bar_deadline{

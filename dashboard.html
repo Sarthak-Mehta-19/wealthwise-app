@@ -296,14 +296,6 @@
     </div>
 </div>
     <div class="dashboard">
-        <div class="dashboard_header">
-            <div class="menu">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="dashboard_title">
-                <h1>WealthWise</h1>
-            </div>
-        </div>
         <div class="dashboard-main">
             <div class="dashboard-main-big-head">
                 <div class="main-text">
@@ -557,9 +549,9 @@
                         <h6>Goal Progress</h6>
                     </div>
                     <div class="goal_progress_tracker_expansion_button">
-                        <button onclick="window.location.href='saving_goals.html'" style="cursor: pointer;">
-                            <h6>View All</h6>
-                            <i class="fa-solid fa-arrow-up-right-from-square" style="color: rgb(0, 0, 0);"></i>
+                        <button onclick="window.location.href='saving_goals.html'" style="cursor: pointer; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; color: #0f172a; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+                            <h6 style="margin: 0; font-size: 13px;">View All</h6>
+                            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px;"></i>
                         </button>
                     </div>
                 </div>
@@ -608,9 +600,9 @@
                         </div>
                     </div>
                         <div class="recent_group_challenges_summary_expansion_button">
-                            <button onclick="window.location.href='collaborativesavings.html'" style="cursor: pointer;">
-                                <h6>View All</h6>
-                                <i class="fa-solid fa-arrow-up-right-from-square" style="color: rgb(0, 0, 0);"></i>
+                            <button onclick="window.location.href='saving_goals.html'" style="cursor: pointer; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; color: #0f172a; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+                                <h6 style="margin: 0; font-size: 13px;">View All</h6>
+                                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px;"></i>
                             </button>
                         </div>
                 </div>
@@ -677,12 +669,15 @@
         }
 
         const avatarCircles = document.querySelectorAll('.avatar-circle');
-        avatarCircles.forEach(circle => {
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
         });
     }
 
@@ -929,35 +924,42 @@
         const formatCurrencyNoDec = (val) => '₹' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
 
         try {
-            const goalsRes = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id).order('deadline', { ascending: true });
+            const goalsRes = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id).order('deadline', { ascending: false });
+            const expensesRes = await supabase.from('finance_app_expense').select('*').eq('user_id', currentUser.id).order('date', { ascending: false }).limit(5);
             const challengesRes = await supabase.from('finance_app_challenge').select('*').order('end_date', { ascending: true });
-            const expensesRes = await supabase.from('finance_app_expense').select('*').eq('user_id', currentUser.id).order('date', { ascending: false }).limit(4);
 
             const goals = goalsRes.data || [];
-            const challenges = challengesRes.data || [];
             const expenses = expensesRes.data || [];
+            const challenges = challengesRes.data || [];
 
-            // Goals
+            // --- GOALS (Max 5, Red if Overdue, No Year) ---
             const goalsListEl = document.getElementById('dashGoalsList');
             if (goalsListEl) {
                 if (goals.length === 0) {
                     goalsListEl.innerHTML = '<p style="padding: 20px; color: #64748B; font-size: 14px; text-align: center;">No active goals found.</p>';
                 } else {
                     let goalsHtml = '';
-                    goals.slice(0, 2).forEach(g => {
+                    goals.slice(0, 5).forEach(g => {
                         const target = parseFloat(g.target_amount) || 1;
                         const current = parseFloat(g.current_amount) || 0;
                         const percentage = Math.min(100, (current / target) * 100).toFixed(1);
+                        
                         const deadline = new Date(g.deadline || new Date());
                         const isOverdue = deadline < new Date() && current < target;
+                        
+                        let statusText = 'Active';
+                        let statusColor = '#10b981'; // Green
+                        if (current >= target) { statusText = 'Ended'; statusColor = '#64748b'; } // Grey
+                        else if (isOverdue) { statusText = 'Overdue'; statusColor = '#ef4444'; } // Red
+
                         goalsHtml += `
                             <div class="important_goal_status_display">
                                 <div class="upper">
                                     <div class="right-corner">
                                         <div class="important_goal_status_display_title"><h6>${g.title}</h6></div>
                                         <div class="important_goal_status_display_completion_status">
-                                            <div class="important_goal_status_display_completion_status_icon"><i class="fa-regular fa-calendar"></i></div>
-                                            <div class="important_goal_status_display_completion_status_title"><h6>${isOverdue ? 'Overdue' : 'Active'}</h6></div>
+                                            <div class="important_goal_status_display_completion_status_icon"><i class="fa-regular fa-calendar" style="color: ${statusColor};"></i></div>
+                                            <div class="important_goal_status_display_completion_status_title"><h6 style="color: ${statusColor};">${statusText}</h6></div>
                                         </div>
                                         <div class="left-corner">
                                             <div class="important_goal_status_display_status_amount"><h6>${formatCurrencyNoDec(current)}</h6></div>
@@ -970,8 +972,7 @@
                                             <div class="important_goal_status_display_progress_bar_percentage"><h6>${percentage}%</h6><p>complete</p></div>
                                             <div class="important_goal_status_display_progress_bar_deadline">
                                                 <div class="important_goal_status_display_progress_bar_deadline_month"><h6>${deadline.toLocaleString('default', { month: 'short' })}</h6></div>
-                                                <div class="important_goal_status_display_progress_bar_deadline_date"><h6>${deadline.getDate()},</h6></div>
-                                                <div class="important_goal_status_display_deadline_year"><h6 style="margin-left: 2px;">${deadline.getFullYear()}</h6></div>
+                                                <div class="important_goal_status_display_progress_bar_deadline_date"><h6>${deadline.getDate()}</h6></div>
                                             </div>
                                         </div>
                                     </div>
@@ -982,40 +983,7 @@
                 }
             }
 
-            // Challenges
-            const challengesListEl = document.getElementById('dashChallengesList');
-            if (challengesListEl) {
-                if (challenges.length === 0) {
-                    challengesListEl.innerHTML = '<p style="padding: 20px; color: #64748B; font-size: 14px; text-align: center;">No group challenges active.</p>';
-                } else {
-                    let challengesHtml = '';
-                    challenges.slice(0, 2).forEach(c => {
-                        const target = parseFloat(c.amount) || 1;
-                        const dateString = new Date(c.end_date || new Date()).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                        challengesHtml += `
-                            <div class="challenge_container">
-                                <div class="challenge_container_main_heading">
-                                    <div class="challenge_container_main_icon"><i class="fa-solid fa-certificate"></i></div>
-                                    <div class="challenge_container_main_title"><h6>${c.name}</h6></div>
-                                </div>
-                                <div class="challenge_container_progress_bar">
-                                    <div class="challenge_container_total_amount"><h6>${formatCurrencyNoDec(target)}</h6></div>
-                                    <label>Progress</label><progress value="${c.percentage || 0}" max="100"></progress>
-                                </div>
-                                <div class="challenge_container_descriptive_details">
-                                    <div class="challenge_container_challenge_participation"><h6>${c.members || 1}</h6><p>participants</p></div>
-                                    <div class="challenge_container_progress_bar_deadline">
-                                        <div class="challenge_container_progress_bar_deadline_calendar_icon"><i class="fa-regular fa-calendar"></i></div>
-                                        <div class="challenge_container_progress_bar_deadline_date"><h6>${dateString}</h6></div>
-                                    </div>
-                                </div>
-                            </div>`;
-                    });
-                    challengesListEl.innerHTML = challengesHtml;
-                }
-            }
-
-            // Expenses
+            // --- RECENT ACTIVITY (Fix Undefined Names) ---
             const activityListEl = document.getElementById('dashActivityList');
             if (activityListEl) {
                 if (expenses.length === 0) {
@@ -1024,13 +992,14 @@
                     let activityHtml = '';
                     expenses.forEach(e => {
                         const d = new Date(e.date);
+                        const displayTitle = e.title || e.name || e.description || 'Unnamed Expense';
                         activityHtml += `
                             <div class="activity_container">
                                 <div class="activity_bar">
                                     <div class="corner_left">
                                         <div class="actvity_icon"><i class="fa-solid fa-receipt"></i></div>
                                         <div class="actvity_main_info">
-                                            <div class="activity_title"><h6>${e.description}</h6></div>
+                                            <div class="activity_title"><h6>${displayTitle}</h6></div>
                                             <div class="activity_time">
                                                 <div class="month"><h6>${d.toLocaleString('default', { month: 'short' })}</h6></div>
                                                 <div class="date"><h6>${d.getDate()},</h6></div>
@@ -1055,11 +1024,11 @@
                 }
             }
 
-            // AI Insights
+            // --- AI INSIGHTS (Fixed Impact Colors) ---
             const insightsListEl = document.getElementById('dashInsightsList');
             if (insightsListEl) {
                 let catTotals = {};
-                expenses.forEach(e => catTotals[e.category] = (catTotals[e.category] || 0) + (parseFloat(e.amount) || 0));
+                expenses.forEach(e => { catTotals[e.category] = (catTotals[e.category] || 0) + (parseFloat(e.amount) || 0); });
                 const highestCat = Object.keys(catTotals).sort((a,b) => catTotals[b] - catTotals[a])[0] || 'expenses';
 
                 insightsListEl.innerHTML = `
@@ -1069,7 +1038,7 @@
                             <div class="insight_tile_container"><h5>High Spending Alert</h5></div>
                             <div class="insight_decsiptive_text_container"><h6>Your spending in the '${highestCat}' category is high. Consider reviewing these expenses.</h6></div>
                         </div>
-                        <div class="insight_significance_of_action_tag"><h6>high impact</h6></div>
+                        <div class="insight_significance_of_action_tag" style="background:#fee2e2; color:#ef4444; border:none; border-radius:4px; padding:2px 6px;"><h6>high impact</h6></div>
                     </div>
                     <div class="insight">
                         <div class="insight_main_icon_container"><i class="fa-solid fa-money-bill-trend-up"></i></div>
@@ -1077,13 +1046,40 @@
                             <div class="insight_tile_container"><h5>Keep Up the Momentum</h5></div>
                             <div class="insight_decsiptive_text_container"><h6>You have logged ${expenses.length} recent transactions. Active tracking helps hit savings goals faster!</h6></div>
                         </div>
-                        <div class="insight_significance_of_action_tag"><h6>medium impact</h6></div>
-                    </div>`;
+                        <div class="insight_significance_of_action_tag" style="background:#fef3c7; color:#d97706; border:none; border-radius:4px; padding:2px 6px;"><h6>medium impact</h6></div>
+                    </div>
+                `;
             }
 
-        } catch (err) {
-            console.error("Dashboard Widget Error:", err);
-        }
+            // Challenges logic remains the same (kept for completeness)
+            const challengesListEl = document.getElementById('dashChallengesList');
+            if (challengesListEl && challenges.length > 0) {
+                let challengesHtml = '';
+                challenges.slice(0, 2).forEach(c => {
+                    const target = parseFloat(c.amount) || 1;
+                    const dateString = new Date(c.end_date || new Date()).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    challengesHtml += `
+                        <div class="challenge_container">
+                            <div class="challenge_container_main_heading">
+                                <div class="challenge_container_main_icon"><i class="fa-solid fa-certificate"></i></div>
+                                <div class="challenge_container_main_title"><h6>${c.name}</h6></div>
+                            </div>
+                            <div class="challenge_container_progress_bar">
+                                <div class="challenge_container_total_amount"><h6>${formatCurrencyNoDec(target)}</h6></div>
+                                <label>Progress</label><progress value="${c.percentage || 0}" max="100"></progress>
+                            </div>
+                            <div class="challenge_container_descriptive_details">
+                                <div class="challenge_container_challenge_participation"><h6>${c.members || 1}</h6><p>participants</p></div>
+                                <div class="challenge_container_progress_bar_deadline">
+                                    <div class="challenge_container_progress_bar_deadline_calendar_icon"><i class="fa-regular fa-calendar"></i></div>
+                                    <div class="challenge_container_progress_bar_deadline_date"><h6>${dateString}</h6></div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                challengesListEl.innerHTML = challengesHtml;
+            }
+        } catch (err) { console.error("Dashboard Widget Error:", err); }
     }
 
     // ==========================================

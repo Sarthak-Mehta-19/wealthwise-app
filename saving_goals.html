@@ -184,7 +184,11 @@
                         <h2>Track your financial milestones and achieve your dreams</h2>
                     </div>
                 </div>
-                <div class="major-buttons">
+                <div class="major-buttons" style="display: flex; gap: 12px;">
+                    <button class="add-savings-global-btn" onclick="window.location.href='collaborativesavings.html'" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s;">
+                        <i class="fa-solid fa-piggy-bank" style="color: #10b981;"></i>
+                        <p style="margin: 0;">Add Savings</p>
+                    </button>
                     <button class="goal-creator">
                         <i class="fa-solid fa-bullseye"></i>
                         <p>Create New Goal</p>
@@ -297,9 +301,9 @@
                 <div class="search_bar">
                     <div class="search-bar-wrapper">
                         <div class="search-bar-container">
-                            <button class="category-toggle" id="categoryToggle">
+                            <button class="category-toggle" id="categoryToggle" style="background: #10b981; color: white; border: none; transition: background 0.2s;">
                               <span id="categoryText">All Categories</span>
-                              <svg class="chevron-icon" id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <svg class="chevron-icon" id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white;">
                                 <polyline points="18 15 12 9 6 15"></polyline>
                               </svg>
                             </button>
@@ -311,8 +315,7 @@
                               </svg>
                             </button>
                         </div>
-                        <ul class="dropdown-menu show" id="dropdownMenu">
-                          <li class="dropdown-item">All Categories</li>
+                        <ul class="dropdown-menu" id="dropdownMenu"> <li class="dropdown-item">All Categories</li>
                           <li class="dropdown-item">Emergency Fund</li>
                           <li class="dropdown-item">Vacation</li>
                           <li class="dropdown-item">Home</li>
@@ -324,7 +327,6 @@
                     </div>
                 </div>
                 <div class="search_filter"></div>
-            </div>
             <div class="goal-modal-backdrop-overlay" id="goalModalOverlay">
     <div class="create_goal">
         <div class="goal_creator_main_heading">
@@ -488,14 +490,15 @@
 
         // 3. Inject Initials into EVERY .avatar-circle on the page
         const avatarCircles = document.querySelectorAll('.avatar-circle');
-        avatarCircles.forEach(circle => {
-            // Remove any old generic icons and inject the styled initials
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            // Apply the soft green premium styling dynamically
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
         });
     }
 
@@ -847,9 +850,12 @@
 
     window.openAddFundModal = (goalId) => {
         activeGoalIdForFund = goalId;
-        addFundModalOverlay.style.display = 'flex';
-        if (addFundStatus) addFundStatus.style.display = 'none';
-        document.body.style.overflow = 'hidden';
+        const modal = document.getElementById('addFundModalOverlay');
+        if(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            if (addFundStatus) addFundStatus.style.display = 'none';
+        }
     };
 
     const closeAddFundModal = () => {

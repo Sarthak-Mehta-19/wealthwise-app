@@ -35,7 +35,7 @@
                 <h2>NAVIGATION</h2>
             </div>
             <div class="navigation_buttons">
-                <a class="nav_btn active" href="dashboard.html">
+                <a class="nav_btn" href="dashboard.html">
                     <div class="nav_btn_icon">
                         <i class="fa-solid fa-desktop"></i>
                     </div>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="nav_btn" href="ai_insights.html">
+                <a class="nav_btn active" href="ai_insights.html">
                     <div class="nav_btn_icon">
                         <i class="fa-solid fa-lightbulb"></i>
                     </div>
@@ -423,11 +423,14 @@
 
         let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
         document.querySelectorAll('.avatar-circle').forEach(circle => {
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
         });
     }
 

@@ -619,6 +619,33 @@
         }, 1000);
     });
 
+    // -- SIDEBAR & AVATAR SYNC ---
+    async function syncSidebar() {
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
+        const avatarUrl = currentUser.user_metadata?.avatar_url || null; // Pull saved image
+        
+        const nameEl = document.getElementById('sidebar-user-name');
+        const emailEl = document.getElementById('sidebar-user-email');
+        if (nameEl) nameEl.innerText = fullName;
+        if (emailEl) emailEl.innerText = currentUser.email;
+
+        let initials = firstName && lastName ? (firstName.charAt(0) + lastName.charAt(0)) : currentUser.email.substring(0, 2);
+        initials = initials.toUpperCase();
+
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
+        });
+    }
+
     // ==========================================
     // BOOTSTRAP INITIALIZATION
     // ==========================================

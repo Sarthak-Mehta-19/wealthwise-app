@@ -70,7 +70,7 @@
                 <h2>NAVIGATION</h2>
             </div>
             <div class="navigation_buttons">
-                <a class="nav_btn active" href="dashboard.html">
+                <a class="nav_btn" href="dashboard.html">
                     <div class="nav_btn_icon">
                         <i class="fa-solid fa-desktop"></i>
                     </div>
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="nav_btn" href="collaborativesavings.html">
+                <a class="nav_btn active" href="collaborativesavings.html">
                     <div class="nav_btn_icon">
                         <i class="fa-solid fa-user-group"></i>
                     </div>
@@ -1059,29 +1059,20 @@
     function sortData(criterion) {
         currentSort = criterion;
         currentData.sort((a, b) => b[criterion] - a[criterion]); 
-        
         currentPage = 1;
-
-        renderLeaderboard();
-        renderPagination();
-        renderActiveChallenges();
+        renderLeaderboard(); renderPagination(); renderActiveChallenges();
         
-        // --- Update Top Widgets ---
-        let activeC = 0;
-        let completedC = 0;
-        let totalRaised = 0;
-        let totalParticipants = 0;
+        // --- Widget Filtering (Only User's Active Challenges) ---
+        let activeC = 0, completedC = 0, totalRaised = 0, totalParticipants = 0;
 
-        currentData.forEach(c => {
+        const myChallenges = currentData.filter(c => c.participant_ids && c.participant_ids.includes(currentUser.id));
+
+        myChallenges.forEach(c => {
             const prog = c.percentage || 0;
             totalRaised += (c.current_amount || 0);
             totalParticipants += (c.members || 0);
-            
-            if (prog >= 100) {
-                completedC++; 
-            } else {
-                activeC++;
-            }
+            if (prog >= 100) completedC++; 
+            else activeC++;
         });
 
         document.getElementById('collabActiveCount').innerText = activeC;
@@ -1121,14 +1112,28 @@
         }
 
         const avatarCircles = document.querySelectorAll('.avatar-circle');
-        avatarCircles.forEach(circle => {
-            circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
-            circle.style.backgroundColor = '#ecfdf5'; 
-            circle.style.display = 'flex';
-            circle.style.alignItems = 'center';
-            circle.style.justifyContent = 'center';
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                sortData(e.target.getAttribute('data-sort'));
+            });
+        });
+        initPage(); 
+    });
 
     // ==========================================
     // MODULE G: CUSTOM TAG INJECTION
@@ -1238,7 +1243,7 @@
         checkForInvitation();
     }
 
-    document.addEventListener('DOMContentLoaded', initPage); 
+    document.addEventListener('DOMContentLoaded', initPage);
 </script>
 
 </body>
