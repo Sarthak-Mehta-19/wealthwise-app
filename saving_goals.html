@@ -177,7 +177,7 @@
                     </div>
                 </div>
                 <div class="major-buttons" style="display: flex; gap: 12px;">
-                    <button onclick="window.openAddFundModal(null)" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+                    <button class="add-savings-global-btn" onclick="window.openAddFundModal(null)" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
                         <i class="fa-solid fa-piggy-bank" style="color: #10b981;"></i>
                         <p style="margin: 0;">Add Savings</p>
                     </button>
@@ -293,7 +293,7 @@
                 <div class="search_bar">
                     <div class="search-bar-wrapper">
                         <div class="search-bar-container">
-                            <button class="category-toggle" id="categoryToggle" style="background: #10b981; color: white; border: none; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                            <button class="category-toggle" id="categoryToggle" style="background: #10b981; color: white; border: none; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
                               <span id="categoryText">All Categories</span>
                               <svg class="chevron-icon" id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white;">
                                 <polyline points="18 15 12 9 6 15"></polyline>
@@ -307,7 +307,8 @@
                               </svg>
                             </button>
                         </div>
-                        <ul class="dropdown-menu" id="dropdownMenu"> <li class="dropdown-item">All Categories</li>
+                        <ul class="dropdown-menu" id="dropdownMenu"> 
+                          <li class="dropdown-item">All Categories</li>
                           <li class="dropdown-item">Emergency Fund</li>
                           <li class="dropdown-item">Vacation</li>
                           <li class="dropdown-item">Home</li>
@@ -318,6 +319,7 @@
                         </ul>
                     </div>
                 </div>
+                <div class="search_filter"></div>
             </div>
         </div>
     </div>
@@ -450,17 +452,13 @@
         });
 
         if (filtered.length === 0) {
-            container.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748B;">
-                    <i class="fa-solid fa-bullseye" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                    <h4>No goals match your search.</h4>
-                </div>`;
+            container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748B;"><h4>No goals match your search.</h4></div>`;
             return;
         }
 
         const formatCurrency = (val) => '₹' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-
         let html = '';
+        
         filtered.forEach(g => {
             const target = parseFloat(g.target_amount) || 1;
             const current = parseFloat(g.current_amount) || 0;
@@ -475,97 +473,57 @@
             const statusText = current >= target ? 'Completed' : (isOverdue ? 'Overdue' : 'On Track');
             const statusIconColor = current >= target ? '#10b981' : (isOverdue ? '#ef4444' : '#f59e0b');
             const statusIcon = current >= target ? 'fa-check-circle' : (isOverdue ? 'fa-triangle-exclamation' : 'fa-clock');
-            
-            // Dummy calculation for the "monthly needed" field from your original UI
             const monthlyNeeded = target > current ? Math.ceil((target - current) / 12) : 0;
 
-            // Restored EXACT original HTML structure
             html += `
-                <div class="goal_card">
+                <div class="goal_card" style="position: relative;" onmouseover="this.querySelector('.goal-hover-actions').style.display='flex'" onmouseout="this.querySelector('.goal-hover-actions').style.display='none'">
+                    
+                    <div class="goal-hover-actions" style="display: none; position: absolute; top: 16px; right: 16px; z-index: 10;">
+                        <button onclick="window.deleteGoal('${g.id}')" style="background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 12px; transition: 0.2s;"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+
                     <div class="goal_card_main_heading">
-                        <button onclick="deleteGoal('${g.id}')" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #cbd5e1; cursor: pointer; transition: 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#cbd5e1'">
-                        <i class="fa-solid fa-trash"></i>
-                        </button>
-                        <div class="goal_card_main_title">
-                            <h4>${g.title}</h4>
-                        </div>
+                        <div class="goal_card_main_title"><h4>${g.title}</h4></div>
                         <div class="goal_card_dynamic_progress_indicator"></div>
-                        <div class="goal_card_main_subtitle">
-                            <p>${g.description || 'Savings milestone'}</p>
-                        </div>
-                        <div class="goal_card_main_dynamic_tag">
-                            <h6>${(g.category || 'General').replace('-', ' ')}</h6>
-                        </div>
+                        <div class="goal_card_main_subtitle"><p>${g.description || 'Savings milestone'}</p></div>
+                        <div class="goal_card_main_dynamic_tag"><h6>${(g.category || 'General').replace('-', ' ')}</h6></div>
                     </div>
                     <div class="goal_card_main_content">
                         <div class="goal_card_progress_bar_status">
-                            <div class="goal_card_progress_bar_status_indicative_text">
-                                <p>Progress</p>
-                            </div>
-                            <div class="goal_card_progress_bar_percentage">
-                                <h6>${percentage}%</h6>
-                            </div>
+                            <div class="goal_card_progress_bar_status_indicative_text"><p>Progress</p></div>
+                            <div class="goal_card_progress_bar_percentage"><h6>${percentage}%</h6></div>
                         </div>
-                        <div class="goal_card_progress_bar">
-                            <progress value="${percentage}" max="100"></progress>
-                        </div>
+                        <div class="goal_card_progress_bar"><progress value="${percentage}" max="100"></progress></div>
                         <div class="goal_card_descriptive_details">
-                            <div class="goal_card_progress_amount">
-                                <h6>${formatCurrency(current)}</h6>
-                            </div>
+                            <div class="goal_card_progress_amount"><h6>${formatCurrency(current)}</h6></div>
                             <div class="goal_card_total_amount_display">
-                                <div class="goal_card_amount_supporting_text">
-                                    <p>of</p>
-                                </div>
-                                <div class="goal_card_progress_amount">
-                                    <h6>${formatCurrency(target)}</h6>
-                                </div>
+                                <div class="goal_card_amount_supporting_text"><p>of</p></div>
+                                <div class="goal_card_progress_amount"><h6>${formatCurrency(target)}</h6></div>
                             </div>
                         </div>
                         <div class="goal_card_deadline_display">
                             <div class="goal_card_deadline_display_icon_and_main_text">
-                                <div class="goal_card_deadline_icon">
-                                    <i class="fa-regular fa-calendar"></i>
-                                </div>
-                                <div class="goal_card_deadline_supporting_text">
-                                    <p>Target:</p>
-                                </div>
+                                <div class="goal_card_deadline_icon"><i class="fa-regular fa-calendar"></i></div>
+                                <div class="goal_card_deadline_supporting_text"><p>Target:</p></div>
                                 <div class="goal_card_deadline_main_text">
-                                    <div class="goal_card_deadline_month">
-                                        <h6>${month}</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_date">
-                                        <h6>${date},</h6>
-                                    </div>
-                                    <div class="goal_card_deadline_year">
-                                        <h6>${year}</h6>
-                                    </div>
+                                    <div class="goal_card_deadline_month"><h6>${month}</h6></div>
+                                    <div class="goal_card_deadline_date"><h6>${date},</h6></div>
+                                    <div class="goal_card_deadline_year"><h6>${year}</h6></div>
                                 </div>
                             </div>
                             <div class="goal_card_deadline_status_display">
-                                <div class="goal_card_deadline_status_dynamic_icon">
-                                    <i class="fa-solid ${statusIcon}" style="color: ${statusIconColor};"></i>
-                                </div>
-                                <div class="goal_card_deadline_status_dynamic_text">
-                                    <h6 style="color: ${statusIconColor};">${statusText}</h6>
-                                </div>
+                                <div class="goal_card_deadline_status_dynamic_icon"><i class="fa-solid ${statusIcon}" style="color: ${statusIconColor};"></i></div>
+                                <div class="goal_card_deadline_status_dynamic_text"><h6 style="color: ${statusIconColor};">${statusText}</h6></div>
                             </div>
                         </div>
                         <div class="goal_card_deadline_sub_display">
                             <div class="goal_card_deadline_sub_display_dynamic_icon_and_text">
-                                <div class="goal_card_deadline_dynamic_logo">
-                                    <i class="fa-solid fa-arrow-up-right-dots"></i>
-                                </div>
-                                <div class="goal_card_dynamic_subtitle_dynamic_text">
-                                    <p>Monthly needed:</p>
-                                </div>
+                                <div class="goal_card_deadline_dynamic_logo"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                                <div class="goal_card_dynamic_subtitle_dynamic_text"><p>Monthly needed:</p></div>
                             </div>
-                            <div class="goal_card_dynamic_subtitle_dynamic_number">
-                                <p>₹${monthlyNeeded.toLocaleString('en-IN')}</p>
-                            </div>
+                            <div class="goal_card_dynamic_subtitle_dynamic_number"><p>₹${monthlyNeeded.toLocaleString('en-IN')}</p></div>
                         </div>
                         
-                        <!-- NEW ADD FUND BUTTON: Appended safely below your layout so it won't break the CSS -->
                         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
                             <button onclick="window.openAddFundModal('${g.id}')" style="background: #10b981; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s;">
                                 <i class="fa-solid fa-plus" style="margin-right: 6px;"></i> Add Funds
@@ -576,13 +534,6 @@
         });
         container.innerHTML = html;
     }
-
-    window.deleteGoal = async (id) => {
-        if (confirm("Are you sure you want to delete this goal?")) {
-            await supabase.from('finance_app_goal').delete().eq('id', id);
-            fetchAndRenderGoals();
-        }
-    };
 
 
     // ==========================================
@@ -729,7 +680,7 @@
     });
 
     // ==========================================
-    // MODULE D: ADD FUND LOGIC
+    // MODULE D: ADD FUND LOGIC (FIXED FREEZE & GLOBAL SUPPORT)
     // ==========================================
     let activeGoalIdForFund = null;
     const addFundModalOverlay = document.getElementById('addFundModalOverlay');
@@ -738,55 +689,28 @@
 
     window.openAddFundModal = (goalId) => {
         activeGoalIdForFund = goalId;
-        const modal = document.getElementById('addFundModalOverlay');
-        if(modal) {
-            modal.style.display = 'flex';
+        if(addFundModalOverlay) {
+            addFundModalOverlay.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             if (addFundStatus) addFundStatus.style.display = 'none';
 
-            // If global button is clicked, we need a select dropdown
-            let selectHtml = '';
+            // If global button is clicked, inject a dropdown
+            const existingSelect = document.getElementById('globalGoalSelectWrapper');
+            if (existingSelect) existingSelect.remove();
+
             if (!goalId) {
-                selectHtml = `
-                    <label style="display:block; font-size:13px; font-weight:600; color:#475569; margin-bottom:8px; margin-top: 16px;">Select Goal</label>
-                    <select id="globalGoalSelect" required style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px; margin-bottom: 16px;">
-                        ${allGoalsData.map(g => `<option value="${g.id}">${g.title}</option>`).join('')}
-                    </select>
-                `;
+                const selectHtml = `
+                    <div id="globalGoalSelectWrapper" style="margin-bottom:16px;">
+                        <label style="display:block; font-size:13px; font-weight:600; color:#475569; margin-bottom:8px;">Select Goal *</label>
+                        <select id="globalGoalSelect" required style="width:100%; padding:10px 14px; border:1px solid #cbd5e1; border-radius:8px;">
+                            <option value="" disabled selected>Choose a goal...</option>
+                            ${allGoalsData.map(g => `<option value="${g.id}">${g.title}</option>`).join('')}
+                        </select>
+                    </div>`;
+                document.getElementById('addFundAmount').parentElement.insertAdjacentHTML('beforebegin', selectHtml);
             }
-            // Inject into the form before the amount input
-            const formContainer = document.getElementById('addFundAmount').parentNode;
-            const existingSelect = document.getElementById('globalGoalSelect');
-            if (existingSelect) existingSelect.parentNode.remove(); // Clean up old
-            if (selectHtml) formContainer.insertAdjacentHTML('beforebegin', `<div>${selectHtml}</div>`);
         }
     };
-
-    document.getElementById('cancelAddFundBtn').addEventListener('click', (e) => {
-        e.preventDefault(); // FIX THE FREEZE
-        closeAddFundModal();
-    });
-
-    document.getElementById('addFundForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('submitAddFundBtn');
-        const amountToAdd = parseFloat(document.getElementById('addFundAmount').value);
-        
-        const globalSelect = document.getElementById('globalGoalSelect');
-        const finalGoalId = activeGoalIdForFund || (globalSelect ? globalSelect.value : null);
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding...';
-
-        try {
-            const targetGoal = allGoalsData.find(g => g.id === finalGoalId);
-            if (!targetGoal) throw new Error("Select a goal");
-            const newAmount = (parseFloat(targetGoal.current_amount) || 0) + amountToAdd;
-            const { error } = await supabase.from('finance_app_goal').update({ current_amount: newAmount }).eq('id', finalGoalId);
-            if (error) throw error;
-            setTimeout(() => { closeAddFundModal(); fetchAndRenderGoals(); submitBtn.disabled=false; submitBtn.innerHTML='<i class="fa-solid fa-plus"></i> Add'; }, 500);
-        } catch(err) { alert(err.message); submitBtn.disabled=false; submitBtn.innerHTML='<i class="fa-solid fa-plus"></i> Add'; }
-    });
 
     const closeAddFundModal = () => {
         addFundModalOverlay.style.display = 'none';
@@ -796,30 +720,41 @@
     };
 
     document.getElementById('closeAddFundModalBtn').addEventListener('click', closeAddFundModal);
-    document.getElementById('cancelAddFundBtn').addEventListener('click', closeAddFundModal);
+    
+    // THE FIX FOR THE FREEZE: Prevents default form behavior on the cancel button
+    document.getElementById('cancelAddFundBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        closeAddFundModal();
+    });
 
     addFundModalOverlay.addEventListener('click', (e) => {
         if (e.target === addFundModalOverlay) closeAddFundModal();
     });
 
     addFundForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // THE FIX FOR THE FREEZE: Prevents page reload
         const submitBtn = document.getElementById('submitAddFundBtn');
         const amountToAdd = parseFloat(document.getElementById('addFundAmount').value);
+        
+        const globalSelect = document.getElementById('globalGoalSelect');
+        const finalGoalId = activeGoalIdForFund || (globalSelect ? globalSelect.value : null);
+
+        if (!finalGoalId) {
+            alert("Please select a goal.");
+            return;
+        }
 
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding...';
         if (addFundStatus) addFundStatus.style.display = 'none';
 
         try {
-            // Find current goal state
-            const targetGoal = allGoalsData.find(g => g.id === activeGoalIdForFund);
+            const targetGoal = allGoalsData.find(g => g.id === finalGoalId);
             if (!targetGoal) throw new Error("Goal not found");
 
             const newAmount = (parseFloat(targetGoal.current_amount) || 0) + amountToAdd;
-
-            // Update DB
-            const { error } = await supabase.from('finance_app_goal').update({ current_amount: newAmount }).eq('id', activeGoalIdForFund);
+            const { error } = await supabase.from('finance_app_goal').update({ current_amount: newAmount }).eq('id', finalGoalId);
+            
             if (error) throw error;
 
             if (addFundStatus) {
@@ -831,8 +766,8 @@
                 closeAddFundModal();
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
-                fetchAndRenderGoals(); // Re-render everything
-            }, 1000);
+                fetchAndRenderGoals(); // Re-render visually
+            }, 800);
 
         } catch(err) {
             if (addFundStatus) {
@@ -899,6 +834,14 @@
             loadCustomCategories(currentUser.id);
         }
     }
+
+    window.deleteGoal = async (id) => {
+        if (confirm("Are you sure you want to delete this goal?")) {
+            await supabase.from('finance_app_goal').delete().eq('id', id);
+            fetchAndRenderGoals();
+            loadGoalMetrics();
+        }
+    };
 
     document.addEventListener('DOMContentLoaded', initPage);
 </script>

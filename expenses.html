@@ -278,8 +278,11 @@
                     <div class="search-bar-wrapper">
                         <div class="search-bar-container">
                             <div class="dropdown-wrapper">
-                                <button class="category-toggle js-dropdown-toggle" id="expCatToggle" style="background: #10b981; color: white; border: none;">
-                                <span class="category-text" id="expCatText">All Categories</span>
+                                <button class="category-toggle js-dropdown-toggle" id="expCatToggle" style="background: #10b981; color: white; border: none; cursor: pointer; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                                    <span class="category-text" id="expCatText">All Categories</span>
+                                    <svg class="chevron-icon closed js-chevron-icon" id="expCatIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white;">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
                                 </button>
                                 <ul class="dropdown-menu js-dropdown-menu" id="expCatMenu" style="max-height: 250px; overflow-y: auto;">
                                     <li class="dropdown-item" data-val="all">All Categories</li>
@@ -292,8 +295,11 @@
                             </div>
                             <input id="expSearchInput" name="search" type="text" class="search-input" placeholder="Search anything...">
                             <div class="dropdown-wrapper">
-                                <button class="category-toggle js-dropdown-toggle" id="expTimeToggle" style="border-radius: 0 0.75rem 0.75rem 0; background: #10b981; color: white; border: none;">
-                                <span class="category-text" id="expTimeText">All Time</span>
+                                <button class="category-toggle js-dropdown-toggle" id="expTimeToggle" style="border-radius: 0 0.75rem 0.75rem 0; background: #10b981; color: white; border: none; cursor: pointer; transition: 0.2s;" onmouseover="this.style.backgroundColor='#059669'" onmouseout="this.style.backgroundColor='#10b981'">
+                                    <span class="category-text" id="expTimeText">All Time</span>
+                                    <svg class="chevron-icon closed js-chevron-icon" id="expTimeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: white;">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
                                 </button>
                                 <ul class="dropdown-menu align-right js-dropdown-menu" id="expTimeMenu" style="max-height: 250px; overflow-y: auto;">
                                     <li class="dropdown-item" data-val="all">All Time</li>
@@ -306,6 +312,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="search_filter"></div>
             </div>
         <div class="dashboard_content">
             <div class="left">
@@ -868,11 +875,15 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         initPage();
-        // Make sure the button works!
-        document.getElementById('openExpenseModalBtn')?.addEventListener('click', () => { 
-            document.getElementById('dashboardExpenseModal').classList.add('active'); 
-            document.body.style.overflow = 'hidden'; 
-        });
+        
+        // Ensure "Add Expense" button works
+        const addExpBtn = document.getElementById('openExpenseModalBtn');
+        if (addExpBtn) {
+            addExpBtn.addEventListener('click', () => {
+                document.getElementById('dashboardExpenseModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
     });
 
     document.addEventListener('DOMContentLoaded', initPage);

@@ -635,8 +635,9 @@
         let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
 
         document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
             if (avatarUrl) {
-                // Forces the image to perfectly fit the circle without blowing up the layout
+                // The inline styles here force the image to stay perfectly inside the circle
                 circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
                 circle.style.backgroundColor = 'transparent';
             } else {
