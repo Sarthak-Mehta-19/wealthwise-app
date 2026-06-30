@@ -794,6 +794,7 @@
     }
 
     // Core function to handle sending a message
+    // Core function to handle sending a message
     async function handleAISearch(query) {
         if (!query.trim()) return;
 
@@ -801,7 +802,7 @@
         aiChatInput.value = '';
         appendUserMessage(query);
 
-        // Hide suggested chips after first interaction for a cleaner UI
+        // Hide suggested chips after first interaction
         const suggestedSection = document.querySelector('.ai-suggested-section');
         if (suggestedSection) suggestedSection.style.display = 'none';
 
@@ -809,27 +810,31 @@
         const loadingBox = appendAIMessage('Analyzing your financial profile...', true);
 
         try {
-            /* * BACKEND INTEGRATION POINT 
-             * Here is where you make the POST request to your Django backend.
-             * Your Django view will query PostgreSQL for the user's data,
-             * compile it with this query, and send it to the Julius AI API.
-             */
-             
-            // Example configuration:
-            // const response = await fetch('https://your-django-backend.com/api/ai-chat/', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ user_id: currentUser.id, message: query })
-            // });
-            // const data = await response.json();
-            // const aiText = data.response;
+            // Make sure currentUser is available from your Supabase auth initialization
+            if (!currentUser) throw new Error("User not authenticated");
 
-            // Simulated delay for UI demonstration
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            const aiText = "This is a placeholder response. Once connected to your backend, the AI will provide specific, goal-oriented advice based on your tracked data here.";
+            const response = await fetch('/api/ai-chat/', { // Adjust URL to your full local/production domain if hosted separately
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    // If you implement Supabase JWT auth in Django later, pass the token here:
+                    // 'Authorization': `Bearer ${currentUser.access_token}`
+                },
+                body: JSON.stringify({ 
+                    user_id: currentUser.id, 
+                    message: query 
+                })
+            });
 
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+            const data = await response.json();
+            
+            if (data.error) throw new Error(data.error);
+
+            // Remove loading animation and show the actual response
             loadingBox.remove();
-            appendAIMessage(aiText);
+            appendAIMessage(data.response);
 
         } catch (error) {
             console.error("Chat Error:", error);
