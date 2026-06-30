@@ -8,21 +8,15 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-wvh5y*m+-n*18r-%ns59!0@r)jedy%m_)a&^rp10-uhxj#^z&v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # Note: Consider changing this to False once your app is fully live and stable
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,29 +34,11 @@ INSTALLED_APPS = [
     'finance_app', 
 ]
 
-INSTALLED_APPS = [
-    # ... other apps
-    'corsheaders',
-]
-
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # Add this near the top
+    'corsheaders.middleware.CorsMiddleware', # Must be at the very top
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # ADDED: Required for Render static files
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    # ... other middleware
-]
-
-# Add this at the bottom of settings.py to allow your frontend to talk to Django
-CORS_ALLOW_ALL_ORIGINS = True
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    
-    # ADD THIS LINE EXACTLY HERE:
-    'corsheaders.middleware.CorsMiddleware',
-    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -89,36 +65,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wealthwise.wsgi.application'
 
-
-# Read the Supabase URL from the .env vault
-DATABASE_URL = os.getenv('SUPABASE_DB_URL')
-
-# Hardcoded to bypass terminal cache issues
-# Raw Django Configuration: Bypassing all URL parsers
+# Database Configuration (Hardcoded for Supabase Session mode)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres.khnwfpcuvcyxztgoyhpr',
-        
-        # Make sure this matches the password you just reset in the dashboard!
         'PASSWORD': 'WealthWiseAdmin2026', 
-        
         'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
-        
-        # THE FIX: Switch from Transaction mode (6543) to Session mode (5432)
         'PORT': '5432', 
-        
         'OPTIONS': {
             'sslmode': 'require',
         },
     }
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -134,39 +96,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # ADDED: Crucial for Render deployment
 
-# Force Django REST Framework to use ONLY JWT for authentication
-# and deny standard browser session cookies.
+# Authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    # This enforces that EVERY endpoint is locked down by default
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     )
 }
 
 AUTH_USER_MODEL = 'finance_app.User'
-
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Pass the AI key from the .env vault into Django's global settings
+# AI Configuration
+# FIX: Extract the key name from the environment, not the key itself
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
