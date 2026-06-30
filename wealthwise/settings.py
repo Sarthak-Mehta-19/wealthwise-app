@@ -40,6 +40,22 @@ INSTALLED_APPS = [
     'finance_app', 
 ]
 
+INSTALLED_APPS = [
+    # ... other apps
+    'corsheaders',
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # Add this near the top
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # ... other middleware
+]
+
+# Add this at the bottom of settings.py to allow your frontend to talk to Django
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

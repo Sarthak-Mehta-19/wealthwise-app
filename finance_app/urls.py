@@ -20,3 +20,11 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # ... your other routes
+    path('api/ai-chat/', views.ai_advisor_chat, name='ai_advisor_chat'),
+]
