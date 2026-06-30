@@ -875,3 +875,198 @@ body{
     margin-bottom: 12px;
     opacity: 0.5;
 }
+
+/* --- AI Financial Advisor Styles --- */
+.ai-advisor-panel {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-advisor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ai-advisor-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-advisor-icon {
+    background-color: #7c3aed;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.ai-advisor-title-group h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.ai-live-badge {
+    background-color: #f3e8ff;
+    color: #7c3aed;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.ai-refresh-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.ai-refresh-btn:hover {
+    color: #64748b;
+}
+
+.ai-advisor-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ai-message-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.ai-message-icon {
+    background-color: #7c3aed;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.ai-message-bubble {
+    background-color: #f8fafc;
+    border: 1px solid #f1f5f9;
+    padding: 16px;
+    border-radius: 12px;
+    border-top-left-radius: 4px;
+    color: #334155;
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 85%;
+}
+
+.ai-user-message-bubble {
+    background-color: #f3e8ff;
+    color: #4c1d95;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border-top-right-radius: 4px;
+    font-size: 15px;
+    align-self: flex-end;
+    max-width: 85%;
+    margin-bottom: 8px;
+}
+
+.ai-suggested-section {
+    padding: 0 24px;
+}
+
+.ai-suggested-header {
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ai-suggested-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.ai-chip {
+    background-color: #ffffff;
+    border: 1px solid #d8b4fe;
+    color: #7c3aed;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ai-chip:hover {
+    background-color: #f3e8ff;
+}
+
+.ai-input-area {
+    padding: 0 24px 24px 24px;
+    display: flex;
+    gap: 12px;
+}
+
+#aiChatInput {
+    flex: 1;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 15px;
+    color: #0f172a;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+#aiChatInput:focus {
+    border-color: #c4b5fd;
+    background-color: #ffffff;
+}
+
+.ai-send-btn {
+    background-color: #a78bfa;
+    color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ai-send-btn:hover {
+    background-color: #8b5cf6;
+}
