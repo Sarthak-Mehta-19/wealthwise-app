@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthWise | AI-Powered Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body { margin: 0; padding: 0; font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        
+        /* Navbar */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: white; border-bottom: 1px solid #e2e8f0; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #0f172a; }
+        .logo-icon { background: #059669; color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 20px; }
+        .logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+        
+        .nav-links { display: flex; gap: 16px; align-items: center; }
+        .btn-ghost { text-decoration: none; color: #475569; font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: background 0.2s; }
+        .btn-ghost:hover { background: #f1f5f9; color: #0f172a; }
+        .btn-primary { text-decoration: none; background: #059669; color: white; font-weight: 600; padding: 10px 24px; border-radius: 8px; transition: background 0.2s; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); }
+        .btn-primary:hover { background: #047857; }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        .hero h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px; }
+        .text-gradient { background: linear-gradient(135deg, #059669 0%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 20px; color: #475569; margin-bottom: 40px; line-height: 1.6; }
+        
+        .hero-buttons { display: flex; justify-content: center; gap: 16px; }
+        .btn-large { font-size: 18px; padding: 16px 32px; border-radius: 12px; }
+
+        /* Features */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; padding: 60px 8%; max-width: 1200px; margin: 0 auto; }
+        .feature-card { background: white; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        .feature-icon { width: 48px; height: 48px; background: #ecfdf5; color: #059669; font-size: 24px; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 20px; font-weight: 700; margin: 0 0 12px 0; }
+        .feature-card p { color: #64748b; line-height: 1.5; margin: 0; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-wallet"></i></div>
+            <div class="logo-text">WealthWise</div>
+        </a>
+        <div class="nav-links">
+            <a href="login.html" class="btn-ghost">Log In</a>
+            <a href="sign-up.html" class="btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Master your money with <span class="text-gradient">AI-Powered Insights.</span></h1>
+        <p>Track expenses, collaborate on group savings, and let our intelligent engine build a roadmap to your financial freedom.</p>
+        <div class="hero-buttons">
+            <a href="sign-up.html" class="btn-primary btn-large">Create Free Account <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></a>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div>
+            <h3>Smart Savings Goals</h3>
+            <p>Set custom targets and let WealthWise track your progress against community averages.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-user-group"></i></div>
+            <h3>Collaborative Pools</h3>
+            <p>Save together for vacations or investments with secure, multi-user challenge tracking.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>Bank-Grade Security</h3>
+            <p>Protected by Supabase, featuring 2-Factor Authentication and Row Level Security.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        const supabase = createClient('https://khnwfpcuvcyxztgoyhpr.supabase.co', 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J');
+        
+        // If they are already logged in, redirect them straight to the dashboard!
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

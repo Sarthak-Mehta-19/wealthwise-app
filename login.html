@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | WealthWise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+        body { margin: 0; padding: 0; font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; display: flex; height: 100vh; align-items: center; justify-content: center; }
+        
+        .auth-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); width: 100%; max-width: 400px; border: 1px solid #e2e8f0; }
+        .logo-container { display: flex; justify-content: center; margin-bottom: 24px; }
+        .logo-icon { background: #059669; color: white; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 14px; font-size: 24px; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); }
+        
+        h2 { text-align: center; margin: 0 0 8px 0; font-size: 24px; font-weight: 800; color: #0f172a; }
+        p.subtitle { text-align: center; color: #64748b; font-size: 14px; margin: 0 0 32px 0; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: inherit; font-size: 14px; box-sizing: border-box; transition: border-color 0.2s; }
+        .form-input:focus { outline: none; border-color: #059669; box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1); }
+        
+        .btn-submit { width: 100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+        .btn-submit:hover { background: #1e293b; }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        
+        .auth-links { text-align: center; margin-top: 24px; font-size: 14px; color: #64748b; }
+        .auth-links a { color: #059669; text-decoration: none; font-weight: 600; }
+        .auth-links a:hover { text-decoration: underline; }
+
+        .alert-msg { padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 500; text-align: center; margin-bottom: 16px; display: none; }
+        .alert-error { background: #fef2f2; color: #ef4444; border: 1px solid #fca5a5; }
+        .alert-warning { background: #fffbeb; color: #ea580c; border: 1px solid #fcd34d; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="logo-container">
+            <div class="logo-icon"><i class="fa-solid fa-wallet"></i></div>
+        </div>
+        <h2>Welcome back</h2>
+        <p class="subtitle">Enter your credentials to access your dashboard.</p>
+
+        <div id="timeoutMsg" class="alert-msg alert-warning" style="display: none;">
+            <i class="fa-solid fa-clock"></i> For your security, you were logged out due to inactivity.
+        </div>
+        <div id="errorMsg" class="alert-msg alert-error"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="email" class="form-input" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="password" class="form-input" required placeholder="••••••••">
+            </div>
+            
+            <button type="submit" class="btn-submit" id="submitBtn">Log In</button>
+        </form>
+
+        <div class="auth-links">
+            Don't have an account? <a href="sign-up.html">Sign up here</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        const supabase = createClient('https://khnwfpcuvcyxztgoyhpr.supabase.co', 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J');
+
+        // Check for Auto-Logout Timeout
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('reason') === 'timeout') {
+            document.getElementById('timeoutMsg').style.display = 'block';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+            errorMsg.style.display = 'none';
+            document.getElementById('timeoutMsg').style.display = 'none';
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                errorMsg.innerText = error.message;
+                errorMsg.style.display = 'block';
+                btn.disabled = false;
+                btn.innerText = 'Log In';
+            } else {
+                // Success! Route to dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

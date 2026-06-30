@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WEALTHWISE GUI Test</title>
+</head>
+<body>
+    <h2>1. Log In</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="loginUser()">Log In</button>
+    <p id="login-status"></p>
+
+    <hr>
+    <h2>2. Fetch My Goals</h2>
+    <button onclick="fetchGoals()">Get Goals</button>
+    <pre id="goals-output" style="background: #f4f4f4; padding: 10px;"></pre>
+
+    <script>
+        async function fetchGoals() {
+            // Retrieve the saved token
+            const token = localStorage.getItem('access_token');
+            const outputBox = document.getElementById('goals-output');
+
+            if (!token) {
+                outputBox.innerText = "⚠️ You must log in first!";
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/goals/', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // This header unlocks the endpoint
+                        'Authorization': `Bearer ${token}` 
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Display the JSON data on the screen
+                    outputBox.innerText = JSON.stringify(data, null, 2);
+                } else {
+                    outputBox.innerText = `❌ Error: ${response.statusText}`;
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        }
+    </script>
+
+    <script>
+        async function loginUser() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const statusText = document.getElementById('login-status');
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/token/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Save the security token to the browser's local storage
+                    localStorage.setItem('access_token', data.access);
+                    statusText.innerText = "✅ Login successful! Token saved.";
+                    statusText.style.color = "green";
+                } else {
+                    statusText.innerText = "❌ Login failed. Check credentials.";
+                    statusText.style.color = "red";
+                }
+            } catch (error) {
+                console.error("Error connecting to server:", error);
+            }
+        }
+    </script>
+
+    <hr>
+    <h2>3. Ask the Financial AI Agent</h2>
+    <input type="text" id="ai-query" placeholder="e.g., How can I save more money?" style="width: 300px;">
+    <button onclick="askAI()">Ask AI</button>
+    <p id="ai-loading" style="display: none; color: blue;">🤖 AI is thinking...</p>
+    <div id="ai-response" style="background: #eefee6; padding: 15px; margin-top: 10px; border-radius: 5px;"></div>
+
+    <script>
+        async function askAI() {
+            const token = localStorage.getItem('access_token');
+            const query = document.getElementById('ai-query').value;
+            const responseBox = document.getElementById('ai-response');
+            const loadingText = document.getElementById('ai-loading');
+
+            if (!token) {
+                responseBox.innerHTML = "<b>⚠️ Please log in first!</b>";
+                return;
+            }
+
+            // Show loading state
+            loadingText.style.display = "block";
+            responseBox.innerHTML = "";
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/ai-agent/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+
+                const data = await response.json();
+                loadingText.style.display = "none";
+
+                if (response.ok) {
+                    // Render the AI's advice
+                    responseBox.innerHTML = data.advice;
+                } else {
+                    responseBox.innerHTML = `<b>❌ Error:</b> ${data.error || data.detail}`;
+                }
+            } catch (error) {
+                loadingText.style.display = "none";
+                responseBox.innerHTML = `<b>❌ Connection Error:</b> ${error}`;
+            }
+        }
+    </script>
+
+    <hr>
+    <h2>4. Create a Savings Goal</h2>
+    <input type="text" id="goal-title" placeholder="e.g., Starter Emergency Fund" style="width: 220px;">
+    <input type="number" id="goal-target" placeholder="Amount (e.g., 1000)" style="width: 150px;">
+    <button onclick="createGoal()">Save Goal</button>
+    <p id="goal-status"></p>
+
+    <script>
+        async function createGoal() {
+            const token = localStorage.getItem('access_token');
+            const title = document.getElementById('goal-title').value;
+            const target = document.getElementById('goal-target').value;
+            const statusText = document.getElementById('goal-status');
+
+            if (!token) {
+                statusText.innerHTML = "<b>⚠️ Please log in first!</b>";
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/goals/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    // The backend automatically assigns the logged-in user
+                    body: JSON.stringify({ 
+                        title: title, 
+                        target_amount: target
+                    })
+                });
+
+                if (response.ok) {
+                    statusText.innerText = `✅ Goal "${title}" successfully created!`;
+                    statusText.style.color = "green";
+                    
+                    // Clear the inputs for the next entry
+                    document.getElementById('goal-title').value = '';
+                    document.getElementById('goal-target').value = '';
+                } else {
+                    const errorData = await response.json();
+                    statusText.innerText = `❌ Error: ${JSON.stringify(errorData)}`;
+                    statusText.style.color = "red";
+                }
+            } catch (error) {
+                statusText.innerText = `❌ Connection Error: ${error}`;
+                statusText.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>

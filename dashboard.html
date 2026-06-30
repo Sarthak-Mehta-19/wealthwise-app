@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealthwise | Home</title>
+    <!--StyleSheet-->
+    <link rel="stylesheet" href="style.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--Charts-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src='https://www.gstatic.com/charts/loader.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+    <a class="sidebar_header" href="dashboard.html">
+        <div class="logo">
+            <div class="icon">
+                <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
+            </div>
+            <div class="text">
+                <div class="main_text">
+                    <p>WealthWise</p>
+                </div>
+                <div class="subtext">
+                    <p>AI-Powered Finance</p>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <div class="sidebar_main">
+        <div class="navigation">
+            <div class="title">
+                <h2>NAVIGATION</h2>
+            </div>
+            <div class="navigation_buttons">
+                <a class="nav_btn active" href="dashboard.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Dashboard</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Overview & insights</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="saving_goals.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Goals</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Savings targets</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="expenses.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Expenses</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Track spending</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="collaborativesavings.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Groups</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Collaborative savings</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="ai_insights.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>AI Insights</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Smart recommendations</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="security.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Security</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Privacy & encryption</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="comparative_statistics">
+            <div class="title">
+                <h2>PERFORMANCE</h2>
+            </div>
+            <div class="dyanmic_statistics_box">
+                <div class="dyanmic_statistics_box_display">
+                    <div class="dynamic_statistics_box_logo">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="dynamic_statistics_box_title">
+                        <h4>Savings Rate</h4>
+                    </div>
+                    <div class="dynamic_statistics_box_figure">
+                        <p>23%</p>
+                    </div>
+                </div>
+                <progress class="dynamic_statistics_box_progressbar" value="23" max="100"></progress>
+                <div class="dynamic_statistics_box_caption">
+                    <div class="dynamic_statistics_box_caption_figure">
+                        <p>+12%</p>
+                    </div>
+                    <div class="dynamic_statistics_box_caption_text">
+                        <p>vs community avg</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <a href="profile.html" class="sidebar_footer_link">
+        <div class="sidebar_footer">
+            <div class="user-profile">
+                <div class="user-profile_pic avatar-circle">
+                    <div class="user-default_pic">
+                        </div>
+                </div>
+                <div class="user-details">
+                    <div class="user-profile-name">
+                        <h4 id="sidebar-user-name">Loading...</h4>
+                    </div>
+                    <div class="user-profile-description">
+                        <p id="sidebar-user-email">Loading...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="user-activity-status">
+                <div class="actvity-dot"></div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<div class="modal-overlay" id="dashboardExpenseModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2><i class="fa-solid fa-receipt" style="color: #3b82f6;"></i> Add New Expense</h2>
+            <button type="button" class="modal-close" onclick="document.getElementById('dashboardExpenseModal').classList.remove('active')">&times;</button>
+        </div>
+        <form id="dashExpenseForm">
+            <div class="form-row">
+                <div class="form-col" style="flex: 2;">
+                    <label class="form-label">Description *</label>
+                    <input type="text" id="dashExpDesc" class="form-control" placeholder="e.g., Lunch at restaurant" required>
+                </div>
+                <div class="form-col" style="flex: 1;">
+                    <label class="form-label">Amount *</label>
+                    <input type="number" id="dashExpAmount" step="0.01" class="form-control" placeholder="25.50" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Category *</label>
+                    <select id="dashExpCategory" class="form-control" required>
+                        <option value="food">Food & Dining</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="other" selected>Other</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Date *</label>
+                    <input type="date" id="dashExpDate" class="form-control" required>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Payment Method</label>
+                    <select id="dashExpPayment" class="form-control">
+                        <option value="card" selected>Card</option>
+                        <option value="cash">Cash</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Notes</label>
+                    <textarea id="dashExpNotes" class="form-control" placeholder="Additional details about this expense..."></textarea>
+                </div>
+            </div>
+            <div class="form-row" style="align-items: center; margin-bottom: 24px;">
+                <input type="checkbox" id="dashExpRecurring" style="width: 18px; height: 18px; cursor: pointer; accent-color: #111827;">
+                <label for="dashExpRecurring" style="font-weight: 600; margin-left: 8px; cursor: pointer; color: #111827;">This is a recurring expense</label>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                <p id="dashExpStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;">Saved!</p>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('dashboardExpenseModal').classList.remove('active')">Cancel</button>
+                <button type="submit" id="dashSubmitExpBtn" class="btn-submit-expense"><i class="fa-regular fa-floppy-disk"></i> Add Expense</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="dashboardGoalModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2><i class="fa-solid fa-bullseye" style="color: #10b981;"></i> Create New Goal</h2>
+            <button type="button" class="modal-close" onclick="document.getElementById('dashboardGoalModal').classList.remove('active')">&times;</button>
+        </div>
+        <form id="dashGoalForm">
+            <div class="form-row">
+                <div class="form-col" style="flex: 2;">
+                    <label class="form-label">Goal Title *</label>
+                    <input type="text" id="dashGoalTitle" class="form-control" placeholder="e.g., Emergency Fund" required>
+                </div>
+                <div class="form-col" style="flex: 1;">
+                    <label class="form-label">Category</label>
+                    <select id="dashGoalCategory" class="form-control">
+                        <option value="emergency">Emergency</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="home">Home / Property</option>
+                        <option value="car">Vehicle</option>
+                        <option value="other" selected>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Description</label>
+                    <textarea id="dashGoalDesc" class="form-control" placeholder="Describe what this goal is for..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Target Amount *</label>
+                    <input type="number" id="dashGoalTarget" step="0.01" class="form-control" placeholder="10000" required>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Current Amount</label>
+                    <input type="number" id="dashGoalCurrent" step="0.01" class="form-control" placeholder="0">
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Monthly Contribution</label>
+                    <input type="number" id="dashGoalContribution" step="0.01" class="form-control" placeholder="500">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Target Date *</label>
+                    <input type="date" id="dashGoalDate" class="form-control" required>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Priority</label>
+                    <select id="dashGoalPriority" class="form-control">
+                        <option value="high">High</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px;">
+                <p id="dashGoalStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;">Created!</p>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('dashboardGoalModal').classList.remove('active')">Cancel</button>
+                <button type="submit" id="dashSubmitGoalBtn" class="btn-submit-goal"><i class="fa-regular fa-floppy-disk"></i> Create Goal</button>
+            </div>
+        </form>
+    </div>
+</div>
+    <div class="dashboard">
+        <div class="dashboard-main">
+            <div class="dashboard-main-big-head">
+                <div class="main-text">
+                    <div class="dashboard-main-title">
+                        <h1>Financial Overview</h1>
+                    </div>
+                    <div class="dahsboard-main-subtitle">
+                        <h2>Track your progress and discover new opportunities</h2>
+                    </div>
+                </div>
+                <div class="major-buttons">
+                    <a class="expense-adder" id="openExpenseModalBtn" style="cursor: pointer;">
+                        <i class="fa-solid fa-plus"></i>
+                        <p>Add Expense</p>
+                    </a>
+                    <a class="goal-creator" id="openGoalModalBtn" style="cursor: pointer;">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <p>Create goal</p>
+                    </a>
+                </div>
+            </div>
+            <div class="dashboard-main-info">
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Total Savings</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashTotalSavings">₹ 0</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-piggy-bank"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo" id="dashTotalSavingsIcon">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p id="dashTotalSavingsTrend">Active</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>tracking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Monthly Expenses</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashMonthlyExpenses">₹ 0</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo" id="dashMonthlyExpensesIcon">
+                <i class="fa-solid fa-minus"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p id="dashMonthlyExpensesTrend">0%</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>vs last month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Active Goals</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashActiveGoals">0</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p>Live</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>status</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-box">
+        <div class="info-box-display">
+            <div class="info-box-text">
+                <div class="info-box-title">
+                    <h5>Savings Rate</h5>
+                </div>
+                <div class="info-box-dynamic-number">
+                    <p id="dashSavingsRate">0%</p>
+                </div>
+            </div>
+            <div class="info-box-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+        </div>
+        <div class="info-box-sub-display">
+            <div class="info-box-sub-display-dynamic-logo">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div class="info-box-dynamic-subtitle">
+                <div class="info-box-dynamic-subtitle-dynamic-number">
+                    <p>Lifetime</p>
+                </div>
+                <div class="info-box-dynamic-subtitle-dynamic-text">
+                    <p>average</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="dashboard_main_content">
+                <div class="dasboard_main_content_right">
+                    <div class="fp-dashboard-card">
+    
+    <div class="fp-header">
+      <div class="fp-title-group">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+        <h2>Financial Performance</h2>
+      </div>
+      <svg class="fp-calendar-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+    </div>
+
+    <div class="fp-insight-banner">
+      This month's expenses are <strong>₹734.15</strong> resulting in a <strong>46.4%</strong> savings rate. <br>
+      This is <strong>5.1% higher</strong> than last month. Total savings reached <strong>₹38,500.00</strong>.
+    </div>
+
+    <div class="fp-chart-wrapper">
+      <canvas id="financialChart"></canvas>
+    </div>
+
+    <div class="fp-summary-container">
+      <div class="fp-summary-block">
+        <div class="fp-summary-label">
+          <div class="fp-dot expenses"></div>
+          Expenses
+        </div>
+        <div class="fp-summary-value" id="totalExpenses">₹0</div>
+      </div>
+      
+      <div class="fp-summary-block">
+        <div class="fp-summary-label">
+          <div class="fp-dot savings"></div>
+          Savings
+        </div>
+        <div class="fp-summary-value" id="totalSavings">₹0</div>
+      </div>
+
+      <div class="fp-summary-block">
+        <div class="fp-summary-label">
+          <svg class="fp-icon-net" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+          Net
+        </div>
+        <div class="fp-summary-value net-value" id="totalNet">₹0</div>
+      </div>
+    </div>
+
+  </div>
+
+           <div class="community-dashboard-main-card-container">
+              
+              <div class="community-dashboard-top-header-section">
+                <div class="community-dashboard-header-title-wrapper">
+                  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                  </svg>
+                  <h2>You vs. Community</h2>
+                </div>
+                
+                <div class="community-dashboard-view-toggle-container">
+                  <button id="btn-progress" class="community-dashboard-view-toggle-button community-dashboard-active-state">Progress</button>
+                  <button id="btn-monthly" class="community-dashboard-view-toggle-button">Monthly</button>
+                </div>
+              </div>
+          
+              <div class="community-dashboard-charts-container">
+                <div id="wrapper-progress" class="community-dashboard-chart-wrapper">
+                  <canvas id="radarChart"></canvas>
+                </div>
+                <div id="wrapper-monthly" class="community-dashboard-chart-wrapper" style="display: none;">
+                  <canvas id="barChart"></canvas>
+                </div>
+              </div>
+              
+              <p id="chart-subtitle" class="community-dashboard-chart-description-subtitle">Progress % per goal category vs. community average</p>
+          
+              <div class="community-dashboard-status-tags-container">
+                <div class="community-dashboard-status-indicator-tag community-dashboard-positive-trend">↑ Emergency Fund</div>
+                <div class="community-dashboard-status-indicator-tag community-dashboard-negative-trend">↓ Dream Vacation...</div>
+                <div class="community-dashboard-status-indicator-tag community-dashboard-negative-trend">↓ New Car Down P...</div>
+                <div class="community-dashboard-status-indicator-tag community-dashboard-positive-trend">↑ Home Renovatio...</div>
+              </div>
+          
+            </div>
+
+            <div class="recent_activity">
+                <div class="recent_actvity_title_bar">
+                    <div class="recent_activity_dynamic_trend_icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div class="recent_activity_main_title">
+                        <h5>Recent Activity</h5>
+                    </div>
+                </div>
+                <div id="dashActivityList">
+                    <div style="padding: 20px; color: #64748B; font-size: 14px; text-align: center; width: 100%;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading recent activity...
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            <div class="dashboard_main_content_left">
+                <div class="goal_progress_tracker">
+                <div class="goal_progress_tracker_heading">
+                    <div class="goal_progress_tracker_heading_icon">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div class="goal_progress_tracker_title">
+                        <h6>Goal Progress</h6>
+                    </div>
+                    <div class="goal_progress_tracker_expansion_button">
+                        <button onclick="window.location.href='saving_goals.html'" style="cursor: pointer; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; color: #0f172a; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+                            <h6 style="margin: 0; font-size: 13px;">View All</h6>
+                            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="goal_status_display" id="dashGoalsList">
+                    <div style="padding: 20px; color: #64748B; font-size: 14px; text-align: center; width: 100%;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading goals...
+                    </div>
+                </div>
+                </div>
+                <div class="ai_insights_and_recommendations_container">
+                <div class="ai_insights_and_recommendations_container_heading">
+                    <div class="ai_insights_and_recommendations_containner_title_and_icon">
+                        <div class="ai_insights_and_recommendations_container_icon">
+                            <i class="fa-solid fa-wand-sparkles"></i>
+                        </div>
+                        <div class="ai_insights_and_recommendations_container_title">
+                            <h6>AI Insights</h6>
+                        </div>
+                    </div>
+                    <div class="ai_insights_and_recommendations_container_button">
+                        <button onclick="window.location.href='ai_insights.html'" style="cursor: pointer;">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="ai_insights_and_recommendations_container_display" id="dashInsightsList">
+                    <div style="padding: 20px; color: #64748B; font-size: 14px; text-align: center; width: 100%;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Analyzing data...
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="recent_group_challenges_summary">
+                <div class="recent_group_challenges_summary_heading">
+                    <div class="recent_group_challenges_summary_heading_header">
+                        <div class="recent_group_challenges_summary_main_icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="recent_group_challenges_summary_main_heading">
+                            <div class="recent_group_challenges_summary_main_title">
+                                <h5>Group Challenges</h5>
+                            </div>
+                            <div class="recent_group_challenges_summary_subtitle">
+                                <h6>Collabrative savings with friends</h6>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="recent_group_challenges_summary_expansion_button">
+                            <button onclick="window.location.href='saving_goals.html'" style="cursor: pointer; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; color: #0f172a; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+                                <h6 style="margin: 0; font-size: 13px;">View All</h6>
+                                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px;"></i>
+                            </button>
+                        </div>
+                </div>
+                <div class="recent_group_challenges_summary_display" id="dashChallengesList">
+                    <div style="padding: 20px; color: #64748B; font-size: 14px; text-align: center; width: 100%;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading challenges...
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+    // Initialize Supabase
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let currentUser = null; 
+
+    // Chart instances
+    let fpChart = null;
+    let radarChartInst = null;
+    let commBarChartInst = null;
+
+    // ==========================================
+    // MODULE A: GLOBAL SIDEBAR SYNC
+    // ==========================================
+    async function syncSidebar() {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        currentUser = session.user;
+        
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim();
+        
+        if (!fullName) {
+            fullName = currentUser.email.split('@')[0];
+            fullName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+        }
+
+        const sidebarNameEl = document.getElementById('sidebar-user-name');
+        const sidebarEmailEl = document.getElementById('sidebar-user-email');
+        if (sidebarNameEl) sidebarNameEl.innerText = fullName;
+        if (sidebarEmailEl) sidebarEmailEl.innerText = currentUser.email;
+
+        let initials = "";
+        if (firstName && lastName) {
+            initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+        } else if (firstName) {
+            initials = firstName.substring(0, 2).toUpperCase();
+        } else {
+            initials = currentUser.email.substring(0, 2).toUpperCase();
+        }
+
+        const avatarCircles = document.querySelectorAll('.avatar-circle');
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
+        });
+    }
+
+    // ==========================================
+    // MODULE B: CHART RENDERING ENGINE
+    // ==========================================
+    function renderCharts(expenses, goals) {
+        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+        // --- 1. Financial Performance Data Prep (6 Months) ---
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const now = new Date();
+        const labels = [];
+        const expData = [0, 0, 0, 0, 0, 0];
+        
+        for (let i = 5; i >= 0; i--) {
+            let d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            labels.push(monthNames[d.getMonth()]);
+        }
+
+        let totalLifetimeExp = 0;
+        expenses.forEach(e => {
+            const d = new Date(e.date);
+            const amt = parseFloat(e.amount) || 0;
+            totalLifetimeExp += amt;
+            const diffMonths = (now.getFullYear() - d.getFullYear()) * 12 + now.getMonth() - d.getMonth();
+            if (diffMonths >= 0 && diffMonths < 6) {
+                expData[5 - diffMonths] += amt;
+            }
+        });
+
+        const totalSaved = goals.reduce((sum, g) => sum + (parseFloat(g.current_amount) || 0), 0);
+        
+        // Generate realistic historical savings distribution for the chart
+        let savData = expData.map(e => e > 0 ? e * 0.8 : 500); 
+        const currentFakeTotal = savData.reduce((a,b) => a+b, 0);
+        if (currentFakeTotal > 0 && totalSaved > 0) {
+            savData = savData.map(s => (s / currentFakeTotal) * totalSaved);
+        }
+        
+        const netData = savData.map((s, i) => s - expData[i]);
+        const sixMonthExpTotal = expData.reduce((a,b) => a+b, 0);
+
+        // Update Summary Blocks in HTML
+        const elTotalExp = document.getElementById('totalExpenses');
+        const elTotalSav = document.getElementById('totalSavings');
+        const elTotalNet = document.getElementById('totalNet');
+        if(elTotalExp) elTotalExp.innerText = formatCurrency(sixMonthExpTotal);
+        if(elTotalSav) elTotalSav.innerText = formatCurrency(totalSaved);
+        if(elTotalNet) elTotalNet.innerText = formatCurrency(totalSaved - sixMonthExpTotal);
+
+        // Render Financial Performance Chart
+        const ctxFp = document.getElementById('financialChart');
+        if (ctxFp) {
+            if (fpChart) fpChart.destroy();
+            fpChart = new Chart(ctxFp.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Expenses', data: expData, backgroundColor: '#f87b7b', borderRadius: 4, barPercentage: 0.6, categoryPercentage: 0.8, order: 2 },
+                        { label: 'Savings', data: savData, backgroundColor: '#71d2a4', borderRadius: 4, barPercentage: 0.6, categoryPercentage: 0.8, order: 2 },
+                        { label: 'Net', data: netData, type: 'line', borderColor: '#5d5fef', borderWidth: 2, tension: 0.4, pointBackgroundColor: '#ffffff', pointBorderColor: '#5d5fef', pointBorderWidth: 2, pointRadius: 4, order: 1 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { backgroundColor: '#ffffff', titleColor: '#111827', bodyColor: '#6b7280', borderColor: '#eaeaea', borderWidth: 1, padding: 12, cornerRadius: 8, displayColors: false,
+                            callbacks: { label: (context) => context.dataset.label + ': ' + formatCurrency(context.raw) }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#e5e7eb', borderDash: [5, 5] }, border: { display: false } },
+                        x: { grid: { display: false }, border: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // --- 2. Community Radar Chart Prep ---
+        const categories = ['emergency', 'vacation', 'home', 'car', 'education', 'retirement', 'other'];
+        const userProgress = categories.map(cat => {
+            const catGoals = goals.filter(g => (g.category || 'other').toLowerCase().includes(cat));
+            if (catGoals.length === 0) return 0;
+            const t = catGoals.reduce((sum, g) => sum + (parseFloat(g.target_amount) || 1), 0);
+            const c = catGoals.reduce((sum, g) => sum + (parseFloat(g.current_amount) || 0), 0);
+            return Math.min(100, Math.round((c / t) * 100));
+        });
+        const commProgress = [52, 25, 20, 35, 20, 30, 25]; // Mock community data
+
+        const ctxRadar = document.getElementById('radarChart');
+        if (ctxRadar) {
+            if (radarChartInst) radarChartInst.destroy();
+            radarChartInst = new Chart(ctxRadar.getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: ['Emergency', 'Vacation', 'Home', 'Car', 'Education', 'Retirement', 'Other'],
+                    datasets: [
+                        { label: 'You', data: userProgress, backgroundColor: 'rgba(93, 95, 239, 0.2)', borderColor: '#5d5fef', borderWidth: 2, pointBackgroundColor: '#5d5fef' },
+                        { label: 'Community Avg', data: commProgress, backgroundColor: 'rgba(46, 184, 114, 0.1)', borderColor: '#2eb872', borderWidth: 2, borderDash: [5, 5], pointBackgroundColor: '#2eb872' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, display: false } } }
+                }
+            });
+        }
+
+        // --- 3. Community Bar Chart Prep ---
+        const userMonthlyContrib = categories.map(cat => {
+            const catGoals = goals.filter(g => (g.category || 'other').toLowerCase().includes(cat));
+            return catGoals.reduce((sum, g) => sum + (parseFloat(g.target_amount) / 12 || 0), 0); // Est. monthly
+        }).slice(0, 4); // Only show top 4
+        const commMonthlyContrib = [280, 150, 300, 520];
+
+        const ctxBar = document.getElementById('barChart');
+        if (ctxBar) {
+            if (commBarChartInst) commBarChartInst.destroy();
+            commBarChartInst = new Chart(ctxBar.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Emergency', 'Vacation', 'Car', 'Home'],
+                    datasets: [
+                        { label: 'You', data: userMonthlyContrib, backgroundColor: '#7b81f3', borderRadius: 4 },
+                        { label: 'Community Avg', data: commMonthlyContrib, backgroundColor: '#98d8b1', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { beginAtZero: true, grid: { color: '#e5e7eb', borderDash: [5, 5] }, border: {display: false} }, x: { grid: { display: false }, border: {display: false} } }
+                }
+            });
+        }
+    }
+
+    function initCommunityToggle() {
+        const btnProgress = document.getElementById('btn-progress');
+        const btnMonthly = document.getElementById('btn-monthly');
+        const wrapperProgress = document.getElementById('wrapper-progress');
+        const wrapperMonthly = document.getElementById('wrapper-monthly');
+        const chartSubtitle = document.getElementById('chart-subtitle');
+
+        if (!btnProgress || !btnMonthly) return;
+
+        btnProgress.addEventListener('click', () => {
+            btnProgress.classList.add('community-dashboard-active-state');
+            btnMonthly.classList.remove('community-dashboard-active-state');
+            wrapperProgress.style.display = 'block'; 
+            wrapperMonthly.style.display = 'none';
+            if(chartSubtitle) chartSubtitle.textContent = 'Progress % per goal category vs. community average';
+        });
+
+        btnMonthly.addEventListener('click', () => {
+            btnMonthly.classList.add('community-dashboard-active-state');
+            btnProgress.classList.remove('community-dashboard-active-state');
+            wrapperProgress.style.display = 'none';
+            wrapperMonthly.style.display = 'block'; 
+            if(chartSubtitle) chartSubtitle.textContent = 'Monthly contributions vs. community average per goal';
+        });
+    }
+
+    // ==========================================
+    // MODULE C: LOAD METRICS & SIDE ELEMENTS
+    // ==========================================
+    async function loadDashboardMetrics() {
+        if (!currentUser) return;
+
+        const { data: expensesRes } = await supabase.from('finance_app_expense').select('*').eq('user_id', currentUser.id);
+        const { data: goalsRes } = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id);
+
+        const expData = expensesRes || [];
+        const goalData = goalsRes || [];
+
+        let totalSavings = 0;
+        let activeGoalsCount = 0;
+        
+        goalData.forEach(g => {
+            totalSavings += (parseFloat(g.current_amount) || 0);
+            if ((parseFloat(g.current_amount) || 0) < (parseFloat(g.target_amount) || 0)) {
+                activeGoalsCount++;
+            }
+        });
+
+        const now = new Date();
+        let lastMonth = now.getMonth() - 1;
+        let lastMonthYear = now.getFullYear();
+        if (lastMonth < 0) { lastMonth = 11; lastMonthYear--; }
+
+        let thisMonthExp = 0, lastMonthExp = 0, lifetimeExp = 0;
+
+        expData.forEach(e => {
+            const d = new Date(e.date);
+            const amt = parseFloat(e.amount) || 0;
+            lifetimeExp += amt;
+            if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) {
+                thisMonthExp += amt;
+            } else if (d.getMonth() === lastMonth && d.getFullYear() === lastMonthYear) {
+                lastMonthExp += amt;
+            }
+        });
+
+        const expTrend = lastMonthExp > 0 ? (((thisMonthExp - lastMonthExp) / lastMonthExp) * 100) : 0;
+        const savingsRate = (totalSavings + lifetimeExp) > 0 ? ((totalSavings / (totalSavings + lifetimeExp)) * 100) : 0;
+        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        
+        document.getElementById('dashTotalSavings').innerText = formatCurrency(totalSavings);
+        document.getElementById('dashActiveGoals').innerText = activeGoalsCount;
+        document.getElementById('dashSavingsRate').innerText = savingsRate.toFixed(1) + '%';
+        document.getElementById('dashMonthlyExpenses').innerText = formatCurrency(thisMonthExp);
+
+        const trendTextEl = document.getElementById('dashMonthlyExpensesTrend');
+        const trendIconEl = document.getElementById('dashMonthlyExpensesIcon');
+        
+        if (expTrend > 0) {
+            trendTextEl.innerText = '+' + expTrend.toFixed(1) + '%';
+            trendTextEl.style.color = '#ef4444'; 
+            trendIconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-up"></i>';
+            trendIconEl.style.color = '#ef4444';
+        } else if (expTrend < 0) {
+            trendTextEl.innerText = expTrend.toFixed(1) + '%';
+            trendTextEl.style.color = '#059669'; 
+            trendIconEl.innerHTML = '<i class="fa-solid fa-arrow-trend-down"></i>';
+            trendIconEl.style.color = '#059669';
+        } else {
+            trendTextEl.innerText = '0%';
+            trendTextEl.style.color = '#64748B'; 
+            trendIconEl.innerHTML = '<i class="fa-solid fa-minus"></i>';
+            trendIconEl.style.color = '#64748B';
+        }
+
+        // Fire Chart Rendering with the fetched data
+        renderCharts(expData, goalData);
+    }
+
+    async function loadDashboardSideElements() {
+        if (!currentUser) return;
+        const formatCurrency = (val) => '₹ ' + val.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        const formatCurrencyNoDec = (val) => '₹' + val.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+        try {
+            const goalsRes = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id).order('deadline', { ascending: false });
+            const expensesRes = await supabase.from('finance_app_expense').select('*').eq('user_id', currentUser.id).order('date', { ascending: false }).limit(5);
+            const challengesRes = await supabase.from('finance_app_challenge').select('*').order('end_date', { ascending: true });
+
+            const goals = goalsRes.data || [];
+            const expenses = expensesRes.data || [];
+            const challenges = challengesRes.data || [];
+
+            // --- GOALS (Max 5, Red if Overdue, No Year) ---
+            const goalsListEl = document.getElementById('dashGoalsList');
+            if (goalsListEl) {
+                if (goals.length === 0) {
+                    goalsListEl.innerHTML = '<p style="padding: 20px; color: #64748B; font-size: 14px; text-align: center;">No active goals found.</p>';
+                } else {
+                    let goalsHtml = '';
+                    goals.slice(0, 5).forEach(g => {
+                        const target = parseFloat(g.target_amount) || 1;
+                        const current = parseFloat(g.current_amount) || 0;
+                        const percentage = Math.min(100, (current / target) * 100).toFixed(1);
+                        
+                        const deadline = new Date(g.deadline || new Date());
+                        const isOverdue = deadline < new Date() && current < target;
+                        
+                        let statusText = 'Active';
+                        let statusColor = '#10b981'; // Green
+                        if (current >= target) { statusText = 'Ended'; statusColor = '#64748b'; } // Grey
+                        else if (isOverdue) { statusText = 'Overdue'; statusColor = '#ef4444'; } // Red
+
+                        goalsHtml += `
+                            <div class="important_goal_status_display">
+                                <div class="upper">
+                                    <div class="right-corner">
+                                        <div class="important_goal_status_display_title"><h6>${g.title}</h6></div>
+                                        <div class="important_goal_status_display_completion_status">
+                                            <div class="important_goal_status_display_completion_status_icon"><i class="fa-regular fa-calendar" style="color: ${statusColor};"></i></div>
+                                            <div class="important_goal_status_display_completion_status_title"><h6 style="color: ${statusColor};">${statusText}</h6></div>
+                                        </div>
+                                        <div class="left-corner">
+                                            <div class="important_goal_status_display_status_amount"><h6>${formatCurrencyNoDec(current)}</h6></div>
+                                            <div class="important_goal_status_display_goal_amount"><h6>of ${formatCurrencyNoDec(target)}</h6></div>
+                                        </div>
+                                    </div>
+                                    <div class="lower">
+                                        <div class="important_goal_status_display_progress_bar"><progress value="${percentage}" max="100"></progress></div>
+                                        <div class="important_goal_status_display_progress_bar_descriptive_details">
+                                            <div class="important_goal_status_display_progress_bar_percentage"><h6>${percentage}%</h6><p>complete</p></div>
+                                            <div class="important_goal_status_display_progress_bar_deadline">
+                                                <div class="important_goal_status_display_progress_bar_deadline_month"><h6>${deadline.toLocaleString('default', { month: 'short' })}</h6></div>
+                                                <div class="important_goal_status_display_progress_bar_deadline_date"><h6>${deadline.getDate()}</h6></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+                    goalsListEl.innerHTML = goalsHtml;
+                }
+            }
+
+            // --- RECENT ACTIVITY (Fix Undefined Names) ---
+            const activityListEl = document.getElementById('dashActivityList');
+            if (activityListEl) {
+                if (expenses.length === 0) {
+                    activityListEl.innerHTML = '<p style="padding: 20px; color: #64748B; font-size: 14px; text-align: center;">No recent transactions.</p>';
+                } else {
+                    let activityHtml = '';
+                    expenses.forEach(e => {
+                        const d = new Date(e.date);
+                        const displayTitle = e.title || e.name || e.description || 'Unnamed Expense';
+                        activityHtml += `
+                            <div class="activity_container">
+                                <div class="activity_bar">
+                                    <div class="corner_left">
+                                        <div class="actvity_icon"><i class="fa-solid fa-receipt"></i></div>
+                                        <div class="actvity_main_info">
+                                            <div class="activity_title"><h6>${displayTitle}</h6></div>
+                                            <div class="activity_time">
+                                                <div class="month"><h6>${d.toLocaleString('default', { month: 'short' })}</h6></div>
+                                                <div class="date"><h6>${d.getDate()},</h6></div>
+                                                <div class="year"><h6>${d.getFullYear()}</h6></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="corner_right">
+                                        <div class="activity_status">
+                                            <div class="activity_status_trend_icon"><i class="fa-solid fa-chart-line"></i></div>
+                                            <div class="activity_status_amount">
+                                                <div class="actvity_status_amount_additivity"><h6>-</h6></div>
+                                                <div class="activity_status_amount_amount"><h6>${formatCurrency(parseFloat(e.amount) || 0)}</h6></div>
+                                            </div>
+                                        </div>
+                                        <div class="actvity_status_category"><h6>${e.category}</h6></div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+                    activityListEl.innerHTML = activityHtml;
+                }
+            }
+
+            // --- AI INSIGHTS (Fixed Impact Colors) ---
+            const insightsListEl = document.getElementById('dashInsightsList');
+            if (insightsListEl) {
+                let catTotals = {};
+                expenses.forEach(e => { catTotals[e.category] = (catTotals[e.category] || 0) + (parseFloat(e.amount) || 0); });
+                const highestCat = Object.keys(catTotals).sort((a,b) => catTotals[b] - catTotals[a])[0] || 'expenses';
+
+                insightsListEl.innerHTML = `
+                    <div class="insight">
+                        <div class="insight_main_icon_container"><i class="fa-regular fa-lightbulb"></i></div>
+                        <div class="inisght_title_and_description_container">
+                            <div class="insight_tile_container"><h5>High Spending Alert</h5></div>
+                            <div class="insight_decsiptive_text_container"><h6>Your spending in the '${highestCat}' category is high. Consider reviewing these expenses.</h6></div>
+                        </div>
+                        <div class="insight_significance_of_action_tag" style="background:#fee2e2; color:#ef4444; border:none; border-radius:4px; padding:2px 6px;"><h6>high impact</h6></div>
+                    </div>
+                    <div class="insight">
+                        <div class="insight_main_icon_container"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                        <div class="inisght_title_and_description_container">
+                            <div class="insight_tile_container"><h5>Keep Up the Momentum</h5></div>
+                            <div class="insight_decsiptive_text_container"><h6>You have logged ${expenses.length} recent transactions. Active tracking helps hit savings goals faster!</h6></div>
+                        </div>
+                        <div class="insight_significance_of_action_tag" style="background:#fef3c7; color:#d97706; border:none; border-radius:4px; padding:2px 6px;"><h6>medium impact</h6></div>
+                    </div>
+                `;
+            }
+
+            // Challenges logic remains the same (kept for completeness)
+            const challengesListEl = document.getElementById('dashChallengesList');
+            if (challengesListEl && challenges.length > 0) {
+                let challengesHtml = '';
+                challenges.slice(0, 2).forEach(c => {
+                    const target = parseFloat(c.amount) || 1;
+                    const dateString = new Date(c.end_date || new Date()).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    challengesHtml += `
+                        <div class="challenge_container">
+                            <div class="challenge_container_main_heading">
+                                <div class="challenge_container_main_icon"><i class="fa-solid fa-certificate"></i></div>
+                                <div class="challenge_container_main_title"><h6>${c.name}</h6></div>
+                            </div>
+                            <div class="challenge_container_progress_bar">
+                                <div class="challenge_container_total_amount"><h6>${formatCurrencyNoDec(target)}</h6></div>
+                                <label>Progress</label><progress value="${c.percentage || 0}" max="100"></progress>
+                            </div>
+                            <div class="challenge_container_descriptive_details">
+                                <div class="challenge_container_challenge_participation"><h6>${c.members || 1}</h6><p>participants</p></div>
+                                <div class="challenge_container_progress_bar_deadline">
+                                    <div class="challenge_container_progress_bar_deadline_calendar_icon"><i class="fa-regular fa-calendar"></i></div>
+                                    <div class="challenge_container_progress_bar_deadline_date"><h6>${dateString}</h6></div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                challengesListEl.innerHTML = challengesHtml;
+            }
+        } catch (err) { console.error("Dashboard Widget Error:", err); }
+    }
+
+    // ==========================================
+    // MODULE D: MODAL LOGIC
+    // ==========================================
+    document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
+
+    document.getElementById('openExpenseModalBtn')?.addEventListener('click', () => {
+        document.getElementById('dashboardExpenseModal').classList.add('active');
+    });
+
+    document.getElementById('openGoalModalBtn')?.addEventListener('click', () => {
+        document.getElementById('dashboardGoalModal').classList.add('active');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('dashboardExpenseModal')) document.getElementById('dashboardExpenseModal').classList.remove('active');
+        if (e.target === document.getElementById('dashboardGoalModal')) document.getElementById('dashboardGoalModal').classList.remove('active');
+    });
+
+    document.getElementById('dashExpenseForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('dashSubmitExpBtn');
+        const statusMsg = document.getElementById('dashExpStatus');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+        const payload = {
+            id: crypto.randomUUID(), user_id: currentUser.id,
+            description: document.getElementById('dashExpDesc').value, amount: parseFloat(document.getElementById('dashExpAmount').value),
+            category: document.getElementById('dashExpCategory').value, date: document.getElementById('dashExpDate').value,
+            payment_method: document.getElementById('dashExpPayment').value, is_recurring: document.getElementById('dashExpRecurring').checked,
+            notes: document.getElementById('dashExpNotes').value
+        };
+
+        const { error } = await supabase.from('finance_app_expense').insert([payload]);
+        if (error) {
+            alert("Error saving expense: " + error.message);
+            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
+        } else {
+            statusMsg.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('dashboardExpenseModal').classList.remove('active');
+                document.getElementById('dashExpenseForm').reset();
+                document.getElementById('dashExpDate').value = new Date().toISOString().split('T')[0];
+                statusMsg.style.display = 'none';
+                btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Add Expense'; btn.disabled = false;
+                loadDashboardMetrics(); loadDashboardSideElements(); // Refresh dynamically
+            }, 1000);
+        }
+    });
+
+    document.getElementById('dashGoalForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('dashSubmitGoalBtn');
+        const statusMsg = document.getElementById('dashGoalStatus');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+        const payload = {
+            id: crypto.randomUUID(), user_id: currentUser.id, title: document.getElementById('dashGoalTitle').value,
+            description: document.getElementById('dashGoalDesc').value, target_amount: parseFloat(document.getElementById('dashGoalTarget').value),
+            current_amount: parseFloat(document.getElementById('dashGoalCurrent').value || 0), category: document.getElementById('dashGoalCategory').value,
+            deadline: document.getElementById('dashGoalDate').value 
+        };
+
+        const { error } = await supabase.from('finance_app_goal').insert([payload]);
+        if (error) {
+            alert("Error saving goal: " + error.message);
+            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
+        } else {
+            statusMsg.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('dashboardGoalModal').classList.remove('active');
+                document.getElementById('dashGoalForm').reset();
+                statusMsg.style.display = 'none';
+                btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Create Goal'; btn.disabled = false;
+                loadDashboardMetrics(); loadDashboardSideElements(); // Refresh dynamically
+            }, 1000);
+        }
+    });
+
+    // ==========================================
+    // INITIALIZER
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', async () => {
+        await syncSidebar();
+        initCommunityToggle();
+        await loadDashboardMetrics();
+        await loadDashboardSideElements(); 
+    });
+
+</script>
+
+</body>
+</html>

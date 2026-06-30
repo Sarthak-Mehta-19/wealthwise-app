@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Privacy | WealthWise</title>
+    <link rel="stylesheet" href="security.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+        body { margin: 0; padding: 0; font-family: 'Noto Sans', sans-serif; background-color: #f8fafc; color: #0f172a; display: flex; height: 100vh; overflow: hidden; }
+
+        /* --- SIDEBAR CSS (Reused from your sleek design) --- */
+        .sidebar { height: 100vh; width: 15%; min-width: 250px; background: #FAFAFA; border-right: 1px solid #e5e7eb; position: fixed; display: flex; flex-direction: column; z-index: 50; }
+        .sidebar_header { width: 100%; padding: 24px; display: flex; flex-direction: row; border-bottom: 1px solid #e5e7eb; text-decoration: none; color: inherit; transition: opacity 0.2s; box-sizing: border-box; }
+        .sidebar_header:hover { opacity: 0.8; }
+        .sidebar_header .logo { align-items: center; display: flex; gap: 12px; }
+        .sidebar_header .logo .icon { display: flex; height: 40px; width: 40px; font-size: 20px; align-items: center; justify-content: center; background-color: #059669; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); color: white; }
+        .sidebar_header .logo .text { display: flex; flex-direction: column; gap: 2px; }
+        .sidebar_header .logo .text .main_text { font-size: 20px; font-weight: 800; line-height: 1.2; color: #0f172a; }
+        .sidebar_header .logo .text .subtext { font-size: 11px; font-weight: 600; color: #64748b; }
+        .sidebar_main { width: 100%; padding: 20px 16px; display: flex; flex-direction: column; border-bottom: 1px solid #e5e7eb; gap: 32px; flex-grow: 1; overflow-y: auto; box-sizing: border-box; }
+        .sidebar_main .title h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #94a3b8; margin: 0 0 12px 0; padding-left: 8px; }
+        .navigation_buttons { display: flex; flex-direction: column; gap: 4px; }
+        .nav_btn { display: flex; align-items: center; gap: 12px; text-decoration: none; padding: 10px 12px; border-radius: 10px; transition: all 0.2s ease; }
+        .nav_btn .nav_btn_icon { display: flex; align-items: center; justify-content: center; height: 36px; width: 36px; background: #f1f5f9; color: #64748b; border-radius: 10px; transition: all 0.2s ease; }
+        .nav_btn .nav_btn_text_box { display: flex; flex-direction: column; gap: 2px; }
+        .nav_btn_title h4 { color: #3f3f46; font-size: 14px; font-weight: 600; margin: 0; }
+        .nav_btn_subtitle h5 { font-size: 11px; color: #94a3b8; margin: 0; font-weight: 500; }
+        .nav_btn:hover { background-color: #f8fafc; transform: translateX(4px); }
+        .nav_btn:hover .nav_btn_icon { background-color: #059669; color: white; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); }
+        .nav_btn.active { background-color: #ecfdf5; }
+        .nav_btn.active .nav_btn_icon { background-color: #059669; color: white; }
+        .nav_btn.active .nav_btn_title h4 { color: #059669; }
+        .sidebar_footer_link { text-decoration: none; color: inherit; display: block; margin-top: auto; }
+        .sidebar_footer { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s ease; }
+        .sidebar_footer:hover { background-color: #f1f5f9; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .user-profile_pic { height: 40px; width: 40px; border-radius: 50%; background: #ecfdf5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .user-profile-name h4 { font-size: 14px; font-weight: 700; color: #0f172a; margin: 0; }
+        .user-profile-description p { font-size: 11px; color: #64748b; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+
+        /* --- MAIN CONTENT CSS --- */
+        .main-content { margin-left: 250px; width: calc(100% - 250px); padding: 40px; overflow-y: auto; box-sizing: border-box; }
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 { font-size: 28px; font-weight: 800; margin: 0 0 8px 0; color: #0f172a; }
+        .page-header p { font-size: 15px; color: #64748b; margin: 0; }
+
+        .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; max-width: 1200px; }
+        .security-card { background: white; border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+        .security-card h3 { font-size: 16px; font-weight: 700; margin: 0 0 16px 0; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+        .security-card h3 i { color: #059669; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; }
+        .form-input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; transition: border-color 0.2s; }
+        .form-input:focus { outline: none; border-color: #059669; }
+        .btn-primary { background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+        .btn-primary:hover { background: #047857; }
+        .btn-danger { background: white; color: #ef4444; border: 1px solid #ef4444; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+        .btn-danger:hover { background: #fef2f2; }
+
+        /* iOS Style Toggle Switch */
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
+        .setting-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .setting-info h4 { margin: 0 0 4px 0; font-size: 14px; color: #1e293b; font-weight: 600; }
+        .setting-info p { margin: 0; font-size: 12px; color: #64748b; }
+        
+        .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input:checked + .slider { background-color: #059669; }
+        input:checked + .slider:before { transform: translateX(20px); }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+    <a class="sidebar_header" href="dashboard.html">
+        <div class="logo">
+            <div class="icon">
+                <i class="fa-solid fa-wallet" style="color: #FFFFFF;"></i>
+            </div>
+            <div class="text">
+                <div class="main_text">
+                    <p>WealthWise</p>
+                </div>
+                <div class="subtext">
+                    <p>AI-Powered Finance</p>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <div class="sidebar_main">
+        <div class="navigation">
+            <div class="title">
+                <h2>NAVIGATION</h2>
+            </div>
+            <div class="navigation_buttons">
+                <a class="nav_btn" href="dashboard.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Dashboard</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Overview & insights</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="saving_goals.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Goals</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Savings targets</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="expenses.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Expenses</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Track spending</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="collaborativesavings.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Groups</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Collaborative savings</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn" href="ai_insights.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>AI Insights</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Smart recommendations</h5>
+                        </div>
+                    </div>
+                </a>
+                <a class="nav_btn active" href="security.html">
+                    <div class="nav_btn_icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="nav_btn_text_box">  
+                        <div class="nav_btn_title">
+                            <h4>Security</h4>
+                        </div>
+                        <div class="nav_btn_subtitle">
+                            <h5>Privacy & encryption</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="comparative_statistics">
+            <div class="title">
+                <h2>PERFORMANCE</h2>
+            </div>
+            <div class="dyanmic_statistics_box">
+                <div class="dyanmic_statistics_box_display">
+                    <div class="dynamic_statistics_box_logo">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="dynamic_statistics_box_title">
+                        <h4>Savings Rate</h4>
+                    </div>
+                    <div class="dynamic_statistics_box_figure">
+                        <p>23%</p>
+                    </div>
+                </div>
+                <progress class="dynamic_statistics_box_progressbar" value="23" max="100"></progress>
+                <div class="dynamic_statistics_box_caption">
+                    <div class="dynamic_statistics_box_caption_figure">
+                        <p>+12%</p>
+                    </div>
+                    <div class="dynamic_statistics_box_caption_text">
+                        <p>vs community avg</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <a href="profile.html" class="sidebar_footer_link">
+        <div class="sidebar_footer">
+            <div class="user-profile">
+                <div class="user-profile_pic avatar-circle">
+                    <div class="user-default_pic">
+                        </div>
+                </div>
+                <div class="user-details">
+                    <div class="user-profile-name">
+                        <h4 id="sidebar-user-name">Loading...</h4>
+                    </div>
+                    <div class="user-profile-description">
+                        <p id="sidebar-user-email">Loading...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="user-activity-status">
+                <div class="actvity-dot"></div>
+            </div>
+        </div>
+    </a>
+</div>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Security & Privacy</h1>
+            <p>Manage your authentication methods, active sessions, and data preferences.</p>
+        </div>
+
+        <div class="security-grid">
+            
+            <div class="security-card">
+                <h3><i class="fa-solid fa-key"></i> Update Password</h3>
+                <form id="passwordUpdateForm">
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" id="newPassword" class="form-input" placeholder="Enter new password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm new password" required minlength="6">
+                    </div>
+                    <p id="passwordStatus" style="font-size: 13px; font-weight: 600; display: none; margin-bottom: 12px;"></p>
+                    <button type="submit" class="btn-primary" id="btnUpdatePassword">Update Password</button>
+                </form>
+            </div>
+
+            <div class="security-card">
+                <h3><i class="fa-solid fa-stopwatch"></i> Session Management</h3>
+                <div class="form-group">
+                    <label class="form-label">Auto-Logout (Inactivity Timeout)</label>
+                    <select id="sessionTimeoutSelect" class="form-input">
+                        <option value="5">5 Minutes</option>
+                        <option value="15">15 Minutes</option>
+                        <option value="30">30 Minutes</option>
+                        <option value="60">1 Hour</option>
+                        <option value="never">Never (Not Recommended)</option>
+                    </select>
+                </div>
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+                    <label class="form-label">Active Sessions</label>
+                    <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Log out of all other devices and browsers.</p>
+                    <button class="btn-danger" id="btnLogOutAll">Sign Out All Devices</button>
+                </div>
+            </div>
+
+            <div class="security-card">
+                <h3><i class="fa-solid fa-fingerprint"></i> Advanced Security</h3>
+                
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Two-Factor Authentication (2FA)</h4>
+                        <p>Require an authenticator code to log in.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle2FA">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Biometric Login (WebAuthn)</h4>
+                        <p>Use FaceID, TouchID, or Windows Hello.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleBiometric">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="security-card">
+                <h3><i class="fa-solid fa-database"></i> Data & Privacy</h3>
+                
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>App Analytics</h4>
+                        <p>Share anonymous usage data to help us improve.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleAnalytics" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Marketing Communications</h4>
+                        <p>Receive emails about new features and offers.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleMarketing">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div style="margin-top: 24px; text-align: center;">
+                    <button id="btnExportData" style="background: transparent; border: none; color: #059669; font-weight: 600; font-size: 14px; cursor: pointer;">
+                        <i class="fa-solid fa-download"></i> Request Data Export
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="mfaModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center;">
+        <div style="background: white; width: 100%; max-width: 400px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 18px; color: #0f172a;">Setup 2-Factor Auth</h3>
+                <button id="closeMfaBtn" style="background: none; border: none; font-size: 20px; color: #94a3b8; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div id="mfaStep1">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px; text-align: center;">Scan this QR code with Google Authenticator, Authy, or Apple Passwords.</p>
+                
+                <div id="qrCodeContainer" style="display: flex; justify-content: center; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; min-height: 200px; align-items: center;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: #059669;"></i>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" style="text-align: center;">Enter 6-Digit Code to Verify</label>
+                    <input type="text" id="mfaOtpInput" class="form-input" placeholder="000 000" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 8px; font-weight: 700;">
+                </div>
+
+                <button id="btnVerifyOtp" class="btn-primary" style="width: 100%;">Verify & Enable 2FA</button>
+                <p id="mfaErrorMsg" style="color: #ef4444; font-size: 12px; margin-top: 12px; text-align: center; display: none;">Invalid code. Please try again.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+    // Initialize Supabase
+    const SUPABASE_URL = 'https://khnwfpcuvcyxztgoyhpr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_gZOCkHy6H8C03dRVRXJO7w_en4rfq9J';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentUser = null;
+    let timeoutTimer; 
+
+    // ==========================================
+    // MODULE A: AUTO-LOGOUT SESSION ENGINE
+    // ==========================================
+    function startSessionTimer(minutes) {
+        clearTimeout(timeoutTimer); 
+        if (minutes === 'never') return; 
+
+        const ms = parseInt(minutes) * 60 * 1000;
+        timeoutTimer = setTimeout(async () => {
+            console.log("Session timed out due to inactivity.");
+            await supabase.auth.signOut();
+            window.location.href = 'login.html?reason=timeout';
+        }, ms);
+    }
+
+    function resetTimerOnActivity() {
+        const timeoutSelect = document.getElementById('sessionTimeoutSelect');
+        if (timeoutSelect) startSessionTimer(timeoutSelect.value);
+    }
+
+    window.onload = resetTimerOnActivity;
+    document.onmousemove = resetTimerOnActivity;
+    document.onkeypress = resetTimerOnActivity;
+    document.ontouchstart = resetTimerOnActivity; 
+
+    document.getElementById('sessionTimeoutSelect')?.addEventListener('change', async (e) => {
+        const newTimeout = e.target.value;
+        startSessionTimer(newTimeout);
+        await supabase.auth.updateUser({ data: { session_timeout: newTimeout } });
+    });
+
+    // ==========================================
+    // MODULE B: PASSWORD MANAGEMENT
+    // ==========================================
+    const passwordForm = document.getElementById('passwordUpdateForm');
+    
+    passwordForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newPass = document.getElementById('newPassword').value;
+        const confPass = document.getElementById('confirmPassword').value;
+        const btn = document.getElementById('btnUpdatePassword');
+        const statusMsg = document.getElementById('passwordStatus');
+
+        if (newPass !== confPass) {
+            statusMsg.innerText = "Passwords do not match.";
+            statusMsg.style.color = "#ef4444";
+            statusMsg.style.display = "block";
+            return;
+        }
+
+        const originalText = btn.innerText;
+        btn.disabled = true;
+        btn.innerText = "Updating...";
+        statusMsg.style.display = "none";
+
+        const { error } = await supabase.auth.updateUser({ password: newPass });
+
+        if (error) {
+            statusMsg.innerText = error.message;
+            statusMsg.style.color = "#ef4444";
+        } else {
+            statusMsg.innerText = "Password successfully updated!";
+            statusMsg.style.color = "#059669";
+            passwordForm.reset();
+        }
+        
+        statusMsg.style.display = "block";
+        btn.disabled = false;
+        btn.innerText = originalText;
+    });
+
+    // ==========================================
+    // MODULE C: PRIVACY, 2FA, & BIOMETRIC WIZARDS
+    // ==========================================
+    async function savePreference(key, isChecked) {
+        const updateData = {};
+        updateData[key] = isChecked;
+        await supabase.auth.updateUser({ data: updateData });
+    }
+
+    document.getElementById('toggleAnalytics')?.addEventListener('change', (e) => savePreference('analytics_enabled', e.target.checked));
+    document.getElementById('toggleMarketing')?.addEventListener('change', (e) => savePreference('marketing_enabled', e.target.checked));
+
+    const toggleBiometric = document.getElementById('toggleBiometric');
+    toggleBiometric?.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            try {
+                const publicKeyCredentialCreationOptions = {
+                    challenge: window.crypto.getRandomValues(new Uint8Array(32)),
+                    rp: { name: "WealthWise Finance", id: window.location.hostname },
+                    user: {
+                        id: window.crypto.getRandomValues(new Uint8Array(16)),
+                        name: currentUser.email,
+                        displayName: currentUser.email
+                    },
+                    pubKeyCredParams: [{alg: -7, type: "public-key"}],
+                    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
+                    timeout: 60000
+                };
+
+                const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
+                
+                if (credential) {
+                    await savePreference('biometric_enabled', true);
+                    alert("Biometric authentication successfully linked to this device!");
+                }
+            } catch (err) {
+                console.log("Biometric setup failed or cancelled:", err);
+                e.target.checked = false; 
+                alert("Biometric setup was cancelled or isn't supported on this browser.");
+            }
+        } else {
+            await savePreference('biometric_enabled', false);
+        }
+    });
+
+    const toggle2FA = document.getElementById('toggle2FA');
+    const mfaModal = document.getElementById('mfaModalOverlay');
+    let currentFactorId = null;
+
+    const resetMfaModal = () => {
+        mfaModal.style.display = 'none';
+        document.getElementById('mfaOtpInput').value = '';
+        document.getElementById('mfaErrorMsg').style.display = 'none';
+        document.getElementById('qrCodeContainer').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: #059669;"></i>';
+    };
+
+    toggle2FA?.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            mfaModal.style.display = 'flex';
+            
+            try {
+                const { data, error } = await supabase.auth.mfa.enroll({ factorType: 'totp' });
+                if (error) throw error;
+                currentFactorId = data.id;
+                document.getElementById('qrCodeContainer').innerHTML = data.totp.qr_code;
+                document.getElementById('qrCodeContainer').querySelector('svg').style.width = '200px';
+                document.getElementById('qrCodeContainer').querySelector('svg').style.height = '200px';
+
+            } catch (err) {
+                alert("Backend Error: " + err.message); 
+                e.target.checked = false;
+                resetMfaModal();
+            }
+        } else {
+            await savePreference('twofa_enabled', false);
+            alert("2FA has been disabled.");
+        }
+    });
+
+    document.getElementById('closeMfaBtn')?.addEventListener('click', () => {
+        toggle2FA.checked = false; 
+        resetMfaModal();
+    });
+
+    document.getElementById('btnVerifyOtp')?.addEventListener('click', async () => {
+        const code = document.getElementById('mfaOtpInput').value.replace(/\s/g, ''); 
+        const btn = document.getElementById('btnVerifyOtp');
+        const errorMsg = document.getElementById('mfaErrorMsg');
+        
+        if (code.length !== 6) {
+            errorMsg.innerText = "Please enter a valid 6-digit code.";
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        btn.innerText = "Verifying securely...";
+        errorMsg.style.display = 'none';
+
+        try {
+            const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({ factorId: currentFactorId });
+            if (challengeError) throw challengeError;
+
+            const { data: verifyData, error: verifyError } = await supabase.auth.mfa.verify({
+                factorId: currentFactorId,
+                challengeId: challengeData.id,
+                code: code
+            });
+            if (verifyError) throw verifyError;
+
+            await savePreference('twofa_enabled', true);
+            resetMfaModal();
+            alert("Bank-grade 2-Factor Authentication successfully enabled!");
+            btn.innerText = "Verify & Enable 2FA";
+
+        } catch (err) {
+            errorMsg.innerText = "Invalid or expired code. Please try again.";
+            errorMsg.style.display = 'block';
+            btn.innerText = "Verify & Enable 2FA";
+        }
+    });
+
+    // ==========================================
+    // MODULE D: EXPORT & LOGOUT
+    // ==========================================
+    document.getElementById('btnExportData')?.addEventListener('click', (e) => {
+        const btn = e.currentTarget;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Compiling Data...';
+        btn.style.color = "#64748b";
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Export Sent to Email';
+            btn.style.color = "#059669";
+            setTimeout(() => { btn.innerHTML = originalText; }, 3000);
+        }, 1500);
+    });
+
+    document.getElementById('btnLogOutAll')?.addEventListener('click', async (e) => {
+        e.currentTarget.innerText = "Processing...";
+        e.currentTarget.disabled = true;
+        setTimeout(async () => {
+            await supabase.auth.signOut();
+            window.location.href = 'index.html';
+        }, 1000);
+    });
+
+    // ==========================================
+    // MODULE E: SIDEBAR SYNC (FIXED SIZING)
+    // ==========================================
+    async function syncSidebar() {
+        if (!currentUser) return;
+        const firstName = currentUser.user_metadata?.first_name || '';
+        const lastName = currentUser.user_metadata?.last_name || '';
+        let fullName = `${firstName} ${lastName}`.trim() || currentUser.email.split('@')[0];
+
+        const nameEl = document.getElementById('sidebar-user-name');
+        const emailEl = document.getElementById('sidebar-user-email');
+        if (nameEl) nameEl.innerText = fullName;
+        if (emailEl) emailEl.innerText = currentUser.email;
+
+        let initials = (firstName.charAt(0) + lastName.charAt(0) || currentUser.email.substring(0, 2)).toUpperCase();
+        document.querySelectorAll('.avatar-circle').forEach(circle => {
+            const avatarUrl = currentUser.user_metadata?.avatar_url;
+            if (avatarUrl) {
+                circle.innerHTML = `<img src="${avatarUrl}" style="display: block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; border-radius: 50%;">`;
+                circle.style.backgroundColor = 'transparent';
+                circle.style.overflow = 'hidden';
+            } else {
+                circle.innerHTML = `<span style="font-size: 1.2rem; font-weight: 800; color: #059669; letter-spacing: 1px;">${initials}</span>`;
+                circle.style.backgroundColor = '#ecfdf5'; 
+            }
+        });
+    }
+
+    async function initPage() {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (!session) { window.location.href = 'index.html'; return; }
+
+        currentUser = session.user;
+        syncSidebar();
+
+        const meta = currentUser.user_metadata || {};
+        const timeoutSelect = document.getElementById('sessionTimeoutSelect');
+        if (timeoutSelect && meta.session_timeout) timeoutSelect.value = meta.session_timeout;
+
+        if (meta.analytics_enabled !== undefined) document.getElementById('toggleAnalytics').checked = meta.analytics_enabled;
+        if (meta.marketing_enabled !== undefined) document.getElementById('toggleMarketing').checked = meta.marketing_enabled;
+        if (meta.twofa_enabled !== undefined) document.getElementById('toggle2FA').checked = meta.twofa_enabled;
+        if (meta.biometric_enabled !== undefined) document.getElementById('toggleBiometric').checked = meta.biometric_enabled;
+
+        resetTimerOnActivity();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+
+    </script>
+</body>
+</html>

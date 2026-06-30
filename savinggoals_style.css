@@ -1,0 +1,1024 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans", sans-serif;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+/* Sidebar Container */
+.sidebar {
+    height: 100vh; /* Better than 100% to ensure it stretches full screen */
+    width: 15%;
+    min-width: 250px; /* Prevents it from crushing on smaller screens */
+    background: #FAFAFA;
+    border-right: 1px solid #e5e7eb;
+    position: fixed;
+    display: flex;
+    flex-direction: column; /* Stack header, main, and footer dynamically */
+}
+
+/* Header */
+.sidebar_header {
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #e5e7eb;
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Keeps text standard color */
+    transition: opacity 0.2s;
+}
+
+.sidebar_header:hover {
+    opacity: 0.8; /* Subtle interaction when hovering logo */
+}
+
+.sidebar_header .logo {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.sidebar_header .logo .icon {
+    display: flex;
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: #059669;
+    border-radius: 12px; /* Standardized radius */
+    box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2); /* Soft green glow */
+}
+
+.sidebar_header .logo .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sidebar_header .logo .text .main_text {
+    font-size: 20px;
+    font-weight: 800; /* Made slightly bolder */
+    line-height: 1.2;
+    color: #0f172a;
+    font-family: "Noto Sans", sans-serif;
+}
+
+.sidebar_header .logo .text .subtext {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    font-family: "Noto Sans", sans-serif;
+}
+
+/* Main Body */
+.sidebar_main {
+    width: 100%;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #e5e7eb;
+    gap: 32px;
+    flex-grow: 1; /* Pushes the footer to the bottom */
+    overflow-y: auto; /* Allows scrolling if screen gets too short */
+}
+
+/* Section Titles */
+.sidebar_main .title h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    font-family: "Noto Sans", sans-serif;
+    margin-bottom: 12px;
+    padding-left: 8px;
+}
+
+/* Navigation Buttons */
+.navigation_buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Tighter gap because we use padding on buttons now */
+}
+
+.nav_btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transition: all 0.2s ease; /* Smooth sliding animation */
+}
+
+.nav_btn .nav_btn_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.nav_btn .nav_btn_text_box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav_btn_title h4 {
+    color: #3f3f46;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.nav_btn_subtitle h5 {
+    font-size: 11px;
+    color: #94a3b8;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Navigation Hover & Active States */
+.nav_btn:hover {
+    background-color: #f8fafc;
+    transform: translateX(4px); /* Magnetic slide right */
+}
+
+.nav_btn:hover .nav_btn_icon {
+    background-color: #059669; /* Green pop */
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);
+}
+
+.nav_btn.active {
+    background-color: #ecfdf5; /* Very soft green background */
+}
+
+.nav_btn.active .nav_btn_icon {
+    background-color: #059669;
+    color: white;
+}
+
+.nav_btn.active .nav_btn_title h4 {
+    color: #059669;
+}
+
+/* Comparative Statistics Box */
+.dyanmic_statistics_box {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dyanmic_statistics_box_display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dynamic_statistics_box_logo {
+    color: #059669;
+    font-size: 16px;
+    background: #ecfdf5;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.dynamic_statistics_box_title h4 {
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dynamic_statistics_box_figure p {
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* Modern Progress Bar Styling */
+.dynamic_statistics_box_progressbar {
+    height: 8px;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 10px;
+}
+.dynamic_statistics_box_progressbar::-webkit-progress-bar {
+    background-color: #f1f5f9;
+    border-radius: 10px;
+}
+.dynamic_statistics_box_progressbar::-webkit-progress-value {
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 10px;
+}
+
+.dynamic_statistics_box_caption {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.dynamic_statistics_box_caption_figure p {
+    color: #059669;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.dynamic_statistics_box_caption_text p {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Footer / User Profile */
+.sidebar_footer_link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-top: auto; /* Guarantees it sticks to the bottom */
+}
+
+.sidebar_footer {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.sidebar_footer:hover {
+    background-color: #f1f5f9;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-profile_pic {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #ecfdf5; /* Default soft green */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevents squishing */
+}
+
+.user-profile-name h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.user-profile-description p {
+    font-size: 11px;
+    color: #64748b;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px; /* Truncates long emails gracefully */
+}
+
+.user-activity-status .actvity-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px #ecfdf5; /* Creates a ring effect */
+}
+
+.dashboard{
+    height: 100%;
+    width: 85%;
+}
+
+.dashboard .dashboard_header{
+    width: 100%;
+    height: 100%;
+    padding: 16px 24px;
+    background: #FFFFFF;
+    border-bottom: 0.8px solid #e5e7eb;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.dashboard .dashboard_header .menu{
+    height: 28px;
+    width: 28px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard .dashboard_header .dashboard_title h1{
+    font-size: 20px;
+    color: #047857;
+}
+
+.dashboard .dashboard-main{
+    padding: 24px;
+    height: 100%;
+    width: 100%;
+    background: #f8fafc;
+    font-family: "Noto Sans", sans-serif;
+    margin-left: calc(15% + 33px);
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head{
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .main-text .dashboard-main-title{
+    margin-bottom: 10px;
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .main-text .dashboard-main-title h1{
+    font-size: 36px;
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .main-text .dahsboard-main-subtitle{
+    color: #475569;
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .main-text .dahsboard-main-subtitle h2{
+    font-size: 16px;
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .major-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.75rem;
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .major-buttons .expense-adder{
+    padding: 8px 16px;
+    border: 0.8px solid (rgb(226,232,240/1), #e2e8f0);
+    background: #FFFFFF;
+    font-size: 14px;
+    color: #09090B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid rgb(226 232 240);
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+}
+
+.dashboard .dashboard-main .dashboard-main-big-head .major-buttons .goal-creator{
+    padding: 8px 16px;
+    background: #059669;
+    font-size: 14px;
+    color: #FAFAFA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid rgb(226 232 240);
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+}
+
+.dashboard .dashboard-main .dashboard-main-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 32px;
+    gap: 1.5rem;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    padding: 24px;
+    border-radius: 8px;
+    width: 100%;
+    border: 1px solid #e2e8f080;
+    border-radius: .75rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    background: #fffc;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-display{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-display .info-box-title{
+    margin-bottom: 8px;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-display .info-box-title h5{
+    font-size: 14px;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-display .info-box-dynamic-number{
+    font-size: 30px;
+    color: #0F172A;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-display .info-box-icon{
+    background: #059669;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: 0.75rem;
+    color: #FFFFFF;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-sub-display{
+    display: flex;
+    margin-top: 4px;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-sub-display .info-box-sub-display-dynamic-logo{
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-sub-display .info-box-dynamic-subtitle{
+    display: flex;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-sub-display .info-box-dynamic-subtitle .info-box-dynamic-subtitle-dynamic-number{
+    font-size: 14px;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .dashboard-main-info .info-box .info-box-sub-display .info-box-dynamic-subtitle .info-box-dynamic-subtitle-dynamic-text{
+    margin-left: 4px;
+    font-size: 14px;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .search-bar_and_search-filter{
+    margin-bottom: 32px;
+}
+
+.search-bar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: .75rem;
+    height: 36px;
+    border: 1px solid rgb(226 232 240);
+    border-radius: .75rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+}
+
+.category-toggle {
+    background-color: #059669;
+    color: white;
+    border: none;
+    height: 100%;
+    padding: 0 16px 0 24px;
+    border-top-left-radius: 0.75rem;
+    border-bottom-left-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.category-toggle:hover {
+  background-color: #059669;
+}
+
+.chevron-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.chevron-icon.closed {
+  transform: rotate(180deg);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #0a0a0a;
+  outline: none;
+}
+
+.search-input:active{
+    .search-bar-container{
+        border: 1px solid #059669;
+        transition: 0.4s ease;
+    }
+}
+
+.search-input::placeholder {
+  color: rgb(148 163 184);
+  opacity: 0.9;
+}
+
+.search-button {
+  background: transparent;
+  border: none;
+  padding: 0 24px;
+  cursor: pointer;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    border-radius: 12px;
+    width: 220px;
+    padding: 12px 0;
+    list-style: none;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    display: none;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.dropdown-menu.show {
+  display: flex;
+}
+
+.dropdown-item {
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #111;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #c8c5c8;
+}
+
+.dashboard .dashboard-main .goal_cards{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 24px;
+    background: #FFFFFF;
+    border: 1px solid rgb(226 232 240);
+    border-radius: .75rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_heading{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_heading .goal_card_main_title h4{
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    color: #0F172A;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_heading .goal_card_dynamic_progress_indicator{
+    height: 8px;
+    width: 6px;
+    color: #EF4444;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_heading .goal_card_main_subtitle p{
+    font-size: 14px;
+    line-height: 20px;
+    color: #475569;
+    margin-bottom: 12px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_heading .goal_card_main_dynamic_tag{
+    height: 100%;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 10px;
+    background: rgb(254 226 226);
+    border: 1px solid rgb(254 202 202);
+    border-radius: calc(0.5rem - 2px);
+    margin-bottom: 16px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_heading .goal_card_main_dynamic_tag h6{
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(185 28 28);
+    line-height: 16px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_progress_bar_status{
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_progress_bar_status .goal_card_progress_bar_status_indicative_text p{
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_progress_bar_status .goal_card_progress_bar_percentage h6{
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_progress_bar progress{
+    height: 12px;
+    width: 100%;
+    accent-color: #171717;
+    color: #F1F5F9;
+    margin-top: 8px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_descriptive_details{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_descriptive_details .goal_card_progress_amount h6{
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_descriptive_details .goal_card_total_amount_display{
+    display: flex;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_descriptive_details .goal_card_total_amount_display{
+    display: flex;
+    gap: 5px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_descriptive_details .goal_card_total_amount_display .goal_card_amount_supporting_text p,
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_descriptive_details .goal_card_total_amount_display .goal_card_progress_amount h6{
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 12px;
+    margin-top: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_display_icon_and_main_text{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_display_icon_and_main_text .goal_card_deadline_icon i{
+    height: 12px;
+    width: 12px;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_display_icon_and_main_text .goal_card_deadline_main_text{
+    display: flex;
+    gap: 5px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_display_icon_and_main_text .goal_card_deadline_supporting_text,
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_display_icon_and_main_text .goal_card_deadline_main_text h6{
+    font-size: 12px;
+    font-weight: 400;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_status_display{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_status_display .goal_card_deadline_status_dynamic_icon i{
+    height: 12px;
+    width: 12px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_status_display .goal_card_deadline_status_dynamic_icon i{
+    height: 100%;
+    width: 100%;
+    color: #DC2626;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_display .goal_card_deadline_status_display .goal_card_deadline_status_dynamic_text h6{
+    font-size: 12px;
+    font-weight: 500;
+    color: #DC2626;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_sub_display{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_sub_display .goal_card_deadline_sub_display_dynamic_icon_and_text{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_sub_display .goal_card_deadline_sub_display_dynamic_icon_and_text .goal_card_deadline_dynamic_logo i{
+    height: 12px;
+    width: 12px;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_sub_display .goal_card_deadline_sub_display_dynamic_icon_and_text .goal_card_deadline_dynamic_logo i{
+    height: 100%;
+    width: 100%;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_sub_display .goal_card_deadline_sub_display_dynamic_icon_and_text .goal_card_dynamic_subtitle_dynamic_text{
+    font-size: 12px;
+    font-weight: 400;
+    color: #64748B;
+}
+
+.dashboard .dashboard-main .goal_cards .goal_card .goal_card_main_content .goal_card_deadline_sub_display .goal_card_dynamic_subtitle_dynamic_number{
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* --- NEW: Backdrop Overlay Styles --- */
+.goal-modal-backdrop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(2px);
+}
+
+.goal-modal-backdrop-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- UPDATED: Your existing .create_goal container --- */
+/* Note: I removed 'display: none', 'margin-bottom', and '.active-box' logic */
+.dashboard .dashboard-main .create_goal {
+    display: flex; 
+    flex-direction: column;
+    background: #FFFFFF;
+    border: 1px solid rgb(226 232 240);
+    border-radius: calc(0.5rem - 2px);
+    /* Upgraded shadow for modal elevation */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    max-width: 700px; /* Limits the width of the modal */
+    
+    /* Animation settings */
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+/* Modal entry animation */
+.goal-modal-backdrop-overlay.is-active .create_goal {
+    transform: translateY(0);
+}
+
+.dashboard .dashboard-main .create_goal{
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    border: 1px solid rgb(226 232 240);
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    margin-bottom: 36px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_creator_main_heading{
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_creator_main_heading .goal_creator_logo_and_title{
+    display: flex;
+    gap: 8px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_creator_main_heading .goal_creator_logo_and_title .goal_creator_logo{
+    height: 20px;
+    width: 20px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_creator_main_heading .goal_creator_logo_and_title .goal_creator_logo i{
+    height: 100%;
+    width: 100%;
+    color: rgb(16 185 129);
+}
+
+.dashboard .dashboard-main .create_goal .goal_creator_main_heading .goal_creator_logo_and_title .goal_creator_title h4{
+    font-size: 16px;
+    font-weight: 700;
+    color: #0A0A0A;
+}
+
+.dashboard .dashboard-main .create_goal .goal_creator_main_heading .close i{
+    font-size: 14px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 24px;
+    row-gap: 20px;
+    padding: 0px 24px 24px 24px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form label{
+    font-size: 14px;
+    font-weight: 500;
+    color: #0A0A0A;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form input,
+.dashboard .dashboard-main .create_goal .goal_entry form textarea,
+.dashboard .dashboard-main .create_goal .goal_entry form select{
+    height: 36px;
+    padding: 4px 12px;
+    margin-top: 8px;
+    background: #FFFFFF;
+    border: 1px solid rgb(226 232 240);
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form input::placeholder{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #0A0A0A;
+    opacity: 0.5;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form input::placeholder:active{
+    border-color: #059669;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form .span-6{
+    display: grid;
+    grid-column: span 6;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form .span-3{
+    display: grid;
+    grid-column: span 3;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry form .span-2{
+    display: grid;
+    grid-column: span 2;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry .create_buttons{
+    display: flex;
+    justify-content: right;
+    padding: 0px 24px 24px 24px;
+    gap: 12px;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry .create_buttons .cancel_button{
+    padding: 8px 16px;
+    background: #FFFFFF;
+    border: 1px solid rgb(226 232 240);
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    height: 100%;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry .create_buttons .create_goal_form_button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    background: #059669;
+    color: #FFFFFF;
+    gap: 12px;
+    border:1px solid transparent;
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    margin: 0;
+}
+
+.dashboard .dashboard-main .create_goal .goal_entry .create_buttons .create_goal p{
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
