@@ -813,7 +813,7 @@
             // Make sure currentUser is available from your Supabase auth initialization
             if (!currentUser) throw new Error("User not authenticated");
 
-            const response = await fetch('/api/ai-chat/', { // Adjust URL to your full local/production domain if hosted separately
+            const response = await fetch('http://127.0.0.1:8000/api/ai-chat/', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
