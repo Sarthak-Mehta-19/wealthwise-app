@@ -9,7 +9,7 @@ from .views import (
     ChallengeViewSet, 
     AIAgentView, 
     RegisterView,
-    ai_advisor_chat  # <--- Ensure this is imported
+    ai_advisor_chat
 )
 
 router = DefaultRouter()
@@ -24,8 +24,8 @@ urlpatterns = [
     # Existing AI Endpoint 
     path('ai-agent/', AIAgentView.as_view(), name='ai_agent'),
     
-    # The Crucial Route for your frontend:
-    path('api/ai-chat/', ai_advisor_chat, name='ai_advisor_chat'),
+    # THE FIX: Removed the redundant 'api/' prefix here!
+    path('ai-chat/', ai_advisor_chat, name='ai_advisor_chat'),
     
     # Authentication Endpoints
     path('register/', RegisterView.as_view(), name='register'),
