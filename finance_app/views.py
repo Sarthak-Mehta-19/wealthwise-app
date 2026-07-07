@@ -55,12 +55,12 @@ class AIAgentView(APIView):
         prompt = request.data.get('prompt', 'Give me financial advice based on my goals.')
         
         try:
-            # Using the new 2026 Google GenAI format
-            client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+            # Using the new Google GenAI format and settings import
+            client = genai.Client(api_key=settings.GEMINI_API_KEY)
             
             response = client.models.generate_content(
-                model='gemini-3.5-flash',
-                contents=prompt,
+                model='gemini-1.5-flash',
+                contents=prompt
             )
             
             return Response({"advice": response.text})
@@ -79,8 +79,8 @@ def ai_advisor_chat(request):
                 return JsonResponse({"error": "Missing user_id or message"}, status=400)
 
             # 1. Fetch User Data from PostgreSQL
-            # Grabbing the last 3 months of expenses and active goals to keep context relevant
-            expenses = list(Expense.objects.filter(user_id=user_id).order_by('-date')[:100].values('amount', 'category', 'date', 'description'))
+            # Replaced 'description' with actual DB columns 'title' and 'notes'
+            expenses = list(Expense.objects.filter(user_id=user_id).order_by('-date')[:100].values('amount', 'category', 'date', 'title', 'notes'))
             goals = list(Goal.objects.filter(user_id=user_id).values('title', 'target_amount', 'current_amount', 'deadline'))
 
             financial_context = {
@@ -102,11 +102,11 @@ def ai_advisor_chat(request):
             client = genai.Client(api_key=settings.GEMINI_API_KEY)
             
             response = client.models.generate_content(
-                model='gemini-3.5-flash',
+                model='gemini-1.5-flash',
                 contents=user_message,
                 config=types.GenerateContentConfig(
                     system_instruction=system_prompt,
-                    temperature=0.3 # Low temperature for more analytical, less creative responses
+                    temperature=0.3
                 )
             )
 
