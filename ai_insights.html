@@ -785,7 +785,7 @@
                 <i class="fa-solid ${isLoading ? 'fa-ellipsis' : 'fa-wand-magic-sparkles'} ${isLoading ? 'fa-beat' : ''}"></i>
             </div>
             <div class="ai-message-bubble">
-                ${text}
+                parseMarkdown(data.response);
             </div>
         `;
         aiChatHistory.appendChild(rowDiv);
