@@ -18,6 +18,7 @@ from .serializers import UserSerializer, GoalSerializer, ExpenseSerializer, Chal
 User = get_user_model()
 
 # Configure the API key globally once for the file
+# SECURE: This correctly pulls from your Render environment variables! Do not hardcode your key here.
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
 class RegisterView(generics.CreateAPIView):
@@ -57,8 +58,8 @@ class AIAgentView(APIView):
         prompt = request.data.get('prompt', 'Give me financial advice based on my goals.')
         
         try:
-            # Standard SDK initialization
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            # UPGRADED to the active gemini-2.5-flash model
+            model = genai.GenerativeModel('gemini-2.5-flash')
             response = model.generate_content(prompt)
             
             return Response({"advice": response.text})
@@ -97,7 +98,8 @@ def ai_advisor_chat(request):
 
             # 3. Call the Gemini API via the standard GenerativeModel SDK
             model = genai.GenerativeModel(
-                model_name='gemini-1.5-flash',
+                # UPGRADED to the active gemini-2.5-flash model
+                model_name='gemini-2.5-flash',
                 system_instruction=system_prompt
             )
             
