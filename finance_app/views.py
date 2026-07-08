@@ -81,7 +81,7 @@ def ai_advisor_chat(request):
             # 1. Fetch User Data from PostgreSQL
             # Replaced 'description' with actual DB columns 'title' and 'notes'
             expenses = list(Expense.objects.filter(user_id=user_id).order_by('-date')[:100].values('amount', 'category', 'date', 'title', 'notes'))
-            goals = list(Goal.objects.filter(user_id=user_id).values('title', 'target_amount', 'current_amount', 'deadline'))
+            goals = list(Goal.objects.filter(user_id=user_id).values('name', 'target_amount', 'current_amount', 'deadline'))
 
             financial_context = {
                 "recent_expenses": expenses,
