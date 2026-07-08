@@ -873,6 +873,21 @@
 
     document.addEventListener('DOMContentLoaded', initPage);
 
+    function parseMarkdown(text) {
+    if (!text) return '';
+    
+    // 1. Convert double asterisks (**text**) to bold HTML tags
+    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // 2. Convert single asterisks (*text*) to bold HTML tags (handles both styles)
+    html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+    
+    // 3. Convert clean newlines (\n) to HTML line breaks (<br>)
+    html = html.replace(/\n/g, '<br>');
+    
+    return html;
+}
+
 </script>
 
 </body>
