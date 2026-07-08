@@ -9,14 +9,16 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model
 
-# Import the Google GenAI SDK and types for configuration
-from google import genai
-from google.genai import types
+# SWITCHED to the standard, universally supported Generative AI SDK
+import google.generativeai as genai
 
 from .models import Goal, Expense, Challenge
 from .serializers import UserSerializer, GoalSerializer, ExpenseSerializer, ChallengeSerializer
 
 User = get_user_model()
+
+# Configure the API key globally once for the file
+genai.configure(api_key=settings.GEMINI_API_KEY)
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -55,13 +57,9 @@ class AIAgentView(APIView):
         prompt = request.data.get('prompt', 'Give me financial advice based on my goals.')
         
         try:
-            # Using the new Google GenAI format and settings import
-            client = genai.Client(api_key=settings.GEMINI_API_KEY)
-            
-            response = client.models.generate_content(
-                model='gemini-1.5-flash',
-                contents=prompt
-            )
+            # Standard SDK initialization
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            response = model.generate_content(prompt)
             
             return Response({"advice": response.text})
         except Exception as e:
@@ -79,7 +77,6 @@ def ai_advisor_chat(request):
                 return JsonResponse({"error": "Missing user_id or message"}, status=400)
 
             # 1. Fetch User Data from PostgreSQL
-            # Replaced 'description' with actual DB columns 'title' and 'notes'
             expenses = list(Expense.objects.filter(user_id=user_id).order_by('-date')[:100].values('amount', 'category', 'date', 'title', 'notes'))
             goals = list(Goal.objects.filter(user_id=user_id).values('name', 'target_amount', 'current_amount', 'deadline'))
 
@@ -98,16 +95,16 @@ def ai_advisor_chat(request):
             Keep your response concise, actionable, and focused on helping them optimize their tracked spending to hit their specific goals.
             """
 
-            # 3. Call the Gemini API via the official google-genai client
-            client = genai.Client(api_key=settings.GEMINI_API_KEY)
+            # 3. Call the Gemini API via the standard GenerativeModel SDK
+            model = genai.GenerativeModel(
+                model_name='gemini-1.5-flash',
+                system_instruction=system_prompt
+            )
             
-            response = client.models.generate_content(
-                model='gemini-1.5-flash',
-                contents=user_message,
-                config=types.GenerateContentConfig(
-                    system_instruction=system_prompt,
-                    temperature=0.3
-                )
+            response = model.generate_content(
+                user_message,
+                # Simplified syntax to avoid type import conflicts
+                generation_config={"temperature": 0.3} 
             )
 
             return JsonResponse({"response": response.text})
