@@ -765,74 +765,126 @@
     const aiChatSendBtn = document.getElementById('aiChatSendBtn');
     const aiChatHistory = document.getElementById('aiChatHistory');
     const aiSuggestedChips = document.querySelectorAll('.ai-chip');
+    
+    const CHAT_STORAGE_KEY = 'wealthwise_ai_chat';
 
-    // Function to append a user message to the UI
-    function appendUserMessage(text) {
+    // 1. Markdown Parser (Now properly formatted)
+    function parseMarkdown(text) {
+        if (!text) return '';
+        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+        html = html.replace(/\n/g, '<br>');
+        return html;
+    }
+
+    // 2. Chat Persistence Functions
+    function saveChatToStorage(role, text) {
+        if (!currentUser) return;
+        const history = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY + '_' + currentUser.id) || '[]');
+        history.push({ role, text });
+        localStorage.setItem(CHAT_STORAGE_KEY + '_' + currentUser.id, JSON.stringify(history));
+    }
+
+    function loadChatHistory() {
+        if (!currentUser) return;
+        const history = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY + '_' + currentUser.id) || '[]');
+        if (history.length > 0) {
+            // Hide suggested chips if a conversation is already going
+            const suggestedSection = document.querySelector('.ai-suggested-section');
+            if (suggestedSection) suggestedSection.style.display = 'none';
+
+            // Rebuild the chat bubbles
+            history.forEach(msg => {
+                if (msg.role === 'user') {
+                    appendUserMessage(msg.text, false); // false = don't save to storage again
+                } else if (msg.role === 'ai') {
+                    appendAIMessage(msg.text, false, false); 
+                }
+            });
+        }
+    }
+
+    function clearChatHistory() {
+        if (!currentUser) return;
+        // Wipe the local storage
+        localStorage.removeItem(CHAT_STORAGE_KEY + '_' + currentUser.id);
+        
+        // Remove all user bubbles
+        document.querySelectorAll('.ai-user-message-bubble').forEach(el => el.remove());
+        
+        // Remove all AI rows EXCEPT the very first one (the default greeting)
+        const aiRows = document.querySelectorAll('.ai-message-row');
+        for (let i = 1; i < aiRows.length; i++) {
+            aiRows[i].remove();
+        }
+        
+        // Bring the suggested chips back
+        const suggestedSection = document.querySelector('.ai-suggested-section');
+        if (suggestedSection) suggestedSection.style.display = 'flex';
+    }
+
+    // 3. UI Appenders (Updated with Markdown & Storage)
+    function appendUserMessage(text, save = true) {
         const msgDiv = document.createElement('div');
         msgDiv.className = 'ai-user-message-bubble';
         msgDiv.innerText = text;
         aiChatHistory.appendChild(msgDiv);
         aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
+        
+        if (save) saveChatToStorage('user', text);
     }
 
-    // Function to append an AI response to the UI
-    function appendAIMessage(text, isLoading = false) {
+    function appendAIMessage(text, isLoading = false, save = true) {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'ai-message-row';
         
+        // THE FIX: Only parse markdown if it's the final text, not the loading indicator
+        const finalContent = isLoading ? text : parseMarkdown(text);
+        
+        // THE FIX: Properly execute the variable inside the template literal using ${}
         rowDiv.innerHTML = `
             <div class="ai-message-icon" ${isLoading ? 'style="background-color: #cbd5e1;"' : ''}>
                 <i class="fa-solid ${isLoading ? 'fa-ellipsis' : 'fa-wand-magic-sparkles'} ${isLoading ? 'fa-beat' : ''}"></i>
             </div>
             <div class="ai-message-bubble">
-                ${text}
+                ${finalContent}
             </div>
         `;
         aiChatHistory.appendChild(rowDiv);
         aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
-        return rowDiv; // Return so we can remove/replace it when loading finishes
+        
+        if (!isLoading && save) {
+            saveChatToStorage('ai', text);
+        }
+        return rowDiv; 
     }
 
-    // Core function to handle sending a message
-    // Core function to handle sending a message
+    // 4. API Request Handler
     async function handleAISearch(query) {
         if (!query.trim()) return;
 
-        // Clear input and show user message
         aiChatInput.value = '';
         appendUserMessage(query);
 
-        // Hide suggested chips after first interaction
         const suggestedSection = document.querySelector('.ai-suggested-section');
         if (suggestedSection) suggestedSection.style.display = 'none';
 
-        // Show loading indicator
         const loadingBox = appendAIMessage('Analyzing your financial profile...', true);
 
         try {
-            // Make sure currentUser is available from your Supabase auth initialization
             if (!currentUser) throw new Error("User not authenticated");
 
             const response = await fetch('https://wealthwise-backend-13qd.onrender.com/api/ai-chat/', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    // If you implement Supabase JWT auth in Django later, pass the token here:
-                    // 'Authorization': `Bearer ${currentUser.access_token}`
-                },
-                body: JSON.stringify({ 
-                    user_id: currentUser.id, 
-                    message: query 
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: currentUser.id, message: query })
             });
 
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
             const data = await response.json();
-            
             if (data.error) throw new Error(data.error);
 
-            // Remove loading animation and show the actual response
             loadingBox.remove();
             appendAIMessage(data.response);
 
@@ -843,18 +895,14 @@
         }
     }
 
-    // Event Listeners for inputs
+    // Event Listeners
     aiChatSendBtn?.addEventListener('click', () => handleAISearch(aiChatInput.value));
-    
     aiChatInput?.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleAISearch(aiChatInput.value);
     });
 
-    // Wire up the suggested questions chips
     aiSuggestedChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            handleAISearch(chip.innerText);
-        });
+        chip.addEventListener('click', () => handleAISearch(chip.innerText));
     });
 
     // --- INITIALIZER ---
@@ -866,28 +914,20 @@
         
         syncSidebar();
         await loadAllAILogic();
+        
+        // THE FIX: Load chat history immediately on page load
+        loadChatHistory();
 
         document.getElementById('refreshInsightsBtn')?.addEventListener('click', loadAllAILogic);
-        document.getElementById('smallRefreshBtn')?.addEventListener('click', loadAllAILogic);
+        
+        // THE FIX: Wire the top-right refresh icon to clear the chat
+        document.getElementById('smallRefreshBtn')?.addEventListener('click', () => {
+            loadAllAILogic();
+            clearChatHistory();
+        });
     }
 
     document.addEventListener('DOMContentLoaded', initPage);
-
-    function parseMarkdown(text) {
-    if (!text) return '';
-    
-    // 1. Convert double asterisks (**text**) to bold HTML tags
-    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // 2. Convert single asterisks (*text*) to bold HTML tags (handles both styles)
-    html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
-    
-    // 3. Convert clean newlines (\n) to HTML line breaks (<br>)
-    html = html.replace(/\n/g, '<br>');
-    
-    return html;
-}
-
 </script>
 
 </body>
