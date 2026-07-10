@@ -538,7 +538,7 @@
     window.editGoal = (id) => {
         const goal = allGoalsData.find(g => g.id === id);
         if(!goal) return;
-        document.getElementById('goalTitle').value = goal.title;
+        document.getElementById('goalTitle').value = goal.name;
         document.getElementById('select_category').value = goal.category;
         document.getElementById('goalDesc').value = goal.description;
         document.getElementById('goalTarget').value = goal.target_amount;
@@ -557,7 +557,7 @@
         if (!container) return;
 
         let filtered = allGoalsData.filter(g => {
-            const matchesSearch = (g.title || '').toLowerCase().includes(currentSearchQuery) || (g.description || '').toLowerCase().includes(currentSearchQuery);
+            const matchesSearch = (g.name || '').toLowerCase().includes(currentSearchQuery) || (g.description || '').toLowerCase().includes(currentSearchQuery);
             const matchesCat = currentCategoryFilter === 'All Categories' || (g.category || '').toLowerCase() === currentCategoryFilter.toLowerCase().replace(/\s+/g, '-');
             return matchesSearch && matchesCat;
         });
@@ -591,7 +591,7 @@
                     </div>
 
                     <div class="goal_card_main_heading">
-                        <div class="goal_card_main_title"><h4 style="padding-right: 70px;">${g.title}</h4></div>
+                        <div class="goal_card_main_title"><h4 style="padding-right: 70px;">${g.name}</h4></div>
                         <div class="goal_card_dynamic_progress_indicator"></div>
                         <div class="goal_card_main_subtitle"><p>${g.description || 'Savings milestone'}</p></div>
                         <div class="goal_card_main_dynamic_tag"><h6>${(g.category || 'General').replace('-', ' ')}</h6></div>
@@ -721,7 +721,7 @@
         if (selectContainer && selectBox) {
             selectContainer.style.display = 'block';
             selectBox.innerHTML = '<option value="" disabled selected>-- Choose a Goal --</option>' + 
-                allGoalsData.map(g => `<option value="${g.id}">${g.title}</option>`).join('');
+                allGoalsData.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
         }
         
         const modal = document.getElementById('addFundModalOverlay');
