@@ -321,88 +321,71 @@
         </div>
     </div>
 
-    <div class="goal-modal-backdrop-overlay" id="goalModalOverlay">
-        <div class="create_goal">
-            <div class="goal_creator_main_heading">
-                <div class="goal_creator_logo_and_title">
-                    <div class="goal_creator_logo">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                    <div class="goal_creator_title">
-                        <h4 id="modalTitleText">Create New Goal</h4>
-                    </div>
-                </div>
-                <div class="close" onclick="window.closeGoalModal()">
-                    <i class="fa-solid fa-xmark" style="cursor: pointer;"></i>
-                </div>
-            </div>
-            <div class="goal_entry">
-                <form id="newGoalForm">
-                    <div class="goal_title span-3">
-                        <label for="goalTitle">Goal Title</label>
-                        <input type="text" id="goalTitle" required placeholder="e.g., Emergency Fund">
-                    </div>
-                    <div class="goal_category span-3">
-                        <label for="select_category">Category</label>
-                        <select name="category" id="select_category">
-                            <option value="emergency">Emergency Fund</option>
-                            <option value="vacation">Vacation</option>
-                            <option value="home">Home</option>
-                            <option value="car">Car</option>
-                            <option value="education">Education</option>
-                            <option value="retirement">Retirement</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="goal_description span-6">
-                        <label for="goalDesc">Description</label>
-                        <textarea id="goalDesc" class="span-6" placeholder="Describe your goal milestone..."></textarea>
-                    </div>
-
-                    <div class="gaol_target span-2">
-                        <label for="goalTarget">Target Amount</label>
-                        <input type="number" id="goalTarget" step="0.01" required>
-                    </div>
-
-                    <div class="goal_current span-2">
-                        <label for="goalCurrent">Current Amount</label>
-                        <input type="number" id="goalCurrent" step="0.01" value="0">
-                    </div>
-
-                    <div class="monthly_contribution span-2">
-                        <label for="goalMonthly">Monthly Contribution</label>
-                        <input type="number" id="goalMonthly" step="0.01" value="0">
-                    </div>
-
-                    <div class="target_amount span-3">
-                        <label for="goalDeadline">Target Date</label>
-                        <input type="date" id="goalDeadline" required>
-                    </div>
-
-                    <div class="priority_goal span-3">
-                        <label for="priority">Priority</label>
-                        <select name="priority" id="priority">
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                            <option value="low">Low</option>
-                        </select>
-                    </div>
-                </form>
-
-                <div class="create_buttons">
-                    <p id="goalFormStatus" style="font-size: 14px; font-weight: 600; margin-right: auto; align-self: center; display: none;"></p>
-                    <button type="button" class="cancel_button" onclick="window.closeGoalModal()">
-                        <p>Cancel</p>
-                    </button>
-                    <button type="submit" form="newGoalForm" class="create_goal_form_button">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        <p id="submitGoalBtnText">Save Goal</p>
-                    </button>
-                </div>
-            </div>
+    <div class="modal-overlay active" id="dashboardGoalModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2><i class="fa-solid fa-bullseye" style="color: #10b981;"></i> Create New Goal</h2>
+            <button type="button" class="modal-close" onclick="document.getElementById('dashboardGoalModal').classList.remove('active')">×</button>
         </div>
+        <form id="dashGoalForm">
+            <div class="form-row">
+                <div class="form-col" style="flex: 2;">
+                    <label class="form-label">Goal Title *</label>
+                    <input type="text" id="dashGoalTitle" class="form-control" placeholder="e.g., Emergency Fund" required="">
+                </div>
+                <div class="form-col" style="flex: 1;">
+                    <label class="form-label">Category</label>
+                    <select id="dashGoalCategory" class="form-control">
+                        <option value="emergency">Emergency</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="home">Home / Property</option>
+                        <option value="car">Vehicle</option>
+                        <option value="other" selected="">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Description</label>
+                    <textarea id="dashGoalDesc" class="form-control" placeholder="Describe what this goal is for..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Target Amount *</label>
+                    <input type="number" id="dashGoalTarget" step="0.01" class="form-control" placeholder="10000" required="">
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Current Amount</label>
+                    <input type="number" id="dashGoalCurrent" step="0.01" class="form-control" placeholder="0">
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Monthly Contribution</label>
+                    <input type="number" id="dashGoalContribution" step="0.01" class="form-control" placeholder="500">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Target Date *</label>
+                    <input type="date" id="dashGoalDate" class="form-control" required="">
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Priority</label>
+                    <select id="dashGoalPriority" class="form-control">
+                        <option value="high">High</option>
+                        <option value="medium" selected="">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px;">
+                <p id="dashGoalStatus" style="font-size:14px; font-weight:600; color:#059669; margin-right:auto; display:none; align-self:center;">Created!</p>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('dashboardGoalModal').classList.remove('active')">Cancel</button>
+                <button type="submit" id="dashSubmitGoalBtn" class="btn-submit-goal"><i class="fa-regular fa-floppy-disk"></i> Create Goal</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <div id="addFundModalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:99999; align-items:center; justify-content:center;">
         <div style="background:white; width:100%; max-width:400px; border-radius:16px; padding:24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
