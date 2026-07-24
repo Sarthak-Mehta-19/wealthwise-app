@@ -321,7 +321,7 @@
         </div>
     </div>
 
-    <div class="modal-overlay active" id="dashboardGoalModal">
+    <div class="modal-overlay" id="dashboardGoalModal">
     <div class="modal-card">
         <div class="modal-header">
             <h2><i class="fa-solid fa-bullseye" style="color: #10b981;"></i> Create New Goal</h2>
@@ -616,7 +616,7 @@
     
     // --- Create/Edit Goal Modal ---
     window.openGoalModal = () => {
-        const overlay = document.getElementById('goalModalOverlay');
+        const overlay = document.getElementById('dashboardGoalModal');
         if (overlay) { 
             overlay.classList.add('is-active'); 
             document.body.style.overflow = 'hidden'; 
@@ -624,7 +624,7 @@
     };
     
     window.closeGoalModal = () => {
-        const overlay = document.getElementById('goalModalOverlay');
+        const overlay = document.getElementById('dashboardGoalModal');
         if (overlay) { 
             overlay.classList.remove('is-active'); 
             document.body.style.overflow = ''; 
