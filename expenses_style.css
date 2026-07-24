@@ -666,224 +666,96 @@ body{
     display: flex;
 }
     
-/* --- Base Resets & Variables --- */
-:root {
-    --modal-text-main: #0f172a;
-    --modal-text-muted: #64748b;
-    --modal-border-color: #e2e8f0;
-    --modal-primary-blue: #3b82f6;
-    --modal-primary-hover: #2563eb;
-    --modal-bg-surface: #ffffff;
-    --modal-overlay-bg: rgba(15, 23, 42, 0.4);
+/* --- MODAL SHELL --- */
+.modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4);
+    z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(2px);
 }
-/* --- Modal Overlay & Container --- */
-.expense-modal-backdrop-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--modal-overlay-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1000;
-    padding: 20px;
+.modal-overlay.active { 
+    display: flex; 
+}
+.modal-card {
+    background: #ffffff; width: 100%; max-width: 650px; border-radius: 12px;
+    padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    font-family: 'Inter', sans-serif; max-height: 90vh; overflow-y: auto; margin: auto;
     box-sizing: border-box;
-    backdrop-filter: blur(2px);
 }
-/* Active state for opening modal */
-.expense-modal-backdrop-overlay.is-active {
-    opacity: 1;
-    visibility: visible;
+
+/* --- HEADER & CLOSE --- */
+.modal-header { 
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; 
 }
-.expense-modal-surface-card {
-    background-color: var(--modal-bg-surface);
-    width: 100%;
-    max-width: 650px;
-    border-radius: 12px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    padding: 32px;
-    box-sizing: border-box;
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
+.modal-header h2 { 
+    margin: 0; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; color: #111827; font-weight: 700;
 }
-.expense-modal-backdrop-overlay.is-active .expense-modal-surface-card {
-    transform: translateY(0);
+.modal-close { 
+    background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280; padding: 0; line-height: 1;
 }
-/* --- Modal Header --- */
-.expense-modal-header-section {
+.modal-close:hover { color: #111827; }
+
+/* --- FORM GRID LAYOUT (The Missing Piece) --- */
+.form-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap; /* Ensures it stacks on small mobile screens */
 }
-.expense-modal-title-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.expense-modal-title-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--modal-text-main);
-    margin: 0;
-}
-.expense-modal-close-icon-btn {
-    background: transparent;
-    border: none;
-    color: var(--modal-text-muted);
-    cursor: pointer;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: background-color 0.2s, color 0.2s;
-}
-.expense-modal-close-icon-btn:hover {
-    background-color: #f1f5f9;
-    color: var(--modal-text-main);
-}
-/* --- Form Layout & Fields --- */
-.expense-form-grid-layout {
+.form-col {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    min-width: 150px; /* Prevents squishing */
 }
-.expense-form-row-2-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-.expense-form-row-3-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-}
-.expense-form-input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.expense-form-label-text {
-    font-size: 14px;
+.form-label {
+    font-size: 0.875rem;
     font-weight: 600;
-    color: var(--modal-text-main);
+    color: #374151;
+    margin-bottom: 6px;
 }
-.expense-form-base-input,
-.expense-form-base-select,
-.expense-form-base-textarea {
+.form-control {
     width: 100%;
-    padding: 10px 14px;
-    border: 1px solid var(--modal-border-color);
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-    font-size: 15px;
-    color: var(--modal-text-main);
+    font-size: 0.95rem;
     box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    transition: all 0.2s ease;
     font-family: inherit;
 }
-.expense-form-base-input::placeholder,
-.expense-form-base-textarea::placeholder {
-    color: #94a3b8;
+.form-control:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
-.expense-form-base-input:focus,
-.expense-form-base-select:focus,
-.expense-form-base-textarea:focus {
-    outline: none;
-    border-color: var(--modal-primary-blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-.expense-form-base-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-color: var(--modal-bg-surface);
-    cursor: pointer;
-}
-.expense-form-base-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-/* Checkbox */
-.expense-form-checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 4px;
-    cursor: pointer;
-}
-.expense-form-custom-checkbox {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--modal-text-main);
-    border-radius: 4px;
-    appearance: none;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-}
-.expense-form-custom-checkbox:checked {
-    background-color: var(--modal-text-main);
-}
-.expense-form-custom-checkbox:checked::after {
-    content: "";
-    width: 4px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    margin-bottom: 2px;
-}
-.expense-form-checkbox-label {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--modal-text-main);
-}
-/* --- Footer Actions --- */
-.expense-modal-footer-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 32px;
-}
-.expense-modal-btn-cancel,
-.expense-modal-btn-submit {
+
+/* --- BUTTONS --- */
+.btn-cancel {
+    background: transparent;
+    color: #4b5563;
     padding: 10px 20px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.2s ease;
+}
+.btn-cancel:hover { background: #f3f4f6; }
+
+.btn-submit-goal {
+    background: #10b981;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
 }
-.expense-modal-btn-cancel {
-    background-color: var(--modal-bg-surface);
-    border: 1px solid var(--modal-border-color);
-    color: var(--modal-text-main);
-}
-.expense-modal-btn-cancel:hover {
-    background-color: #f8fafc;
-}
-.expense-modal-btn-submit {
-    background-color: var(--modal-primary-blue);
-    border: 1px solid var(--modal-primary-blue);
-    color: white;
-}
-.expense-modal-btn-submit:hover {
-    background-color: var(--modal-primary-hover);
-    border-color: var(--modal-primary-hover);
-}
+.btn-submit-goal:hover { background: #059669; }
+
 /* --- Responsive Design --- */
 @media (max-width: 650px) {
     .expense-form-row-2-cols,
