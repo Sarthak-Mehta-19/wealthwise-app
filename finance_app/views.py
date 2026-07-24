@@ -93,7 +93,7 @@ def ai_advisor_chat(request):
             Answer the user's question based SOLELY on the following data:
             {json.dumps(financial_context, default=str)}
             
-            Keep your response concise, actionable, and focused on helping them optimize their tracked spending to hit their specific goals.
+            Keep your response concise, actionable, and focused on helping them optimize their protfolio with their needs.
             """
 
             # 3. Call the Gemini API via the standard GenerativeModel SDK
