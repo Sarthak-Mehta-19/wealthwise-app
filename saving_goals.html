@@ -502,38 +502,66 @@
     // MODULE C: FETCH & RENDER GOALS
     // ==========================================
     async function fetchAndRenderGoals() {
-        if (!currentUser) return;
-        const { data, error } = await supabase.from('finance_app_goal').select('*').eq('user_id', currentUser.id).order('deadline', { ascending: true });
-        if (!error) {
-            allGoalsData = data || [];
-            renderGoalsList();
-            loadGoalMetrics(); 
+    if (!currentUser) return;
+    
+    const wrapper = document.getElementById('goalsContainer'); // Or your specific wrapper ID
+    
+    try {
+        const { data, error } = await supabase
+            .from('finance_app_goal')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('deadline', { ascending: true });
+
+        if (error) throw error;
+
+        allGoalsData = data || [];
+        
+        // THE CRITICAL FIX: Ensure the loading spinner is cleared even if array is empty
+        if (allGoalsData.length === 0) {
+            wrapper.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #64748B; grid-column: 1 / -1;">
+                    <i class="fa-solid fa-bullseye" style="font-size: 32px; color: #cbd5e1; margin-bottom: 16px;"></i>
+                    <h4>No savings goals found. Click 'Create New Goal' to start!</h4>
+                </div>`;
+            return;
+        }
+
+        let html = '';
+        allGoalsData.forEach(g => {
+            // THE CRITICAL FIX: Safe fallback prevents TypeError: Cannot read properties of undefined
+            const displayTitle = g.name || g.title || 'Unnamed Goal';
+            const target = parseFloat(g.target_amount) || 0;
+            const current = parseFloat(g.current_amount) || 0;
+            const progress = target > 0 ? Math.min(100, (current / target) * 100).toFixed(1) : 0;
+            
+            html += `
+                <div class="goal-card">
+                    <div class="goal-card-header">
+                        <h3>${displayTitle}</h3>
+                        <span class="badge">${g.category || 'other'}</span>
+                    </div>
+                    <div class="goal-progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%;"></div>
+                    </div>
+                    <div class="goal-numbers">
+                        <span>₹ ${current.toLocaleString('en-IN')}</span>
+                        <span>of ₹ ${target.toLocaleString('en-IN')} (${progress}%)</span>
+                    </div>
+                </div>`;
+        });
+
+        // Replacing wrapper.innerHTML removes the loading spinner completely
+        wrapper.innerHTML = html;
+
+    } catch (err) {
+        console.error("Error rendering goals:", err);
+        // Fail-safe: Remove spinner and show error message if a crash occurs
+        if (wrapper) {
+            wrapper.innerHTML = `<p style="color: #ef4444; text-align: center; grid-column: 1 / -1;">Failed to load goals. Please refresh the page.</p>`;
         }
     }
-
-    window.deleteGoal = async (id) => {
-        if(confirm("Are you sure you want to delete this goal?")) {
-            await supabase.from('finance_app_goal').delete().eq('id', id);
-            fetchAndRenderGoals();
-        }
-    };
-
-    window.editGoal = (id) => {
-        const goal = allGoalsData.find(g => g.id === id);
-        if(!goal) return;
-        document.getElementById('goalTitle').value = goal.name;
-        document.getElementById('select_category').value = goal.category;
-        document.getElementById('goalDesc').value = goal.description;
-        document.getElementById('goalTarget').value = goal.target_amount;
-        document.getElementById('goalCurrent').value = goal.current_amount;
-        document.getElementById('goalDeadline').value = goal.deadline;
-        
-        const form = document.getElementById('newGoalForm');
-        form.dataset.editId = id;
-        document.getElementById('modalTitleText').innerText = "Edit Goal";
-        document.getElementById('submitGoalBtnText').innerText = "Save Changes";
-        window.openGoalModal();
-    };
+}
 
     function renderGoalsList() {
         const container = document.getElementById('goalCardsList');
@@ -614,122 +642,120 @@
     // MODULE D: MODALS & FORM SUBMISSIONS
     // ==========================================
     
-    // ==========================================
-    // CREATE GOAL MODAL (ALIGNED & GLOBAL-BOUND)
-    // ==========================================
-    
-    // 1. Expose modal open/close functions to the global window object
-    // This ensures inline attributes like onclick="window.openGoalModal()" execute reliably inside ES modules.
-    window.openGoalModal = function() {
-        const overlay = document.getElementById('dashboardGoalModal') || document.querySelector('.modal-overlay');[cite: 2]
-        if (!overlay) {
-            console.error("Error: Modal overlay 'dashboardGoalModal' not found in DOM.");[cite: 2]
-            return;
-        }
-        
-        // Apply the updated stylesheet class while enforcing direct styles as a fail-safe
-        overlay.classList.add('is-active');
-        overlay.style.display = 'flex';
-        overlay.style.zIndex = '9999';
-        document.body.style.overflow = 'hidden';
-    
-        // Auto-populate today's date if the field is empty
-        const dateInput = document.getElementById('dashGoalDate');[cite: 2]
-        if (dateInput && !dateInput.value) {
-            dateInput.value = new Date().toISOString().split('T')[0];
-        }
-    };
-    
-    window.closeGoalModal = function() {
-        const overlay = document.getElementById('dashboardGoalModal') || document.querySelector('.modal-overlay');[cite: 2]
-        if (overlay) {
-            // Strip both class variants to resolve the active vs is-active discrepancy
-            overlay.classList.remove('is-active', 'active');[cite: 2]
-            overlay.style.display = 'none';
-        }
-        document.body.style.overflow = '';
-    };
-    
-    // 2. Safe DOM Initialization & Form Binding
-    function initGoalModalBinding() {
-        const overlay = document.getElementById('dashboardGoalModal');[cite: 2]
-        const form = document.getElementById('dashGoalForm');[cite: 2]
-    
-        // Override inline close buttons to use our unified close function
-        document.querySelectorAll('.modal-close, .btn-cancel').forEach(btn => {[cite: 2]
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.closeGoalModal();
-            });
-        });
-    
-        // Close when clicking the dark background overlay
-        overlay?.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                window.closeGoalModal();
-            }
-        });
-    
-        // Bind submission to the prefixed form ID[cite: 2]
-        form?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = form.querySelector('button[type="submit"]') || document.getElementById('dashSubmitGoalBtn');[cite: 2]
-            const origText = submitBtn ? submitBtn.innerHTML : 'Create Goal';[cite: 2]
-            
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
-                submitBtn.disabled = true;
-            }
-    
-            if (!currentUser) {
-                alert("Error: User session expired. Please reload and log in again.");
-                if (submitBtn) { submitBtn.innerHTML = origText; submitBtn.disabled = false; }
-                return;
-            }
-    
-            // Extract values strictly from the prefixed input IDs seen in your HTML[cite: 2]
-            const payload = {
-                id: crypto.randomUUID(),
-                user_id: currentUser.id,
-                name: document.getElementById('dashGoalTitle')?.value || 'Unnamed Goal',[cite: 2]
-                category: document.getElementById('dashGoalCategory')?.value || 'other',[cite: 2]
-                description: document.getElementById('dashGoalDesc')?.value || '',[cite: 2]
-                target_amount: parseFloat(document.getElementById('dashGoalTarget')?.value) || 0,[cite: 2]
-                current_amount: parseFloat(document.getElementById('dashGoalCurrent')?.value) || 0,[cite: 2]
-                deadline: document.getElementById('dashGoalDate')?.value || new Date().toISOString().split('T')[0],[cite: 2]
-                priority: document.getElementById('dashGoalPriority')?.value || 'medium'[cite: 2]
-            };
-    
-            try {
-                // Send payload using 'name' to match your updated PostgreSQL database schema
-                const { error } = await supabase.from('finance_app_goal').insert([payload]);
-                if (error) throw error;
-                
-                // Show inline success status briefly before reloading[cite: 2]
-                const statusMsg = document.getElementById('dashGoalStatus');[cite: 2]
-                if (statusMsg) {
-                    statusMsg.style.display = 'block';[cite: 2]
-                }
-    
-                setTimeout(() => {
-                    window.closeGoalModal();
-                    form.reset();
-                    if (statusMsg) statusMsg.style.display = 'none';[cite: 2]
-                    window.location.reload();
-                }, 800);
-    
-            } catch (err) {
-                console.error("Database Error:", err.message);
-                alert("Failed to save goal: " + err.message);
-                if (submitBtn) { submitBtn.innerHTML = origText; submitBtn.disabled = false; }
-            }
-        });
+    // ============================================================================
+// MODULE: CREATE NEW GOAL MODAL (GLOBAL-BOUND & NULL-SAFE)
+// ============================================================================
+
+// 1. Universal Global Triggers
+// Aliasing both openModal and openGoalModal guarantees execution regardless of 
+// which inline onclick attribute naming convention is used in your HTML button.
+window.openModal = window.openGoalModal = function() {
+    const overlay = document.getElementById('dashboardGoalModal') || document.querySelector('.modal-overlay');
+    if (!overlay) {
+        console.error("Error: Modal overlay 'dashboardGoalModal' not found in DOM.");
+        return;
     }
     
-    // 3. Attach to DOMContentLoaded to guarantee elements exist before binding
-    document.addEventListener('DOMContentLoaded', () => {
-        initGoalModalBinding();
+    // Apply both class variations to satisfy your .is-active stylesheet rule,
+    // while setting inline display='flex' as an absolute visual fail-safe.
+    overlay.classList.add('is-active', 'active');
+    overlay.style.display = 'flex';
+    overlay.style.zIndex = '9999';
+    document.body.style.overflow = 'hidden';
+
+    // Auto-populate today's date into the target date field if left empty
+    const dateInput = document.getElementById('dashGoalDate') || document.getElementById('goalDate');
+    if (dateInput && !dateInput.value) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+    }
+};
+
+window.closeModal = window.closeGoalModal = function() {
+    const overlay = document.getElementById('dashboardGoalModal') || document.querySelector('.modal-overlay');
+    if (overlay) {
+        overlay.classList.remove('is-active', 'active');
+        overlay.style.display = 'none';
+    }
+    document.body.style.overflow = '';
+};
+
+// 2. Safe DOM Binding & Form Submission Handler
+function initGoalModalEngine() {
+    const overlay = document.getElementById('dashboardGoalModal');
+    const form = document.getElementById('dashGoalForm') || document.getElementById('goalForm');
+
+    // Intercept all modal close buttons and background overlay clicks
+    document.querySelectorAll('.modal-close, .btn-cancel').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.closeModal();
+        });
     });
+
+    overlay?.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            window.closeModal();
+        }
+    });
+
+    // Handle form submission using your exact HTML input IDs
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('dashSubmitGoalBtn') || form.querySelector('button[type="submit"]');
+        const origText = submitBtn ? submitBtn.innerHTML : 'Create Goal';
+        
+        if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            submitBtn.disabled = true;
+        }
+
+        if (!currentUser) {
+            alert("Error: User session expired. Please reload the page to authenticate.");
+            if (submitBtn) { submitBtn.innerHTML = origText; submitBtn.disabled = false; }
+            return;
+        }
+
+        // Extract values using prefixed IDs (dashGoalTitle, dashGoalTarget, etc.)
+        // Map the title input directly to the 'name' column in your PostgreSQL database.
+        const payload = {
+            id: crypto.randomUUID(),
+            user_id: currentUser.id,
+            name: document.getElementById('dashGoalTitle')?.value || document.getElementById('goalTitle')?.value || 'Unnamed Goal',
+            category: document.getElementById('dashGoalCategory')?.value || document.getElementById('goalCategory')?.value || 'other',
+            description: document.getElementById('dashGoalDesc')?.value || document.getElementById('goalDesc')?.value || '',
+            target_amount: parseFloat(document.getElementById('dashGoalTarget')?.value || document.getElementById('goalTarget')?.value) || 0,
+            current_amount: parseFloat(document.getElementById('dashGoalCurrent')?.value || document.getElementById('goalCurrent')?.value) || 0,
+            deadline: document.getElementById('dashGoalDate')?.value || document.getElementById('goalDate')?.value || new Date().toISOString().split('T')[0],
+            priority: document.getElementById('dashGoalPriority')?.value || document.getElementById('goalPriority')?.value || 'medium'
+        };
+
+        try {
+            const { error } = await supabase.from('finance_app_goal').insert([payload]);
+            if (error) throw error;
+            
+            // Display inline success indicator before triggering UI reload
+            const statusMsg = document.getElementById('dashGoalStatus') || document.getElementById('goalStatus');
+            if (statusMsg) statusMsg.style.display = 'block';
+
+            setTimeout(() => {
+                window.closeModal();
+                form.reset();
+                if (statusMsg) statusMsg.style.display = 'none';
+                window.location.reload(); 
+            }, 800);
+
+        } catch (err) {
+            console.error("Database Submission Error:", err.message);
+            alert("Failed to save goal: " + err.message);
+            if (submitBtn) { submitBtn.innerHTML = origText; submitBtn.disabled = false; }
+        }
+    });
+}
+
+// Bind events securely once the DOM structure is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initGoalModalEngine();
+});
 
     // --- Add Funds Modal ---
     let activeGoalIdForFund = null;
